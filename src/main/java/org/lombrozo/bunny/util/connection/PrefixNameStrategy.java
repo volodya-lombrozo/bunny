@@ -14,7 +14,6 @@ public class PrefixNameStrategy implements ConnectionNameStrategy {
         this.prefix = prefix;
     }
 
-
     public String connectionName() {
         return prefix + "_" + ManagementFactory.getRuntimeMXBean().getName();
     }

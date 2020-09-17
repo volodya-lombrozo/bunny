@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class RandomConnectionName implements ConnectionNameStrategy {
 
-    public int nameLength;
+    private final int nameLength;
 
     public RandomConnectionName() {
         this(16);
