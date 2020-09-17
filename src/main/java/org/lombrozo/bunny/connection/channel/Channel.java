@@ -11,4 +11,18 @@ public interface Channel {
     void listenQueue(Queue queue, Work work) throws RabbitException;
 
     void publish(Destination rabbitDestination, Message message) throws RabbitException;
+
+
+    class Fake implements Channel {
+
+        @Override
+        public void listenQueue(Queue ignoreQueue, Work ignore) {
+
+        }
+
+        @Override
+        public void publish(Destination ignoreDestination, Message ignoreMessage) {
+
+        }
+    }
 }

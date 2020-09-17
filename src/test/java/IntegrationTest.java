@@ -8,6 +8,7 @@ import org.lombrozo.bunny.consumer.TargetConsumer;
 import org.lombrozo.bunny.consumer.targets.QueueTarget;
 import org.lombrozo.bunny.destination.RabbitDestination;
 import org.lombrozo.bunny.domain.NamedQueue;
+import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.util.connection.PrefixNameStrategy;
@@ -47,7 +48,7 @@ public class IntegrationTest {
     }
 
 
-    @Test//fixme: don`t work
+    @Test//fixme: doesn't work
     public void clientTest() throws RabbitException, InterruptedException {
         Connection connection = new RabbitHost("localhost",
                 new UserCredentials("ait", "ait"),
@@ -59,5 +60,8 @@ public class IntegrationTest {
                 new NamedQueue("highload"))
                 .send(new RabbitMessage("Hello form library!!!".getBytes()))
                 .thenAccept(Assert::assertNotNull);
+
+        Message returnMessage = answer.block();
+        assertNotNull(returnMessage);
     }
 }

@@ -1,9 +1,11 @@
 package org.lombrozo.bunny;
 
 import org.junit.Test;
+import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.connection.ConnectionFactory;
 import org.lombrozo.bunny.util.address.Address;
 import org.lombrozo.bunny.util.connection.ConnectionNameStrategy;
+import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.security.Credentials;
 import org.lombrozo.bunny.util.security.UserCredentials;
 
@@ -100,4 +102,13 @@ public class RabbitHostTest {
         assertNotNull(connectionFactory);
     }
 
+
+    @Test
+    public void connect_successful() throws RabbitException {
+        RabbitHost host = new RabbitHost(new ConnectionFactory.Fake());
+
+        Connection connection = host.connect();
+
+        assertNotNull(connection);
+    }
 }

@@ -1,9 +1,11 @@
 package org.lombrozo.bunny;
 
+import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.util.address.Address;
 import org.lombrozo.bunny.util.address.RealAddress;
 import org.lombrozo.bunny.connection.ConnectionFactory;
 import org.lombrozo.bunny.connection.RabbitConnectionFactory;
+import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.security.Credentials;
 import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.util.connection.ConnectionNameStrategy;
@@ -37,7 +39,7 @@ public class RabbitHost implements Host {
         this(address, credentials, new RandomConnectionName());
     }
 
-    public RabbitHost(String host, Credentials credentials, ConnectionNameStrategy connectionNameStrategy){
+    public RabbitHost(String host, Credentials credentials, ConnectionNameStrategy connectionNameStrategy) {
         this(host, 5672, credentials, connectionNameStrategy);
     }
 
@@ -53,8 +55,14 @@ public class RabbitHost implements Host {
         this.connectionFactory = connectionFactory;
     }
 
+    @Override
     public ConnectionFactory connectionFactory() {
         return connectionFactory;
+    }
+
+    @Override
+    public Connection connect() throws RabbitException {
+        return connectionFactory.connect();
     }
 
 

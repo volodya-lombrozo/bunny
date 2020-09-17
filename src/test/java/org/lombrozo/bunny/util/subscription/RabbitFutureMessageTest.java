@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class RabbitFutureMessageTest {
 
     @Test
-    public void acceptChain() {
+    public void accept() {
         LongAdder adder = new LongAdder();
         FutureMessage futureMessage = new RabbitFutureMessage()
                 .thenAccept((m) -> adder.increment())

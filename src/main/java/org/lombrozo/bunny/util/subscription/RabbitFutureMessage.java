@@ -31,9 +31,9 @@ public class RabbitFutureMessage implements FutureMessage {
 
     @Override
     public void register(Message message) {
-        result = message;
         prev.register(message);
         consumer.accept(message);
+        result = message;
     }
 
     @Override

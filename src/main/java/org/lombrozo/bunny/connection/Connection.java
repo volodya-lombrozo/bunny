@@ -9,4 +9,16 @@ public interface Connection {
 
     Channel channel() throws RabbitException;
 
+    class Fake implements Connection {
+
+        @Override
+        public void allocateChannels() {
+        }
+
+        @Override
+        public Channel channel() {
+            return new Channel.Fake();
+        }
+    }
+
 }
