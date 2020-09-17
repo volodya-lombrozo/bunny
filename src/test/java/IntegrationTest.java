@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.lombrozo.bunny.RabbitHost;
@@ -11,7 +12,9 @@ import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.util.connection.PrefixNameStrategy;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.util.subscription.ExpectingMessage;
+import org.lombrozo.bunny.util.subscription.FutureMessage;
+
+import static org.junit.Assert.assertNotNull;
 
 @Ignore("For manual testing only")
 public class IntegrationTest {
@@ -52,8 +55,9 @@ public class IntegrationTest {
                 .connectionFactory()
                 .connect();
 
-        ExpectingMessage answer = new RabbitClient(connection, new NamedQueue("incoming"),
+        FutureMessage answer = new RabbitClient(connection, new NamedQueue("incoming"),
                 new NamedQueue("highload"))
-                .send(new RabbitMessage("Hello form library!!!".getBytes()));
+                .send(new RabbitMessage("Hello form library!!!".getBytes()))
+                .thenAccept(Assert::assertNotNull);
     }
 }

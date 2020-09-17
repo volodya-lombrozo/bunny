@@ -9,7 +9,6 @@ import org.lombrozo.bunny.util.security.Credentials;
 import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 import static org.junit.Assert.*;
 
@@ -35,7 +34,6 @@ public class RabbitConnectionFactoryTest {
 
         fail();
     }
-
 
 }
 

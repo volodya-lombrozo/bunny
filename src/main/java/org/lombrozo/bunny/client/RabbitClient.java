@@ -8,8 +8,8 @@ import org.lombrozo.bunny.destination.RabbitDestination;
 import org.lombrozo.bunny.domain.Queue;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.util.subscription.ExpectingMessage;
-import org.lombrozo.bunny.util.subscription.RabbitExpectingMessage;
+import org.lombrozo.bunny.util.subscription.FutureMessage;
+import org.lombrozo.bunny.util.subscription.RabbitFutureMessage;
 
 
 public class RabbitClient implements Client {
@@ -30,10 +30,10 @@ public class RabbitClient implements Client {
     }
 
     @Override
-    public ExpectingMessage send(Message message) throws RabbitException {
-        ExpectingMessage observable = new RabbitExpectingMessage();
+    public FutureMessage send(Message message) throws RabbitException {
+        FutureMessage observable = new RabbitFutureMessage();
         destination.send(message);
-        TargetConsumer consumer = new TargetConsumer(connection, new QueueTarget(listenQueue.name(), observable::publish));
+        TargetConsumer consumer = new TargetConsumer(connection, new QueueTarget(listenQueue.name(), observable::register));
         consumer.startListening();
         return observable;
     }
