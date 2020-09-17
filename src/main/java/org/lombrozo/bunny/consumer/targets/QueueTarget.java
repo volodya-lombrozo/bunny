@@ -1,8 +1,8 @@
 package org.lombrozo.bunny.consumer.targets;
 
-import org.lombrozo.bunny.connections.channels.Channel;
-import org.lombrozo.bunny.consumer.works.RunnableWork;
-import org.lombrozo.bunny.consumer.works.Work;
+import org.lombrozo.bunny.connection.channel.Channel;
+import org.lombrozo.bunny.consumer.work.RunnableWork;
+import org.lombrozo.bunny.consumer.work.Work;
 import org.lombrozo.bunny.domain.NamedQueue;
 import org.lombrozo.bunny.domain.Queue;
 import org.lombrozo.bunny.util.exceptions.RabbitException;

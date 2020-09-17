@@ -1,9 +1,9 @@
-package org.lombrozo.bunny.connections.channels;
+package org.lombrozo.bunny.connection.channel;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
-import org.lombrozo.bunny.consumer.works.Work;
+import org.lombrozo.bunny.consumer.work.Work;
 import org.lombrozo.bunny.destination.Destination;
 import org.lombrozo.bunny.domain.Queue;
 import org.lombrozo.bunny.message.Message;

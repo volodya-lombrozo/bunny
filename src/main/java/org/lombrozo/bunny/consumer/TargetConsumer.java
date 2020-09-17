@@ -1,9 +1,9 @@
 package org.lombrozo.bunny.consumer;
 
 
-import org.lombrozo.bunny.connections.Connection;
+import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.consumer.targets.Target;
-import org.lombrozo.bunny.util.subscriptions.LatchSubscription;
+import org.lombrozo.bunny.util.subscription.LatchSubscription;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.Arrays;

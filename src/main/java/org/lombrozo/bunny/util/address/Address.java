@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.address;
+package org.lombrozo.bunny.util.address;
 
 public interface Address {
 

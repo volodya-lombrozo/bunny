@@ -1,11 +1,11 @@
 package org.lombrozo.bunny;
 
-import org.lombrozo.bunny.address.Address;
-import org.lombrozo.bunny.address.RealAddress;
-import org.lombrozo.bunny.connections.ConnectionFactory;
-import org.lombrozo.bunny.connections.RabbitConnectionFactory;
-import org.lombrozo.bunny.security.Credentials;
-import org.lombrozo.bunny.security.UserCredentials;
+import org.lombrozo.bunny.util.address.Address;
+import org.lombrozo.bunny.util.address.RealAddress;
+import org.lombrozo.bunny.connection.ConnectionFactory;
+import org.lombrozo.bunny.connection.RabbitConnectionFactory;
+import org.lombrozo.bunny.util.security.Credentials;
+import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.util.connection.ConnectionNameStrategy;
 import org.lombrozo.bunny.util.connection.RandomConnectionName;
 

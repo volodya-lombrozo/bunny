@@ -1,6 +1,6 @@
 package org.lombrozo.bunny.destination;
 
-import org.lombrozo.bunny.connections.Connection;
+import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.domain.Exchange;
 import org.lombrozo.bunny.domain.NamedQueue;
 import org.lombrozo.bunny.domain.Queue;

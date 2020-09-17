@@ -1,6 +1,6 @@
-package org.lombrozo.bunny.connections;
+package org.lombrozo.bunny.connection;
 
-import org.lombrozo.bunny.connections.channels.Channel;
+import org.lombrozo.bunny.connection.channel.Channel;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 public interface Connection {

@@ -2,16 +2,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.lombrozo.bunny.RabbitHost;
 import org.lombrozo.bunny.client.RabbitClient;
-import org.lombrozo.bunny.connections.Connection;
+import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.consumer.TargetConsumer;
 import org.lombrozo.bunny.consumer.targets.QueueTarget;
 import org.lombrozo.bunny.destination.RabbitDestination;
 import org.lombrozo.bunny.domain.NamedQueue;
 import org.lombrozo.bunny.message.RabbitMessage;
-import org.lombrozo.bunny.security.UserCredentials;
+import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.util.connection.PrefixNameStrategy;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.util.subscriptions.ExpectingMessage;
+import org.lombrozo.bunny.util.subscription.ExpectingMessage;
 
 @Ignore("For manual testing only")
 public class IntegrationTest {

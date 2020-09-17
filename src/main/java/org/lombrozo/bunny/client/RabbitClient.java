@@ -1,6 +1,6 @@
 package org.lombrozo.bunny.client;
 
-import org.lombrozo.bunny.connections.Connection;
+import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.consumer.TargetConsumer;
 import org.lombrozo.bunny.consumer.targets.QueueTarget;
 import org.lombrozo.bunny.destination.Destination;
@@ -8,8 +8,8 @@ import org.lombrozo.bunny.destination.RabbitDestination;
 import org.lombrozo.bunny.domain.Queue;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.util.subscriptions.ExpectingMessage;
-import org.lombrozo.bunny.util.subscriptions.RabbitExpectingMessage;
+import org.lombrozo.bunny.util.subscription.ExpectingMessage;
+import org.lombrozo.bunny.util.subscription.RabbitExpectingMessage;
 
 
 public class RabbitClient implements Client {

@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.security;
+package org.lombrozo.bunny.util.security;
 
 public interface Credentials {
 

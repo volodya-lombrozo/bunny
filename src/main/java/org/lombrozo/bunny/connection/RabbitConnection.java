@@ -1,10 +1,10 @@
-package org.lombrozo.bunny.connections;
+package org.lombrozo.bunny.connection;
 
-import org.lombrozo.bunny.connections.channels.Channel;
-import org.lombrozo.bunny.connections.channels.RabbitChannel;
-import org.lombrozo.bunny.connections.channels.pool.ChannelFactory;
-import org.lombrozo.bunny.connections.channels.pool.ChannelPool;
-import org.lombrozo.bunny.connections.channels.pool.FixedChannelPool;
+import org.lombrozo.bunny.connection.channel.Channel;
+import org.lombrozo.bunny.connection.channel.RabbitChannel;
+import org.lombrozo.bunny.connection.channel.pool.ChannelFactory;
+import org.lombrozo.bunny.connection.channel.pool.ChannelPool;
+import org.lombrozo.bunny.connection.channel.pool.FixedChannelPool;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.io.IOException;

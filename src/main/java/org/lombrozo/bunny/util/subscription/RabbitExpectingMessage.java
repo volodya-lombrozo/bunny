@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.util.subscriptions;
+package org.lombrozo.bunny.util.subscription;
 
 import org.lombrozo.bunny.message.Message;
 

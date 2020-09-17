@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.connections;
+package org.lombrozo.bunny.connection;
 
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 

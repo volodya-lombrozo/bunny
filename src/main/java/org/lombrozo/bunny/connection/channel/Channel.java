@@ -1,8 +1,7 @@
-package org.lombrozo.bunny.connections.channels;
+package org.lombrozo.bunny.connection.channel;
 
-import org.lombrozo.bunny.consumer.works.Work;
+import org.lombrozo.bunny.consumer.work.Work;
 import org.lombrozo.bunny.destination.Destination;
-import org.lombrozo.bunny.destination.RabbitDestination;
 import org.lombrozo.bunny.domain.Queue;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
