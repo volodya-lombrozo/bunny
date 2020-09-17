@@ -19,8 +19,13 @@ public class RabbitConnectionFactory implements ConnectionFactory {
     }
 
     public RabbitConnectionFactory(Address address, Credentials credentials, ConnectionNameStrategy connectionNameStrategy) {
+        this(address, credentials, connectionNameStrategy, new com.rabbitmq.client.ConnectionFactory());
+    }
+
+
+    public RabbitConnectionFactory(Address address, Credentials credentials, ConnectionNameStrategy connectionNameStrategy, com.rabbitmq.client.ConnectionFactory rabbitConnectionFactory) {
         this.connectionNameStrategy = connectionNameStrategy;
-        connectionFactory = new com.rabbitmq.client.ConnectionFactory();
+        connectionFactory = rabbitConnectionFactory;
         connectionFactory.setUsername(credentials.username());
         connectionFactory.setPassword(credentials.password());
         connectionFactory.setAutomaticRecoveryEnabled(false);
