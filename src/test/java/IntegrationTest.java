@@ -25,7 +25,9 @@ public class IntegrationTest {
                 new PrefixNameStrategy("Bunny Library"))
                 .connect();
 
-        Subscription subscription = new NamedQueue("perf", connection)
+        NamedQueue queue = new NamedQueue("perf", connection);
+        queue.create();
+        Subscription subscription = queue
                 .subscribe((m) -> System.out.println("Hello world"));
 
         subscription.await();
