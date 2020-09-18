@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.consumer.work;
+package org.lombrozo.bunny.work;
 
 import org.lombrozo.bunny.message.Message;
 
