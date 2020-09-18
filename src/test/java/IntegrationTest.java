@@ -10,7 +10,7 @@ import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.util.connection.PrefixNameStrategy;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.util.subscription.FutureMessage;
+import org.lombrozo.bunny.message.FutureMessage;
 import org.lombrozo.bunny.util.subscription.Subscription;
 
 import static org.junit.Assert.assertNotNull;

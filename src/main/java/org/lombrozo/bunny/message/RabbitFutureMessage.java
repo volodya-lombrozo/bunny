@@ -1,6 +1,4 @@
-package org.lombrozo.bunny.util.subscription;
-
-import org.lombrozo.bunny.message.Message;
+package org.lombrozo.bunny.message;
 
 import java.util.function.Consumer;
 

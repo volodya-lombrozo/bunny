@@ -2,7 +2,9 @@ package org.lombrozo.bunny.util.subscription;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.lombrozo.bunny.message.FutureMessage;
 import org.lombrozo.bunny.message.Message;
+import org.lombrozo.bunny.message.RabbitFutureMessage;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.LongAdder;
