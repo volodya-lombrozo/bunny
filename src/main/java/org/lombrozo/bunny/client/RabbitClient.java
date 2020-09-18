@@ -1,11 +1,9 @@
 package org.lombrozo.bunny.client;
 
 import org.lombrozo.bunny.connection.Connection;
-import org.lombrozo.bunny.consumer.TargetConsumer;
-import org.lombrozo.bunny.consumer.targets.QueueTarget;
 import org.lombrozo.bunny.destination.Destination;
-import org.lombrozo.bunny.destination.RabbitDestination;
-import org.lombrozo.bunny.domain.Queue;
+import org.lombrozo.bunny.domain.queue.NamedQueue;
+import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.subscription.FutureMessage;
@@ -15,26 +13,23 @@ import org.lombrozo.bunny.util.subscription.RabbitFutureMessage;
 public class RabbitClient implements Client {
 
     private final Destination destination;
-    private final Connection connection;
     private final Queue listenQueue;
 
 
-    public RabbitClient(Connection connection, Queue publishQueue, Queue listenQueue) {
-        this(new RabbitDestination(connection, publishQueue), connection, listenQueue);
+    public RabbitClient(Connection connection, String destinationQueue, String replyQueue) {
+        this(new NamedQueue(destinationQueue, connection), new NamedQueue(replyQueue, connection));
     }
 
-    public RabbitClient(Destination destination, Connection connection, Queue listenQueue) {
+    public RabbitClient(Destination destination, Queue replyQueue) {
         this.destination = destination;
-        this.connection = connection;
-        this.listenQueue = listenQueue;
+        this.listenQueue = replyQueue;
     }
 
     @Override
     public FutureMessage send(Message message) throws RabbitException {
         FutureMessage observable = new RabbitFutureMessage();
+        listenQueue.subscribe(observable::register);
         destination.send(message);
-        TargetConsumer consumer = new TargetConsumer(connection, new QueueTarget(listenQueue.name(), observable::register));
-        consumer.startListening();
         return observable;
     }
 

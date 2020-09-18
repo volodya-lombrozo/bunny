@@ -1,11 +1,11 @@
-package org.lombrozo.bunny.connection.channel;
+package org.lombrozo.bunny.connection;
 
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import org.lombrozo.bunny.consumer.work.Work;
 import org.lombrozo.bunny.destination.Destination;
-import org.lombrozo.bunny.domain.Queue;
+import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
@@ -33,7 +33,7 @@ public class RabbitChannel implements Channel {
     @Override
     public void publish(Destination rabbitDestination, Message message) throws RabbitException {
         try {
-            channel.basicPublish(rabbitDestination.name(), rabbitDestination.routingKey(), new AMQP.BasicProperties.Builder()
+            channel.basicPublish(rabbitDestination.exchangeName(), rabbitDestination.routingKey(), new AMQP.BasicProperties.Builder()
                     .contentType("text/plain")
                     .build(),
                     message.body());

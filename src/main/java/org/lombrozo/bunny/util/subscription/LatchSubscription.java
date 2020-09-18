@@ -4,10 +4,10 @@ import java.util.concurrent.CountDownLatch;
 
 public class LatchSubscription implements Subscription {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    private final CountDownLatch latch = new CountDownLatch(1);
 
     @Override
-    public void subscribe() throws InterruptedException {
+    public void await() throws InterruptedException {
         latch.await();
     }
 

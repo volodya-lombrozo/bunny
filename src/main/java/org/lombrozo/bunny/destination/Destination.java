@@ -5,7 +5,7 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 public interface Destination {
 
-    String name();
+    String exchangeName();
 
     String routingKey();
 
