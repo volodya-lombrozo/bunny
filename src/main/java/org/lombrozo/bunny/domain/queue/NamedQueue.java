@@ -2,7 +2,7 @@ package org.lombrozo.bunny.domain.queue;
 
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.util.RandomString;
-import org.lombrozo.bunny.work.Work;
+import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.subscription.LatchSubscription;

@@ -10,4 +10,6 @@ public interface Host {
 
     Connection connect() throws RabbitException;
 
+    Connection connect(int amountChannels) throws RabbitException;
+
 }

@@ -17,10 +17,8 @@ public class ResponseMap {
         this.map = map;
     }
 
-
     public void put(FutureMessage message){
     }
-
 
     public void register(Message message){
     }

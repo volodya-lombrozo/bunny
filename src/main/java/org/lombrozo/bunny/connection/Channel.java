@@ -1,6 +1,6 @@
 package org.lombrozo.bunny.connection;
 
-import org.lombrozo.bunny.work.Work;
+import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.Message;

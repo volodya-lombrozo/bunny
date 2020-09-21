@@ -65,5 +65,10 @@ public class RabbitHost implements Host {
         return connectionFactory.connect();
     }
 
+    @Override
+    public Connection connect(int amountChannels) throws RabbitException {
+        return connectionFactory.connect(amountChannels);
+    }
+
 
 }

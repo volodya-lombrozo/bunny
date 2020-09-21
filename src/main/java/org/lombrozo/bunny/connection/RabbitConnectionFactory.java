@@ -1,5 +1,6 @@
 package org.lombrozo.bunny.connection;
 
+import org.lombrozo.bunny.connection.pool.FixedChannelPool;
 import org.lombrozo.bunny.util.address.Address;
 import org.lombrozo.bunny.util.security.Credentials;
 import org.lombrozo.bunny.util.connection.ConnectionNameStrategy;
@@ -37,8 +38,13 @@ public class RabbitConnectionFactory implements ConnectionFactory {
 
     @Override
     public Connection connect() throws RabbitException {
+        return connect(4);
+    }
+
+    @Override
+    public Connection connect(int amountChannels) throws RabbitException {
         try {
-            RabbitConnection connection = new RabbitConnection(connectionFactory.newConnection(connectionNameStrategy.connectionName()));
+            RabbitConnection connection = new RabbitConnection(connectionFactory.newConnection(connectionNameStrategy.connectionName()), new FixedChannelPool(amountChannels));
             connection.allocateChannels();
             return connection;
         } catch (IOException | TimeoutException e) {
