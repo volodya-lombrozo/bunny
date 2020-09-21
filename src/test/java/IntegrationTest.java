@@ -42,7 +42,7 @@ public class IntegrationTest {
                 .connect();
 
         new NamedQueue("perf", connection)
-                .send(new RabbitMessage("Hello form library!!!".getBytes()));
+                .send(new RabbitMessage("Hello form library!!!"));
     }
 
 
@@ -54,7 +54,7 @@ public class IntegrationTest {
                 .connect();
 
         FutureMessage answer = new RabbitClient(connection, "incoming", "reply")
-                .send(new RabbitMessage("'Hello' form library".getBytes()))
+                .send(new RabbitMessage("'Hello' form library"))
                 .thenAccept(Assert::assertNotNull);
 
         Message returnMessage = answer.block();
