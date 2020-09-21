@@ -53,8 +53,7 @@ public class IntegrationTest {
                 new PrefixNameStrategy("Bunny Library"))
                 .connect();
 
-        FutureMessage answer = new RabbitClient(connection, "incoming",
-                "reply")
+        FutureMessage answer = new RabbitClient(connection, "incoming", "reply")
                 .send(new RabbitMessage("'Hello' form library".getBytes()))
                 .thenAccept(Assert::assertNotNull);
 
