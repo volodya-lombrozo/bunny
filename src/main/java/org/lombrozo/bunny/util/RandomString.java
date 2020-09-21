@@ -7,13 +7,16 @@ public class RandomString {
 
     private final String string;
 
-
     public RandomString() {
-        this.string = init();
+        this(7);
     }
 
-    private String init() {
-        byte[] array = new byte[7]; // length is bounded by 7
+    public RandomString(int size) {
+        this.string = init(size);
+    }
+
+    private String init(int size) {
+        byte[] array = new byte[size];
         new Random().nextBytes(array);
         return new String(array, StandardCharsets.UTF_8);
     }

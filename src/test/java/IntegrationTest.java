@@ -4,7 +4,9 @@ import org.junit.Test;
 import org.lombrozo.bunny.RabbitHost;
 import org.lombrozo.bunny.client.RabbitClient;
 import org.lombrozo.bunny.connection.Connection;
+import org.lombrozo.bunny.domain.queue.Durable;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
+import org.lombrozo.bunny.message.CorrelationId;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.util.security.UserCredentials;
@@ -40,9 +42,11 @@ public class IntegrationTest {
                 new UserCredentials("ait", "ait"),
                 new PrefixNameStrategy("Bunny Library"))
                 .connect();
+        NamedQueue queue = new NamedQueue("perf", connection, new Durable());
+        queue.create();
 
         new NamedQueue("perf", connection)
-                .send(new RabbitMessage("Hello form library!!!"));
+                .send(new RabbitMessage("Hello", new CorrelationId()));
     }
 
 

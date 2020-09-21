@@ -7,6 +7,14 @@ public class RabbitMessage implements Message {
     private final Properties properties;
     private final Body body;
 
+    public RabbitMessage(String message, Property... properties) {
+        this(new EmptyHeaders(), new PropertiesSet(properties), new StringBody(message));
+    }
+
+    public RabbitMessage(String message, Properties properties) {
+        this(new EmptyHeaders(), properties, new StringBody(message));
+    }
+
     public RabbitMessage(String message) {
         this(new StringBody(message));
     }
