@@ -7,6 +7,10 @@ public class RabbitMessage implements Message {
     private final Properties properties;
     private final Body body;
 
+    public RabbitMessage(Properties properties, Body body) {
+        this(new EmptyHeaders(), properties, body);
+    }
+
     public RabbitMessage(String message, Property... properties) {
         this(new EmptyHeaders(), new PropertiesSet(properties), new StringBody(message));
     }
@@ -52,5 +56,15 @@ public class RabbitMessage implements Message {
     @Override
     public Body body() {
         return body;
+    }
+
+    @Override
+    public String toString() {
+        return "RabbitMessage{" +
+                "deliveryMode=" + deliveryMode +
+                ", headers=" + headers +
+                ", properties=" + properties +
+                ", body=" + body +
+                '}';
     }
 }

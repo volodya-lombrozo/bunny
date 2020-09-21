@@ -5,4 +5,8 @@ public class EmptyProperties implements Properties {
     public String property(String key) {
         return "";
     }
+
+    @Override
+    public void put(Property property) {
+    }
 }

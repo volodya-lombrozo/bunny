@@ -6,13 +6,10 @@ import org.lombrozo.bunny.client.RabbitClient;
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.domain.queue.Durable;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
-import org.lombrozo.bunny.message.CorrelationId;
-import org.lombrozo.bunny.message.Message;
-import org.lombrozo.bunny.message.RabbitMessage;
+import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.util.connection.PrefixNameStrategy;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.message.FutureMessage;
 import org.lombrozo.bunny.util.subscription.Subscription;
 
 import static org.junit.Assert.assertNotNull;
@@ -57,9 +54,26 @@ public class IntegrationTest {
                 new PrefixNameStrategy("Bunny Library"))
                 .connect();
 
-        FutureMessage answer = new RabbitClient(connection, "incoming", "reply")
-                .send(new RabbitMessage("'Hello' form library"))
+        NamedQueue replyQueue = new NamedQueue("reply", connection);
+        NamedQueue sendQueue = new NamedQueue("send", connection);
+
+        replyQueue.create();
+        sendQueue.create();
+
+
+        FutureMessage answer = new RabbitClient(sendQueue, replyQueue)
+                .send(new RabbitMessage("'Hello' form library", new CorrelationId()))
+                .thenAccept(System.out::println)
                 .thenAccept(Assert::assertNotNull);
+
+        sendQueue.subscribe(message -> {
+            try {
+                message.properties().put(new ReplyTo("BBd"));
+                replyQueue.send(message);
+            } catch (RabbitException e) {
+                e.printStackTrace();
+            }
+        });
 
         Message returnMessage = answer.block();
         assertNotNull(returnMessage);

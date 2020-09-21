@@ -6,4 +6,17 @@ public interface Property {
 
     String value();
 
+
+    class Empty implements Property {
+
+        @Override
+        public String key() {
+            return "";
+        }
+
+        @Override
+        public String value() {
+            return "";
+        }
+    }
 }

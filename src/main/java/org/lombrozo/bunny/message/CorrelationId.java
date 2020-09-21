@@ -23,4 +23,9 @@ public class CorrelationId implements Property {
     public String value() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "CorrelationId{" + id + "}";
+    }
 }

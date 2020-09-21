@@ -6,6 +6,7 @@ import org.lombrozo.bunny.message.FutureMessage;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.RabbitFutureMessage;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.LongAdder;
 
@@ -34,6 +35,20 @@ public class RabbitFutureMessageTest {
         Message expectedMessage = new Message.Fake();
         Executors.newFixedThreadPool(1)
                 .submit(() -> futureMessage.register(expectedMessage));
+
+        Message message = futureMessage.block();
+
+        assertNotNull(message);
+        assertEquals(expectedMessage, message);
+    }
+
+    @Test(timeout = 50)
+    public void block_changeReference() {
+        FutureMessage futureMessage = new RabbitFutureMessage();
+        Message expectedMessage = new Message.Fake();
+        futureMessage.register(expectedMessage);
+        futureMessage = futureMessage.thenAccept((ignore) -> {
+        });
 
         Message message = futureMessage.block();
 
