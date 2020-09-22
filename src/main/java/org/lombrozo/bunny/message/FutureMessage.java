@@ -10,7 +10,7 @@ public interface FutureMessage {
 
     Message block();
 
-    class Empty implements FutureMessage {
+    class Fake implements FutureMessage {
 
         @Override
         public FutureMessage thenAccept(Consumer<Message> ignore) {
