@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.lombrozo.bunny.RabbitHost;
 import org.lombrozo.bunny.client.RabbitClient;
 import org.lombrozo.bunny.connection.Connection;
-import org.lombrozo.bunny.consumer.QueueConsumer;
+import org.lombrozo.bunny.consumer.ResponsibleQueueConsumer;
 import org.lombrozo.bunny.domain.queue.Durable;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.function.Handler;
@@ -61,7 +61,7 @@ public class IntegrationTest {
         replyQueue.create();
         sendQueue.create();
         RabbitClient client = new RabbitClient(sendQueue, replyQueue);
-        new QueueConsumer(sendQueue, connection).subscribe(new Handler.Echo());
+        new ResponsibleQueueConsumer(sendQueue, connection).subscribe(new Handler.Echo());
 
         FutureMessage answer = client
                 .send(new RabbitMessage("'Hello' form library", new CorrelationId(), new ReplyToDestination(replyQueue)))

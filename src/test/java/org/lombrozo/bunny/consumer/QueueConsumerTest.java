@@ -5,7 +5,6 @@ import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.connection.TestConnection;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.function.ConsumerHandler;
-import org.lombrozo.bunny.function.Handler;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.RandomString;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
@@ -24,7 +23,7 @@ public class QueueConsumerTest {
         Connection connection = new TestConnection();
         connection.allocateChannels();
         NamedQueue namedQueue = new NamedQueue(queueName, connection);
-        QueueConsumer consumer = new QueueConsumer(namedQueue, connection);
+        ResponsibleQueueConsumer consumer = new ResponsibleQueueConsumer(namedQueue, connection);
 
         consumer.subscribe(new ConsumerHandler(message -> latch.countDown()));
 
@@ -40,7 +39,7 @@ public class QueueConsumerTest {
         CountDownLatch latch = new CountDownLatch(1);
         Connection connection = new TestConnection();
         connection.allocateChannels();
-        QueueConsumer consumer = new QueueConsumer(queueName, connection);
+        ResponsibleQueueConsumer consumer = new ResponsibleQueueConsumer(queueName, connection);
 
         consumer.subscribe(new ConsumerHandler(message -> latch.countDown()));
 

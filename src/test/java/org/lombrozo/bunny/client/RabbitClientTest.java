@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.connection.TestConnection;
-import org.lombrozo.bunny.consumer.QueueConsumer;
+import org.lombrozo.bunny.consumer.ResponsibleQueueConsumer;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.function.Handler;
 import org.lombrozo.bunny.message.*;
@@ -31,7 +31,7 @@ public class RabbitClientTest {
     public void send_queueNamesOnly_successfulSendAndReceive() throws RabbitException {
         RabbitClient client = new RabbitClient(connection, sendQueueName, replyQueueName);
         Message message = new RabbitMessage("hello", new ReplyTo("." + replyQueueName));
-        new QueueConsumer(sendQueueName, connection).subscribe(new Handler.Echo());
+        new ResponsibleQueueConsumer(sendQueueName, connection).subscribe(new Handler.Echo());
 
         FutureMessage futureMessage = client.send(message);
 
@@ -46,7 +46,7 @@ public class RabbitClientTest {
         NamedQueue replyQueue = new NamedQueue(replyQueueName, connection);
         RabbitClient client = new RabbitClient(sendQueue, replyQueue);
         Message message = new RabbitMessage("hello", new ReplyToDestination(replyQueue));
-        new QueueConsumer(sendQueueName, connection).subscribe(new Handler.Echo());
+        new ResponsibleQueueConsumer(sendQueueName, connection).subscribe(new Handler.Echo());
 
         FutureMessage futureMessage = client.send(message);
 

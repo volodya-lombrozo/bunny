@@ -10,16 +10,16 @@ import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.PropertyKey;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
-public class QueueConsumer implements ResponsibleConsumer {
+public class ResponsibleQueueConsumer implements ResponsibleConsumer {
 
     private final Queue queue;
     private final Connection connection;
 
-    public QueueConsumer(String queueName, Connection connection) {
+    public ResponsibleQueueConsumer(String queueName, Connection connection) {
         this(new NamedQueue(queueName, connection), connection);
     }
 
-    public QueueConsumer(Queue queue, Connection connection) {
+    public ResponsibleQueueConsumer(Queue queue, Connection connection) {
         this.queue = queue;
         this.connection = connection;
     }
