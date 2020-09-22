@@ -2,7 +2,7 @@ package org.lombrozo.bunny.connection;
 
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.function.Work;
-import org.lombrozo.bunny.domain.Destination;
+import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;

@@ -1,7 +1,7 @@
 package org.lombrozo.bunny.client;
 
 import org.lombrozo.bunny.connection.Connection;
-import org.lombrozo.bunny.domain.Destination;
+import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.Message;

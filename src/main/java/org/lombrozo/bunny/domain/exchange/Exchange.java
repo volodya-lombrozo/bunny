@@ -1,6 +1,6 @@
 package org.lombrozo.bunny.domain.exchange;
 
-import org.lombrozo.bunny.domain.Destination;
+import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
@@ -8,6 +8,8 @@ public interface Exchange extends Destination {
     String name();
 
     void create() throws RabbitException;
+
+    ExchangeType type();
 
     class Fake implements Exchange{
 
@@ -18,6 +20,11 @@ public interface Exchange extends Destination {
 
         @Override
         public void create() {
+        }
+
+        @Override
+        public ExchangeType type() {
+            return null;
         }
 
         @Override

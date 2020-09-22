@@ -7,10 +7,12 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 public class NamedExchange implements Exchange {
 
     private final String name;
+    private final ExchangeType type;
     private final Connection connection;
 
-    public NamedExchange(String name, Connection connection) {
+    public NamedExchange(String name, ExchangeType type, Connection connection) {
         this.name = name;
+        this.type = type;
         this.connection = connection;
     }
 
@@ -22,6 +24,11 @@ public class NamedExchange implements Exchange {
     @Override
     public void create() throws RabbitException {
         connection.channel().create(this);
+    }
+
+    @Override
+    public ExchangeType type() {
+        return type;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.domain;
+package org.lombrozo.bunny.domain.destination;
 
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;

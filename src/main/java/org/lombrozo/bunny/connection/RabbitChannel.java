@@ -3,10 +3,11 @@ package org.lombrozo.bunny.connection;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.domain.queue.QueueDescription;
 import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.function.Work;
-import org.lombrozo.bunny.domain.Destination;
+import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
@@ -51,6 +52,15 @@ public class RabbitChannel implements Channel {
         }
     }
 
+    @Override
+    public void create(Exchange exchange) throws RabbitException {
+        try {
+            channel.exchangeDeclare(exchange.name(), exchange.type().toString());
+        } catch (IOException e) {
+            throw new RabbitException(e);
+        }
+    }
+
 
     static class WorkerConsumer extends DefaultConsumer {
 
@@ -63,7 +73,11 @@ public class RabbitChannel implements Channel {
 
         @Override
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
-            work.doWork(new RabbitMessage(new IncomingPropertiesAdapter(properties).toProperties(), new ByteBody(body)));
+            try {
+                work.doWork(new RabbitMessage(new IncomingPropertiesAdapter(properties).toProperties(), new ByteBody(body)));
+            } catch (RabbitException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
