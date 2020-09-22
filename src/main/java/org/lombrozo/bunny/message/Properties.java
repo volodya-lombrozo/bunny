@@ -3,14 +3,14 @@ package org.lombrozo.bunny.message;
 
 public interface Properties {
 
-    String property(String key);
+    String property(PropertyKey key);
 
     void put(Property property);
 
     class Fake implements Properties {
 
         @Override
-        public String property(String key) {
+        public String property(PropertyKey key) {
             return "";
         }
 

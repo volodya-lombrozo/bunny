@@ -2,7 +2,7 @@ package org.lombrozo.bunny.message;
 
 public interface Property {
 
-    String key();
+    PropertyKey key();
 
     String value();
 
@@ -10,8 +10,8 @@ public interface Property {
     class Empty implements Property {
 
         @Override
-        public String key() {
-            return "";
+        public PropertyKey key() {
+            return PropertyKey.UNKNOWN;
         }
 
         @Override

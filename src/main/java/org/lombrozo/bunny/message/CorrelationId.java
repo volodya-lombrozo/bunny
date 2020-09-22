@@ -15,8 +15,8 @@ public class CorrelationId implements Property {
     }
 
     @Override
-    public String key() {
-        return "correlation_id";
+    public PropertyKey key() {
+        return PropertyKey.CORRELATION_ID;
     }
 
     @Override

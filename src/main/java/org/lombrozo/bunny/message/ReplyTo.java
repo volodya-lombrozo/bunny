@@ -13,8 +13,8 @@ public class ReplyTo implements Property {
     }
 
     @Override
-    public String key() {
-        return "reply_to";
+    public PropertyKey key() {
+        return PropertyKey.REPLY_TO;
     }
 
     @Override

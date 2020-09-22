@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class PropertiesSet implements Properties {
 
-    Map<String, Property> properties;
+    Map<PropertyKey, Property> properties;
 
     public PropertiesSet() {
         this(new HashSet<>());
@@ -20,7 +20,7 @@ public class PropertiesSet implements Properties {
     }
 
     @Override
-    public String property(String key) {
+    public String property(PropertyKey key) {
         return properties.getOrDefault(key, new Property.Empty()).value();
     }
 
