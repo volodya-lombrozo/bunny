@@ -3,8 +3,6 @@ package org.lombrozo.bunny.connection;
 import org.lombrozo.bunny.connection.pool.FixedChannelPool;
 import org.lombrozo.bunny.util.address.Address;
 import org.lombrozo.bunny.util.security.Credentials;
-import org.lombrozo.bunny.util.connection.ConnectionNameStrategy;
-import org.lombrozo.bunny.util.connection.RandomConnectionName;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.io.IOException;

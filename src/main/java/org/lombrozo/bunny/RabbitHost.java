@@ -8,8 +8,8 @@ import org.lombrozo.bunny.connection.RabbitConnectionFactory;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.security.Credentials;
 import org.lombrozo.bunny.util.security.UserCredentials;
-import org.lombrozo.bunny.util.connection.ConnectionNameStrategy;
-import org.lombrozo.bunny.util.connection.RandomConnectionName;
+import org.lombrozo.bunny.connection.ConnectionNameStrategy;
+import org.lombrozo.bunny.connection.RandomConnectionName;
 
 public class RabbitHost implements Host {
 

@@ -5,6 +5,7 @@ import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.function.Handler;
 import org.lombrozo.bunny.message.Message;
+import org.lombrozo.bunny.message.PropertyKey;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 public class QueueConsumer implements ResponsibleConsumer {
@@ -29,6 +30,9 @@ public class QueueConsumer implements ResponsibleConsumer {
     }
 
     private void sendResponse(Message incoming, Message response) {
+        String replyTo = incoming.properties().property(PropertyKey.REPLY_TO);
+
+
 
 
     }

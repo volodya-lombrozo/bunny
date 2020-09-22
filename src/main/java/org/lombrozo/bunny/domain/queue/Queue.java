@@ -1,7 +1,7 @@
 package org.lombrozo.bunny.domain.queue;
 
 import org.lombrozo.bunny.function.Work;
-import org.lombrozo.bunny.destination.Destination;
+import org.lombrozo.bunny.domain.Destination;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.subscription.Subscription;
 

@@ -3,7 +3,6 @@ package org.lombrozo.bunny.connection;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.Test;
 import org.lombrozo.bunny.util.address.Address;
-import org.lombrozo.bunny.util.connection.ConnectionNameStrategy;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.security.Credentials;
 import org.mockito.Mockito;

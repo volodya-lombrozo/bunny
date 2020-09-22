@@ -6,7 +6,7 @@ import com.rabbitmq.client.Envelope;
 import org.lombrozo.bunny.domain.queue.QueueDescription;
 import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.function.Work;
-import org.lombrozo.bunny.destination.Destination;
+import org.lombrozo.bunny.domain.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 

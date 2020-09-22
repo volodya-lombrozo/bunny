@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.util.connection;
+package org.lombrozo.bunny.connection;
 
 public interface ConnectionNameStrategy {
 

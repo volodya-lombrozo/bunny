@@ -1,6 +1,7 @@
 package org.lombrozo.bunny.util.connection;
 
 import org.junit.Test;
+import org.lombrozo.bunny.connection.PrefixNameStrategy;
 
 import static org.junit.Assert.*;
 

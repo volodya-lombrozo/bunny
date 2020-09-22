@@ -4,10 +4,9 @@ import org.junit.Test;
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.connection.ConnectionFactory;
 import org.lombrozo.bunny.util.address.Address;
-import org.lombrozo.bunny.util.connection.ConnectionNameStrategy;
+import org.lombrozo.bunny.connection.ConnectionNameStrategy;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.security.Credentials;
-import org.lombrozo.bunny.util.security.UserCredentials;
 
 import static org.junit.Assert.*;
 

@@ -8,7 +8,7 @@ import org.lombrozo.bunny.domain.queue.Durable;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.util.security.UserCredentials;
-import org.lombrozo.bunny.util.connection.PrefixNameStrategy;
+import org.lombrozo.bunny.connection.PrefixNameStrategy;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.subscription.Subscription;
 

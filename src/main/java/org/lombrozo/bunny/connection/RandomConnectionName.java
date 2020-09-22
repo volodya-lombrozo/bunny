@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.util.connection;
+package org.lombrozo.bunny.connection;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
