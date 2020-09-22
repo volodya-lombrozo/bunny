@@ -6,7 +6,6 @@ import org.lombrozo.bunny.RabbitHost;
 import org.lombrozo.bunny.client.RabbitClient;
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.consumer.QueueConsumer;
-import org.lombrozo.bunny.domain.destination.DotReplyToFormatStrategy;
 import org.lombrozo.bunny.domain.queue.Durable;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.function.Handler;
@@ -73,12 +72,5 @@ public class IntegrationTest {
         Message returnMessage = answer.block();
         assertNotNull(returnMessage);
     }
-
-    @Test
-    public void consumerTesting() throws RabbitException {
-
-
-    }
-
 
 }
