@@ -1,5 +1,6 @@
 package org.lombrozo.bunny.message;
 
+
 public class ReplyTo implements Property {
 
     private final String value;
