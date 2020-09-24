@@ -6,6 +6,10 @@ public class Type implements Property {
 
     private final String value;
 
+    public Type(Class<?> type) {
+        this(type.getName());
+    }
+
     public Type(String value) {
         this.value = value;
     }
@@ -22,11 +26,8 @@ public class Type implements Property {
 
     @Override
     public String toString() {
-        return "Type{" +
-                "value='" + value + '\'' +
-                '}';
+        return "type=" + value;
     }
-
 
     @Override
     public boolean equals(Object o) {
