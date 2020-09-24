@@ -7,11 +7,18 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 public class NamedExchange implements Exchange {
 
     private final String name;
+    private final String routingKey;
     private final ExchangeType type;
     private final Connection connection;
 
+
     public NamedExchange(String name, ExchangeType type, Connection connection) {
+        this(name, "", type, connection);
+    }
+
+    public NamedExchange(String name, String routingKey, ExchangeType type, Connection connection) {
         this.name = name;
+        this.routingKey = routingKey;
         this.type = type;
         this.connection = connection;
     }
@@ -38,7 +45,7 @@ public class NamedExchange implements Exchange {
 
     @Override
     public String routingKey() {
-        return "";
+        return routingKey;
     }
 
     @Override

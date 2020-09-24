@@ -1,8 +1,16 @@
 package org.lombrozo.bunny.connection;
 
-public class TestConnection implements Connection{
+public class TestConnection implements Connection {
 
     private Channel channel;
+
+    public TestConnection() {
+        this(new TestChannel());
+    }
+
+    public TestConnection(Channel channel) {
+        this.channel = channel;
+    }
 
     @Override
     public void allocateChannels() {
