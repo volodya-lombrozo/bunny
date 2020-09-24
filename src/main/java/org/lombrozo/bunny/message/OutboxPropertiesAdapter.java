@@ -15,9 +15,11 @@ public class OutboxPropertiesAdapter {
     public AMQP.BasicProperties toRabbitProperties() {
         String correlationId = properties.property(PropertyKey.CORRELATION_ID);
         String replyTo = properties.property(PropertyKey.REPLY_TO);
+        String type = properties.property(PropertyKey.TYPE);
         return new AMQP.BasicProperties.Builder()
                 .correlationId(correlationId)
                 .replyTo(replyTo)
+                .type(type)
                 .build();
     }
 

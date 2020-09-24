@@ -30,7 +30,7 @@ public class LatchWork implements Work {
         latch.countDown();
     }
 
-    public void await() {
+    public void awaitSuccess() {
         try {
             latch.await();
         } catch (InterruptedException e) {

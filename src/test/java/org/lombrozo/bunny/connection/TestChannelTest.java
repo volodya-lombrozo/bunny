@@ -27,7 +27,7 @@ public class TestChannelTest {
 
         channel.listenQueue(queue, work);
 
-        work.await();
+        work.awaitSuccess();
         assertNotNull(work.lastMessage());
     }
 

@@ -12,15 +12,15 @@ public class IncomingPropertiesAdapter {
 
     public Properties toProperties() {
         Properties res = new PropertiesSet();
-
         String correlationId = properties.getCorrelationId();
         if (correlationId != null && !correlationId.isEmpty())
             res.put(new CorrelationId(correlationId));
-
         String replyTo = properties.getReplyTo();
         if (replyTo != null && !replyTo.isEmpty())
             res.put(new ReplyTo(replyTo));
-
+        String type = properties.getType();
+        if (type != null && !type.isEmpty())
+            res.put(new Type(type));
         return res;
     }
 }
