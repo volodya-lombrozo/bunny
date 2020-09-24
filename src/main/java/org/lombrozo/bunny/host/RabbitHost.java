@@ -1,11 +1,9 @@
-package org.lombrozo.bunny;
+package org.lombrozo.bunny.host;
 
-import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.util.address.Address;
 import org.lombrozo.bunny.util.address.RealAddress;
 import org.lombrozo.bunny.connection.ConnectionFactory;
 import org.lombrozo.bunny.connection.RabbitConnectionFactory;
-import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.security.Credentials;
 import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.connection.ConnectionNameStrategy;
@@ -13,7 +11,9 @@ import org.lombrozo.bunny.connection.RandomConnectionName;
 
 public class RabbitHost implements Host {
 
-    private final ConnectionFactory connectionFactory;
+    private final Address address;
+    private final Credentials credentials;
+    private final ConnectionNameStrategy nameStrategy;
 
     public RabbitHost(String host) {
         this(host, 5672);
@@ -48,27 +48,19 @@ public class RabbitHost implements Host {
     }
 
     public RabbitHost(Address address, Credentials credentials, ConnectionNameStrategy connectionNameStrategy) {
-        this(new RabbitConnectionFactory(address, credentials, connectionNameStrategy));
-    }
-
-    public RabbitHost(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
+        this.address = address;
+        this.credentials = credentials;
+        this.nameStrategy = connectionNameStrategy;
     }
 
     @Override
     public ConnectionFactory connectionFactory() {
-        return connectionFactory;
+        return new RabbitConnectionFactory(address, credentials, nameStrategy);
     }
 
     @Override
-    public Connection connect() throws RabbitException {
-        return connectionFactory.connect();
+    public ConnectionFactory connectionFactory(ConnectionNameStrategy connectionNameStrategy) {
+        return new RabbitConnectionFactory(address, credentials, connectionNameStrategy);
     }
-
-    @Override
-    public Connection connect(int amountChannels) throws RabbitException {
-        return connectionFactory.connect(amountChannels);
-    }
-
 
 }

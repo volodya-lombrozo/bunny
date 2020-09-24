@@ -2,7 +2,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.lombrozo.bunny.RabbitHost;
+import org.lombrozo.bunny.host.RabbitHost;
 import org.lombrozo.bunny.client.RabbitClient;
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.consumer.ResponsibleQueueConsumer;
@@ -31,6 +31,7 @@ public class IntegrationTest {
         return new RabbitHost("localhost",
                 new UserCredentials("ait", "ait"),
                 new PrefixNameStrategy("Bunny Library"))
+                .connectionFactory()
                 .connect();
     }
 
