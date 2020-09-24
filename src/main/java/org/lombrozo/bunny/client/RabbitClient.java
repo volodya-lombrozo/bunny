@@ -15,7 +15,7 @@ public class RabbitClient implements Client {
 
     private final Destination destination;
     private final Queue listenQueue;
-    private final ResponseSource source;
+    private final ResponseSource callbackSource;
 
     public RabbitClient(Connection connection, String destinationQueue, String replyQueue) {
         this(new NamedQueue(destinationQueue, connection), new NamedQueue(replyQueue, connection),
@@ -29,15 +29,15 @@ public class RabbitClient implements Client {
     public RabbitClient(Destination destination, Queue replyQueue, ResponseSource source) {
         this.destination = destination;
         this.listenQueue = replyQueue;
-        this.source = source;
+        this.callbackSource = source;
     }
 
     @Override
     public FutureMessage send(Message message) throws RabbitException {
         FutureMessage observable = new RabbitFutureMessage();
         String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
-        source.save(correlationId, observable);
-        listenQueue.subscribe(source::runCallback);
+        callbackSource.save(correlationId, observable);
+        listenQueue.subscribe(callbackSource::runCallback);
         destination.send(message);
         return observable;
     }

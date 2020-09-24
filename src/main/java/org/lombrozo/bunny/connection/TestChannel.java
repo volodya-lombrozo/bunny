@@ -10,12 +10,13 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.*;
 
 public class TestChannel implements Channel {
 
     private final Map<String, BlockingDeque<Message>> queuesMap;
+    private final ExecutorService listenService = Executors.newFixedThreadPool(1);
+    private final ExecutorService publishService = Executors.newFixedThreadPool(1);
 
     public TestChannel() {
         this(new HashMap<>());
@@ -26,18 +27,26 @@ public class TestChannel implements Channel {
     }
 
     @Override
-    public void listenQueue(Queue queue, Work work) throws RabbitException {
-        try {
-            String key = key(queue);
-            Message message = queueByKey(key).take();
-            work.doWork(message);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void listenQueue(Queue queue, Work work) {
+        listenService.submit(() -> submitListenCommand(queue, work));
     }
 
     @Override
     public void publish(Destination rabbitDestination, Message message) {
+        publishService.submit(() -> submitPublishCommand(rabbitDestination, message));
+    }
+
+    private void submitListenCommand(Queue queue, Work work) {
+        try {
+            String key = key(queue);
+            Message message = queueByKey(key).take();
+            work.doWork(message);
+        } catch (InterruptedException | RabbitException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void submitPublishCommand(Destination rabbitDestination, Message message) {
         String key = key(rabbitDestination);
         queueByKey(key).add(message);
     }
@@ -57,7 +66,7 @@ public class TestChannel implements Channel {
         return queuesMap.get(key);
     }
 
-    private void initInMemoryQueue(String key) {
+    private synchronized void initInMemoryQueue(String key) {
         if (!queuesMap.containsKey(key))
             queuesMap.put(key, new LinkedBlockingDeque<>());
     }
