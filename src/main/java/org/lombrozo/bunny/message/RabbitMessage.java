@@ -7,16 +7,16 @@ public class RabbitMessage implements Message {
     private final Properties properties;
     private final Body body;
 
-    public RabbitMessage(Properties properties, Body body) {
-        this(new EmptyHeaders(), properties, body);
+    public RabbitMessage(Body body, Properties properties) {
+        this(body, properties, new EmptyHeaders());
     }
 
     public RabbitMessage(String message, Property... properties) {
-        this(new EmptyHeaders(), new PropertiesSet(properties), new StringBody(message));
+        this(new StringBody(message), new PropertiesSet(properties), new EmptyHeaders());
     }
 
     public RabbitMessage(String message, Properties properties) {
-        this(new EmptyHeaders(), properties, new StringBody(message));
+        this(new StringBody(message), properties, new EmptyHeaders());
     }
 
     public RabbitMessage(String message) {
@@ -24,10 +24,10 @@ public class RabbitMessage implements Message {
     }
 
     public RabbitMessage(Body body) {
-        this(new EmptyHeaders(), new EmptyProperties(), body);
+        this(body, new EmptyProperties(), new EmptyHeaders());
     }
 
-    public RabbitMessage(Headers headers, Properties properties, Body body) {
+    public RabbitMessage(Body body, Properties properties, Headers headers) {
         this(new Persistent(), headers, properties, body);
     }
 
