@@ -1,10 +1,11 @@
 package org.lombrozo.bunny.domain.exchange;
 
+import org.lombrozo.bunny.domain.Declarable;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
-public interface Exchange extends Destination {
+public interface Exchange extends Destination, Declarable {
     String name();
 
     void create() throws RabbitException;
