@@ -1,5 +1,8 @@
 package org.lombrozo.bunny.connection;
 
+import org.lombrozo.bunny.domain.binding.Binding;
+import org.lombrozo.bunny.domain.binding.ExchangeBinding;
+import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.domain.destination.Destination;
@@ -17,6 +20,10 @@ public interface Channel {
 
     void create(Exchange exchange) throws RabbitException;
 
+    void create(QueueBinding binding) throws RabbitException;
+
+    void create(ExchangeBinding binding) throws RabbitException;
+
     class Fake implements Channel {
 
         @Override
@@ -30,13 +37,25 @@ public interface Channel {
         }
 
         @Override
-        public void create(Queue queue) throws RabbitException {
+        public void create(Queue ignore) {
 
         }
 
         @Override
-        public void create(Exchange exchange) throws RabbitException {
+        public void create(Exchange ignore) {
 
         }
+
+        @Override
+        public void create(QueueBinding ignore) {
+
+        }
+
+        @Override
+        public void create(ExchangeBinding ignore) {
+
+        }
+
+
     }
 }

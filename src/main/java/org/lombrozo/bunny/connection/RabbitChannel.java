@@ -3,6 +3,9 @@ package org.lombrozo.bunny.connection;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+import org.lombrozo.bunny.domain.binding.Binding;
+import org.lombrozo.bunny.domain.binding.ExchangeBinding;
+import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.domain.queue.QueueDescription;
 import org.lombrozo.bunny.message.*;
@@ -56,6 +59,24 @@ public class RabbitChannel implements Channel {
     public void create(Exchange exchange) throws RabbitException {
         try {
             channel.exchangeDeclare(exchange.name(), exchange.type().toString());
+        } catch (IOException e) {
+            throw new RabbitException(e);
+        }
+    }
+
+    @Override
+    public void create(QueueBinding binding) throws RabbitException {
+        try {
+            channel.queueBind(binding.destination(), binding.source(), binding.routingKey());
+        } catch (IOException e) {
+            throw new RabbitException(e);
+        }
+    }
+
+    @Override
+    public void create(ExchangeBinding binding) throws RabbitException {
+        try {
+            channel.exchangeBind(binding.destination(), binding.source(), binding.routingKey());
         } catch (IOException e) {
             throw new RabbitException(e);
         }

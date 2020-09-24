@@ -1,5 +1,8 @@
 package org.lombrozo.bunny.connection;
 
+import org.lombrozo.bunny.domain.binding.Binding;
+import org.lombrozo.bunny.domain.binding.ExchangeBinding;
+import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.domain.queue.Queue;
@@ -59,6 +62,16 @@ public class TestChannel implements Channel {
     @Override
     public void create(Exchange exchange) {
         initInMemoryQueue(new ReplyToDestination(exchange).value());
+    }
+
+    @Override
+    public void create(QueueBinding ignore) {
+
+    }
+
+    @Override
+    public void create(ExchangeBinding ignore) {
+
     }
 
     private BlockingDeque<Message> queueByKey(String key) {

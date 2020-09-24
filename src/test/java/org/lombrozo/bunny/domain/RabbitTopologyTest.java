@@ -1,6 +1,7 @@
 package org.lombrozo.bunny.domain;
 
 import org.junit.Test;
+import org.lombrozo.bunny.domain.binding.Binding;
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
