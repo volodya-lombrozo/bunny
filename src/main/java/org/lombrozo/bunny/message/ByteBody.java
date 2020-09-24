@@ -1,7 +1,5 @@
 package org.lombrozo.bunny.message;
 
-import java.util.Arrays;
-
 public class ByteBody implements Body {
 
     private final byte[] array;

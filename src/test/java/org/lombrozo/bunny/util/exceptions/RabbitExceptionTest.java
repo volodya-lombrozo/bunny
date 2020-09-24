@@ -10,7 +10,9 @@ public class RabbitExceptionTest {
     public void exceptionInfoTest() {
         String expectedMessage = "Message";
         try {
+
             throw new RabbitException(new Exception(expectedMessage));
+
         } catch (RabbitException e) {
             assertNotNull(e);
             assertEquals(expectedMessage, e.getCause().getMessage());
