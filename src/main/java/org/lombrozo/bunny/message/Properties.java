@@ -7,6 +7,8 @@ public interface Properties {
 
     void put(Property property);
 
+    boolean containsProperty(PropertyKey key);
+
     class Fake implements Properties {
 
         @Override
@@ -16,6 +18,11 @@ public interface Properties {
 
         @Override
         public void put(Property property) {
+        }
+
+        @Override
+        public boolean containsProperty(PropertyKey key) {
+            return false;
         }
     }
 

@@ -9,4 +9,9 @@ public class EmptyProperties implements Properties {
     @Override
     public void put(Property property) {
     }
+
+    @Override
+    public boolean containsProperty(PropertyKey key) {
+        return false;
+    }
 }

@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 public class PropertiesSet implements Properties {
 
-    Map<PropertyKey, Property> properties;
+    private final Map<PropertyKey, Property> properties;
 
     public PropertiesSet() {
         this(new HashSet<>());
@@ -27,6 +27,11 @@ public class PropertiesSet implements Properties {
     @Override
     public void put(Property property) {
         properties.put(property.key(), property);
+    }
+
+    @Override
+    public boolean containsProperty(PropertyKey key) {
+        return properties.containsKey(key);
     }
 
 

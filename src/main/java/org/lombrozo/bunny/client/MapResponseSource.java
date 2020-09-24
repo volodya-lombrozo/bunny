@@ -3,6 +3,7 @@ package org.lombrozo.bunny.client;
 import org.lombrozo.bunny.message.FutureMessage;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.PropertyKey;
+import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,9 +20,14 @@ public class MapResponseSource implements ResponseSource {
     }
 
     @Override
-    public void save(String correlationId, FutureMessage message) {
+    public void save(String correlationId, FutureMessage message) throws EmptyCorrelationId {
+        checkIsEmpty(correlationId);
         correlationMap.put(correlationId, message);
+    }
 
+    void checkIsEmpty(String correlationId) throws EmptyCorrelationId {
+        if (correlationId == null || correlationId.trim().isEmpty())
+            throw new EmptyCorrelationId();
     }
 
     @Override
