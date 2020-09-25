@@ -34,6 +34,12 @@ public class PropertiesSet implements Properties {
         return properties.containsKey(key);
     }
 
+    @Override
+    public Properties addAll(Property[] additional) {
+        for (Property property : additional) put(property);
+        return this;
+    }
+
 
     @Override
     public String toString() {

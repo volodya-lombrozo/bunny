@@ -5,12 +5,9 @@ import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.domain.queue.Queue;
-import org.lombrozo.bunny.message.Message;
-import org.lombrozo.bunny.message.PropertyKey;
+import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.message.FutureMessage;
-import org.lombrozo.bunny.message.RabbitFutureMessage;
 
 
 public class RabbitClient implements Client {
@@ -45,7 +42,8 @@ public class RabbitClient implements Client {
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
             callbackSource.save(correlationId, observable);
             listenQueue.subscribe(callbackSource::runCallback);
-            destination.send(message);
+            Message sendingMessage = new RabbitMessage(message, new ReplyToDestination(new QueueDestination(listenQueue)));
+            destination.send(sendingMessage);
             return observable;
         } catch (EmptyCorrelationId emptyCorrelationId) {
             throw new RabbitException(emptyCorrelationId);

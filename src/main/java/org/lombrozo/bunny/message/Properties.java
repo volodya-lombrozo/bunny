@@ -9,6 +9,8 @@ public interface Properties {
 
     boolean containsProperty(PropertyKey key);
 
+    Properties addAll(Property[] additional);
+
     class Fake implements Properties {
 
         @Override
@@ -23,6 +25,11 @@ public interface Properties {
         @Override
         public boolean containsProperty(PropertyKey key) {
             return false;
+        }
+
+        @Override
+        public Properties addAll(Property[] additional) {
+            return this;
         }
     }
 

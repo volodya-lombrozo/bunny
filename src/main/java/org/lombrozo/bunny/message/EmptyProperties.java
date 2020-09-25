@@ -14,4 +14,9 @@ public class EmptyProperties implements Properties {
     public boolean containsProperty(PropertyKey key) {
         return false;
     }
+
+    @Override
+    public Properties addAll(Property[] additional) {
+        return this;
+    }
 }

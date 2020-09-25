@@ -35,6 +35,10 @@ public class RabbitMessage implements Message {
         this(body, properties, headers, new Persistent());
     }
 
+    public RabbitMessage(Message message, Property... additional) {
+        this(message.body(), message.properties().addAll(additional), message.headers(), message.deliveryMode());
+    }
+
     public RabbitMessage(Body body, Properties properties, Headers headers, DeliveryMode deliveryMode) {
         this.deliveryMode = deliveryMode;
         this.headers = headers;
