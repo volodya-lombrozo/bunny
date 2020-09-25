@@ -10,6 +10,15 @@ public class TypedWorkTest {
 
 
     @Test
+    public void typedConstructor() {
+        TypedWork typedWork = new TypedWork(String.class, new LatchWork());
+
+        String type = typedWork.type();
+
+        assertEquals("java.lang.String", type);
+    }
+
+    @Test
     public void match() {
         LatchWork work = new LatchWork();
         String type = "type";

@@ -8,6 +8,11 @@ public class TypedWork implements Work {
     private final String type;
     private final Work work;
 
+
+    public TypedWork(Class<?> clazz, Work work) {
+        this(clazz.getName(), work);
+    }
+
     public TypedWork(String type, Work work) {
         this.type = type;
         this.work = work;
