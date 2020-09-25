@@ -8,7 +8,7 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 public interface Exchange extends Destination, Declarable {
     String name();
 
-    void create() throws RabbitException;
+    void declare() throws RabbitException;
 
     ExchangeType type();
 
@@ -20,7 +20,7 @@ public interface Exchange extends Destination, Declarable {
         }
 
         @Override
-        public void create() {
+        public void declare() {
         }
 
         @Override

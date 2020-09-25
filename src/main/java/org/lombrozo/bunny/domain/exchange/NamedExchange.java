@@ -29,7 +29,7 @@ public class NamedExchange implements Exchange {
     }
 
     @Override
-    public void create() throws RabbitException {
+    public void declare() throws RabbitException {
         connection.channel().create(this);
     }
 

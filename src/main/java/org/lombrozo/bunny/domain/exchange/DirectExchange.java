@@ -26,8 +26,8 @@ public class DirectExchange implements Exchange {
     }
 
     @Override
-    public void create() throws RabbitException {
-        exchange.create();
+    public void declare() throws RabbitException {
+        exchange.declare();
     }
 
     @Override

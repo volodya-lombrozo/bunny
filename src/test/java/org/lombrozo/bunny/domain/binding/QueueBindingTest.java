@@ -22,7 +22,7 @@ public class QueueBindingTest {
         Channel mockChannel = Mockito.mock(Channel.class);
         QueueBinding binding = new QueueBinding(exchange, queue, routingKey, new TestConnection(mockChannel));
 
-        binding.create();
+        binding.declare();
 
         assertEquals(exchange.name(), binding.source());
         assertEquals(queue.name(), binding.destination());

@@ -34,7 +34,7 @@ public class ExchangeBinding implements Binding {
     }
 
     @Override
-    public void create() throws RabbitException {
+    public void declare() throws RabbitException {
         connection.channel().create(this);
     }
 }

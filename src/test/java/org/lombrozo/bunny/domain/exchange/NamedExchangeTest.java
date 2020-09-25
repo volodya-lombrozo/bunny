@@ -27,7 +27,7 @@ public class NamedExchangeTest {
     public void createTest() throws RabbitException {
         NamedExchange exchange = new NamedExchange("name", ExchangeType.DIRECT, connection);
 
-        exchange.create();
+        exchange.declare();
 
         verify(channel, times(1)).create(exchange);
     }

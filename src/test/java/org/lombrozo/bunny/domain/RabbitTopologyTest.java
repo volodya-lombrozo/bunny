@@ -38,7 +38,7 @@ public class RabbitTopologyTest {
         CountDownLatch latch = new CountDownLatch(1);
         Exchange.Fake exchange = new Exchange.Fake() {
             @Override
-            public void create() {
+            public void declare() {
                 latch.countDown();
             }
         };

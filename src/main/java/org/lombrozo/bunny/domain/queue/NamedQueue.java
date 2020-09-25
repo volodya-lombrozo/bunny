@@ -38,7 +38,7 @@ public class NamedQueue implements Queue {
     }
 
     @Override
-    public void create() throws RabbitException {
+    public void declare() throws RabbitException {
         connection.channel().create(this);
     }
 

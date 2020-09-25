@@ -40,7 +40,7 @@ public class IntegrationTest {
     @Test
     public void consumeTest() throws RabbitException, InterruptedException {
         NamedQueue queue = new NamedQueue("perf", connection, new Durable());
-        queue.create();
+        queue.declare();
 
         Subscription subscription = queue.subscribe((m) -> System.out.println("Hello world"));
 
@@ -51,7 +51,7 @@ public class IntegrationTest {
     @Test
     public void publishTest() throws RabbitException {
         NamedQueue queue = new NamedQueue("perf", connection, new Durable());
-        queue.create();
+        queue.declare();
 
         new NamedQueue("perf", connection).send(new RabbitMessage("Hello", new CorrelationId()));
     }
@@ -61,8 +61,8 @@ public class IntegrationTest {
     public void clientTest() throws RabbitException {
         NamedQueue replyQueue = new NamedQueue("reply", connection);
         NamedQueue sendQueue = new NamedQueue("send", connection);
-        replyQueue.create();
-        sendQueue.create();
+        replyQueue.declare();
+        sendQueue.declare();
         RabbitClient client = new RabbitClient(sendQueue, replyQueue);
         new ResponsibleQueueConsumer(sendQueue, connection).subscribe(new Handler.Echo());
 

@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.lombrozo.bunny.connection.Channel;
 import org.lombrozo.bunny.connection.TestConnection;
 import org.lombrozo.bunny.domain.exchange.Exchange;
-import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.mockito.Mockito;
 
@@ -22,7 +21,7 @@ public class ExchangeBindingTest {
         Channel mockChannel = Mockito.mock(Channel.class);
         ExchangeBinding binding = new ExchangeBinding(source, destination, routingKey, new TestConnection(mockChannel));
 
-        binding.create();
+        binding.declare();
 
         assertEquals(source.name(), binding.source());
         assertEquals(destination.name(), binding.destination());

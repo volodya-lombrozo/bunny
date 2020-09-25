@@ -12,7 +12,7 @@ public interface Queue extends Destination, Declarable {
 
     String name();
 
-    void create() throws RabbitException;
+    void declare() throws RabbitException;
 
     Subscription subscribe(Work work) throws RabbitException;
 
@@ -30,7 +30,7 @@ public interface Queue extends Destination, Declarable {
         }
 
         @Override
-        public void create() {
+        public void declare() {
         }
 
         @Override

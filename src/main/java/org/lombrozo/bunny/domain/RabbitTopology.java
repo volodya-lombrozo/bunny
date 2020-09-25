@@ -33,6 +33,6 @@ public class RabbitTopology implements Topology {
     @Override
     public void createAll() throws RabbitException {
         for (Declarable declarable : declarableCollection)
-            declarable.create();
+            declarable.declare();
     }
 }

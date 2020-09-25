@@ -41,9 +41,9 @@ public class TopicExchangeTest {
         Exchange mock = Mockito.mock(Exchange.class);
         Exchange exchange = new TopicExchange(mock);
 
-        exchange.create();
+        exchange.declare();
 
-        verify(mock, times(1)).create();
+        verify(mock, times(1)).declare();
     }
 
 
