@@ -10,14 +10,14 @@ import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.exchange.DirectExchange;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.function.LatchWork;
-import org.lombrozo.bunny.function.TypedWork;
+import org.lombrozo.bunny.function.CompositeWork;
 import org.lombrozo.bunny.host.RabbitHost;
 import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.message.Type;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 @Ignore("For manual testing only")
-public class TypedWorkIntegrationTest {
+public class CompositeWorkIntegrationTest {
 
     Connection connection;
 
@@ -40,14 +40,14 @@ public class TypedWorkIntegrationTest {
         NamedQueue queue = new NamedQueue("testQueue", connection);
         QueueBinding binding = new QueueBinding(exchange, queue, "#", connection);
         new RabbitTopology().register(exchange, queue, binding).createAll();
-        TypedWork typedWork = new TypedWork();
+        CompositeWork compositeWork = new CompositeWork();
         LatchWork firstWork = new LatchWork();
         LatchWork secondWork = new LatchWork();
         LatchWork thirdWork = new LatchWork();
-        typedWork.addWorkForMessageType(firstType, firstWork);
-        typedWork.addWorkForMessageType(secondType, secondWork);
-        typedWork.addWorkForMessageType(thirdType, thirdWork);
-        queue.subscribe(typedWork);
+        compositeWork.addWorkForMessageType(firstType, firstWork);
+        compositeWork.addWorkForMessageType(secondType, secondWork);
+        compositeWork.addWorkForMessageType(thirdType, thirdWork);
+        queue.subscribe(compositeWork);
         exchange.send(firstMessage);
         exchange.send(secondMessage);
         exchange.send(thirdMessage);

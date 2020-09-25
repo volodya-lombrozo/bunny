@@ -1,31 +1,33 @@
 package org.lombrozo.bunny.function;
 
 import org.lombrozo.bunny.message.Message;
-import org.lombrozo.bunny.message.PropertyKey;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TypedWork implements Work {
 
-    private final Map<String, Work> map;
+    private final String type;
+    private final Work work;
 
-    public TypedWork() {
-        this(new HashMap<>());
+    public TypedWork(String type, Work work) {
+        this.type = type;
+        this.work = work;
     }
 
-    public TypedWork(Map<String, Work> map) {
-        this.map = map;
+    public void doIfMatch(String type, Message message) throws RabbitException {
+        if (match(type))
+            doWork(message);
     }
 
-    public void addWorkForMessageType(String messageType, Work work) {
-        map.put(messageType, work);
+    public boolean match(String type) {
+        return this.type.equals(type);
+    }
+
+    public String type() {
+        return type;
     }
 
     @Override
     public void doWork(Message message) throws RabbitException {
-        String type = message.properties().property(PropertyKey.TYPE);
-        if (map.containsKey(type)) map.get(type).doWork(message);
+        work.doWork(message);
     }
 }

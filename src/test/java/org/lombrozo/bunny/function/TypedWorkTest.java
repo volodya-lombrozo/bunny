@@ -1,26 +1,37 @@
 package org.lombrozo.bunny.function;
 
 import org.junit.Test;
-import org.lombrozo.bunny.message.RabbitMessage;
-import org.lombrozo.bunny.message.Type;
+import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
+import static org.junit.Assert.*;
 
 public class TypedWorkTest {
 
 
-    @Test(timeout = 100)
-    public void doWorkTest() throws RabbitException {
-        TypedWork typedWork = new TypedWork();
-        LatchWork first = new LatchWork();
-        LatchWork second = new LatchWork();
-        typedWork.addWorkForMessageType("first", first);
-        typedWork.addWorkForMessageType("second", second);
+    @Test
+    public void match() {
+        LatchWork work = new LatchWork();
+        String type = "type";
+        TypedWork typedWork = new TypedWork(type, work);
 
-        typedWork.doWork(new RabbitMessage("first message", new Type("first")));
-        typedWork.doWork(new RabbitMessage("second message", new Type("second")));
+        boolean isMatch = typedWork.match(type);
+        boolean nonMatch = typedWork.match("other");
 
-        first.awaitSuccess();
-        second.awaitSuccess();
+        assertTrue(isMatch);
+        assertFalse(nonMatch);
     }
+
+    @Test(timeout = 100)
+    public void doIfMatch() throws RabbitException {
+        LatchWork work = new LatchWork();
+        String type = "type";
+        TypedWork typedWork = new TypedWork(type, work);
+
+        typedWork.doIfMatch(type, new Message.Fake());
+
+        assertEquals(type, typedWork.type());
+        work.awaitSuccess();
+    }
+
 }
