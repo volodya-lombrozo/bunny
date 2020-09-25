@@ -4,8 +4,16 @@ public class RPCMessage implements Message {
 
     private final Message message;
 
+    public RPCMessage(Body body, Property... properties) {
+        this(new RabbitMessage(body, properties));
+    }
+
     public RPCMessage(String message, Property... properties) {
         this(new RabbitMessage(message, properties));
+    }
+
+    public RPCMessage(Body body, Properties properties, Headers headers, DeliveryMode deliveryMode) {
+        this(new RabbitMessage(body, properties, headers, deliveryMode));
     }
 
     public RPCMessage(Message message) {

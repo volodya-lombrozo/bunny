@@ -11,6 +11,10 @@ public class RabbitMessage implements Message {
         this(body, properties, new EmptyHeaders());
     }
 
+    public RabbitMessage(Body body, Property... properties) {
+        this(body, new PropertiesSet(properties));
+    }
+
     public RabbitMessage(String message, Property... properties) {
         this(new StringBody(message), new PropertiesSet(properties), new EmptyHeaders());
     }
@@ -28,10 +32,10 @@ public class RabbitMessage implements Message {
     }
 
     public RabbitMessage(Body body, Properties properties, Headers headers) {
-        this(new Persistent(), headers, properties, body);
+        this(body, properties, headers, new Persistent());
     }
 
-    public RabbitMessage(DeliveryMode deliveryMode, Headers headers, Properties properties, Body body) {
+    public RabbitMessage(Body body, Properties properties, Headers headers, DeliveryMode deliveryMode) {
         this.deliveryMode = deliveryMode;
         this.headers = headers;
         this.properties = properties;
