@@ -1,7 +1,5 @@
 package org.lombrozo.bunny.connection;
 
-import org.lombrozo.bunny.util.exceptions.RabbitException;
-
 public class TestConnectionFactory implements ConnectionFactory {
     @Override
     public Connection connect() {
@@ -14,12 +12,12 @@ public class TestConnectionFactory implements ConnectionFactory {
     }
 
     @Override
-    public Connection connect(int amountChannels, String name) throws RabbitException {
+    public Connection connect(int amountChannels, String name) {
         return new TestConnection();
     }
 
     @Override
-    public Connection connect(String name) throws RabbitException {
+    public Connection connect(String name) {
         return new TestConnection();
     }
 }
