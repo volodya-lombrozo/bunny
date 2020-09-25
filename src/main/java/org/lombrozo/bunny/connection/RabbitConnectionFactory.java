@@ -41,8 +41,18 @@ public class RabbitConnectionFactory implements ConnectionFactory {
 
     @Override
     public Connection connect(int amountChannels) throws RabbitException {
+        return connect(amountChannels, connectionNameStrategy.connectionName());
+    }
+
+    @Override
+    public Connection connect(String name) throws RabbitException {
+        return connect(4, name);
+    }
+
+    @Override
+    public Connection connect(int amountChannels, String name) throws RabbitException {
         try {
-            RabbitConnection connection = new RabbitConnection(connectionFactory.newConnection(connectionNameStrategy.connectionName()), new FixedChannelPool(amountChannels));
+            RabbitConnection connection = new RabbitConnection(connectionFactory.newConnection(name), new FixedChannelPool(amountChannels));
             connection.allocateChannels();
             return connection;
         } catch (IOException | TimeoutException e) {
