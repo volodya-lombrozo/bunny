@@ -26,7 +26,7 @@ public class ExchangeBindingTest {
         assertEquals(source.name(), binding.source());
         assertEquals(destination.name(), binding.destination());
         assertEquals(routingKey, binding.routingKey());
-        verify(mockChannel, times(1)).create(binding);
+        verify(mockChannel, times(1)).declare(binding);
     }
 
 }

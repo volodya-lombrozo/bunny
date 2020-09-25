@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lombrozo.bunny.connection.Channel;
 import org.lombrozo.bunny.connection.TestConnection;
+import org.lombrozo.bunny.domain.destination.ExchangeDestination;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.mockito.Mockito;
@@ -29,7 +30,7 @@ public class NamedExchangeTest {
 
         exchange.declare();
 
-        verify(channel, times(1)).create(exchange);
+        verify(channel, times(1)).declare(exchange);
     }
 
 
@@ -40,6 +41,6 @@ public class NamedExchangeTest {
 
         exchange.send(message);
 
-        verify(channel, times(1)).publish(exchange, message);
+        verify(channel, times(1)).publish(new ExchangeDestination(exchange), message);
     }
 }

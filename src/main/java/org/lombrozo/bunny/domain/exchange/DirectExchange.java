@@ -9,11 +9,7 @@ public class DirectExchange implements Exchange {
     private final Exchange exchange;
 
     public DirectExchange(String name, Connection connection) {
-        this(name, "", connection);
-    }
-
-    public DirectExchange(String name, String routingKey, Connection connection) {
-        this(new NamedExchange(name, routingKey, ExchangeType.DIRECT, connection));
+        this(new NamedExchange(name, ExchangeType.DIRECT, connection));
     }
 
     public DirectExchange(Exchange exchange) {
@@ -36,13 +32,8 @@ public class DirectExchange implements Exchange {
     }
 
     @Override
-    public String exchangeName() {
-        return exchange.name();
-    }
-
-    @Override
-    public String routingKey() {
-        return exchange.routingKey();
+    public void send(String routingKey, Message message) throws RabbitException {
+        exchange.send(routingKey, message);
     }
 
     @Override

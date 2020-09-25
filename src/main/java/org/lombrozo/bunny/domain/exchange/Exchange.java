@@ -5,14 +5,18 @@ import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
-public interface Exchange extends Destination, Declarable {
+public interface Exchange extends Declarable {
     String name();
 
     void declare() throws RabbitException;
 
     ExchangeType type();
 
-    class Fake implements Exchange{
+    void send(String routingKey, Message message) throws RabbitException;
+
+    void send(Message message) throws RabbitException;
+
+    class Fake implements Exchange {
 
         @Override
         public String name() {
@@ -29,17 +33,13 @@ public interface Exchange extends Destination, Declarable {
         }
 
         @Override
-        public String exchangeName() {
-            return "fake";
-        }
+        public void send(String routingKey, Message message) {
 
-        @Override
-        public String routingKey() {
-            return "fake";
         }
 
         @Override
         public void send(Message ignore) {
         }
+
     }
 }

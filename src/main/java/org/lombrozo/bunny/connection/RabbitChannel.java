@@ -46,7 +46,7 @@ public class RabbitChannel implements Channel {
     }
 
     @Override
-    public void create(Queue queue) throws RabbitException {
+    public void declare(Queue queue) throws RabbitException {
         try {
             QueueDescription description = queue.description();
             channel.queueDeclare(queue.name(), description.durable(), description.exclusive(), description.autoDelete(), description.params());
@@ -56,7 +56,7 @@ public class RabbitChannel implements Channel {
     }
 
     @Override
-    public void create(Exchange exchange) throws RabbitException {
+    public void declare(Exchange exchange) throws RabbitException {
         try {
             channel.exchangeDeclare(exchange.name(), exchange.type().toString());
         } catch (IOException e) {
@@ -65,7 +65,7 @@ public class RabbitChannel implements Channel {
     }
 
     @Override
-    public void create(QueueBinding binding) throws RabbitException {
+    public void declare(QueueBinding binding) throws RabbitException {
         try {
             channel.queueBind(binding.destination(), binding.source(), binding.routingKey());
         } catch (IOException e) {
@@ -74,7 +74,7 @@ public class RabbitChannel implements Channel {
     }
 
     @Override
-    public void create(ExchangeBinding binding) throws RabbitException {
+    public void declare(ExchangeBinding binding) throws RabbitException {
         try {
             channel.exchangeBind(binding.destination(), binding.source(), binding.routingKey());
         } catch (IOException e) {

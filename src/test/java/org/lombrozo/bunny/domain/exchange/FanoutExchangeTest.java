@@ -15,26 +15,13 @@ public class FanoutExchangeTest {
     @Test
     public void allFieldsTest() {
         String expectedName = "name";
-        String expectedKey = "key";
-        Exchange exchange = new FanoutExchange(expectedName, expectedKey, new Connection.Fake());
+        Exchange exchange = new FanoutExchange(expectedName,  new Connection.Fake());
 
         ExchangeType type = exchange.type();
 
         assertEquals(ExchangeType.FANOUT, type);
         assertEquals(expectedName, exchange.name());
-        assertEquals(expectedName, exchange.exchangeName());
-        assertEquals(expectedKey, exchange.routingKey());
     }
-
-    @Test
-    public void withoutRoutingKeyTest() {
-        Exchange exchange = new FanoutExchange("", new Connection.Fake());
-
-        String routingKey = exchange.routingKey();
-
-        assertEquals("", routingKey);
-    }
-
 
     @Test
     public void createTest() throws RabbitException {

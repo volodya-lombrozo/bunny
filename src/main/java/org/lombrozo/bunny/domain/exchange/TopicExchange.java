@@ -9,11 +9,7 @@ public class TopicExchange implements Exchange {
     private final Exchange exchange;
 
     public TopicExchange(String name, Connection connection) {
-        this(name, "", connection);
-    }
-
-    public TopicExchange(String name, String routingKey, Connection connection) {
-        this(new NamedExchange(name, routingKey, ExchangeType.TOPIC, connection));
+        this(new NamedExchange(name, ExchangeType.TOPIC, connection));
     }
 
     public TopicExchange(Exchange exchange) {
@@ -36,13 +32,8 @@ public class TopicExchange implements Exchange {
     }
 
     @Override
-    public String exchangeName() {
-        return exchange.name();
-    }
-
-    @Override
-    public String routingKey() {
-        return exchange.routingKey();
+    public void send(String routingKey, Message message) throws RabbitException {
+        exchange.send(routingKey, message);
     }
 
     @Override

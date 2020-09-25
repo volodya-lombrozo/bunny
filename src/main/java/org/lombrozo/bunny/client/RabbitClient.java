@@ -2,6 +2,7 @@ package org.lombrozo.bunny.client;
 
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.domain.destination.Destination;
+import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.Message;
@@ -19,12 +20,12 @@ public class RabbitClient implements Client {
     private final ResponseSource callbackSource;
 
     public RabbitClient(Connection connection, String destinationQueue, String replyQueue) {
-        this(new NamedQueue(destinationQueue, connection).toDestination(), new NamedQueue(replyQueue, connection),
+        this(new QueueDestination(new NamedQueue(destinationQueue, connection)), new NamedQueue(replyQueue, connection),
                 new MapResponseSource());
     }
 
     public RabbitClient(Queue destinationQueue, Queue queue) {
-        this(destinationQueue.toDestination(), queue);
+        this(new QueueDestination(destinationQueue), queue);
     }
 
     public RabbitClient(Destination destination, Queue replyQueue) {

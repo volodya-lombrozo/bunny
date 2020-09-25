@@ -27,7 +27,7 @@ public class QueueBindingTest {
         assertEquals(exchange.name(), binding.source());
         assertEquals(queue.name(), binding.destination());
         assertEquals(routingKey, binding.routingKey());
-        verify(mockChannel, times(1)).create(binding);
+        verify(mockChannel, times(1)).declare(binding);
     }
 
 

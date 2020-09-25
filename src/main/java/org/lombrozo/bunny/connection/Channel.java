@@ -16,13 +16,13 @@ public interface Channel {
 
     void publish(Destination rabbitDestination, Message message) throws RabbitException;
 
-    void create(Queue queue) throws RabbitException;
+    void declare(Queue queue) throws RabbitException;
 
-    void create(Exchange exchange) throws RabbitException;
+    void declare(Exchange exchange) throws RabbitException;
 
-    void create(QueueBinding binding) throws RabbitException;
+    void declare(QueueBinding binding) throws RabbitException;
 
-    void create(ExchangeBinding binding) throws RabbitException;
+    void declare(ExchangeBinding binding) throws RabbitException;
 
     class Fake implements Channel {
 
@@ -37,22 +37,22 @@ public interface Channel {
         }
 
         @Override
-        public void create(Queue ignore) {
+        public void declare(Queue ignore) {
 
         }
 
         @Override
-        public void create(Exchange ignore) {
+        public void declare(Exchange ignore) {
 
         }
 
         @Override
-        public void create(QueueBinding ignore) {
+        public void declare(QueueBinding ignore) {
 
         }
 
         @Override
-        public void create(ExchangeBinding ignore) {
+        public void declare(ExchangeBinding ignore) {
 
         }
 

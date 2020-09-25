@@ -17,25 +17,13 @@ public class DirectExchangeTest {
     public void allFieldsTest() {
         String expectedName = "name";
         String expectedKey = "key";
-        Exchange exchange = new DirectExchange(expectedName, expectedKey, new Connection.Fake());
+        Exchange exchange = new DirectExchange(expectedName, new Connection.Fake());
 
         ExchangeType type = exchange.type();
 
         assertEquals(ExchangeType.DIRECT, type);
         assertEquals(expectedName, exchange.name());
-        assertEquals(expectedName, exchange.exchangeName());
-        assertEquals(expectedKey, exchange.routingKey());
     }
-
-    @Test
-    public void withoutRoutingKeyTest() {
-        Exchange exchange = new DirectExchange("", new Connection.Fake());
-
-        String routingKey = exchange.routingKey();
-
-        assertEquals("", routingKey);
-    }
-
 
     @Test
     public void createTest() throws RabbitException {

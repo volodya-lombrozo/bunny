@@ -8,12 +8,8 @@ public class FanoutExchange implements Exchange {
 
     private final Exchange exchange;
 
-    public FanoutExchange(String name, Connection connection){
-        this(name, "", connection);
-    }
-
-    public FanoutExchange(String name, String routingKey, Connection connection) {
-        this(new NamedExchange(name, routingKey, ExchangeType.FANOUT, connection));
+    public FanoutExchange(String name, Connection connection) {
+        this(new NamedExchange(name, ExchangeType.FANOUT, connection));
     }
 
     public FanoutExchange(Exchange exchange) {
@@ -36,13 +32,8 @@ public class FanoutExchange implements Exchange {
     }
 
     @Override
-    public String exchangeName() {
-        return exchange.name();
-    }
-
-    @Override
-    public String routingKey() {
-        return exchange.routingKey();
+    public void send(String routingKey, Message message) throws RabbitException {
+        exchange.send(routingKey, message);
     }
 
     @Override

@@ -36,6 +36,6 @@ public class QueueBinding implements Binding {
 
     @Override
     public void declare() throws RabbitException {
-        connection.channel().create(this);
+        connection.channel().declare(this);
     }
 }

@@ -1,18 +1,17 @@
 package org.lombrozo.bunny.domain.destination;
 
-import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
+import java.util.Objects;
+
 public class QueueDestination implements Destination {
 
     private final Queue queue;
-    private final Connection connection;
 
-    public QueueDestination(Queue queue, Connection connection) {
+    public QueueDestination(Queue queue) {
         this.queue = queue;
-        this.connection = connection;
     }
 
     @Override
@@ -27,6 +26,26 @@ public class QueueDestination implements Destination {
 
     @Override
     public void send(Message message) throws RabbitException {
-        connection.channel().publish(this, message);
+        queue.send(message);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QueueDestination that = (QueueDestination) o;
+        return Objects.equals(queue, that.queue);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(queue);
+    }
+
+    @Override
+    public String toString() {
+        return "QueueDestination{" +
+                "queue=" + queue +
+                '}';
     }
 }

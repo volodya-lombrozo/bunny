@@ -3,11 +3,11 @@ package org.lombrozo.bunny.connection;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.destination.Destination;
+import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.message.Message;
-import org.lombrozo.bunny.message.ReplyToDestination;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class TestChannel implements Channel {
 
     private void submitListenCommand(Queue queue, Work work) {
         try {
-            String key = key(queue.toDestination());
+            String key = key(new QueueDestination(queue));
             Message message = queueByKey(key).take();
             work.doWork(message);
         } catch (InterruptedException | RabbitException e) {
@@ -54,22 +54,21 @@ public class TestChannel implements Channel {
     }
 
     @Override
-    public void create(Queue queue) {
-        initInMemoryQueue(new ReplyToDestination(queue.toDestination()).value());
+    public void declare(Queue queue) {
+        initInMemoryQueue(key(new QueueDestination(queue)));
     }
 
     @Override
-    public void create(Exchange exchange) {
-        initInMemoryQueue(new ReplyToDestination(exchange).value());
+    public void declare(Exchange exchange) {
     }
 
     @Override
-    public void create(QueueBinding ignore) {
+    public void declare(QueueBinding ignore) {
 
     }
 
     @Override
-    public void create(ExchangeBinding ignore) {
+    public void declare(ExchangeBinding ignore) {
 
     }
 

@@ -15,26 +15,13 @@ public class TopicExchangeTest {
     @Test
     public void allFieldsTest() {
         String expectedName = "name";
-        String expectedKey = "key";
-        Exchange exchange = new TopicExchange(expectedName, expectedKey, new Connection.Fake());
+        Exchange exchange = new TopicExchange(expectedName, new Connection.Fake());
 
         ExchangeType type = exchange.type();
 
         assertEquals(ExchangeType.TOPIC, type);
         assertEquals(expectedName, exchange.name());
-        assertEquals(expectedName, exchange.exchangeName());
-        assertEquals(expectedKey, exchange.routingKey());
     }
-
-    @Test
-    public void withoutRoutingKeyTest() {
-        TopicExchange exchange = new TopicExchange("", new Connection.Fake());
-
-        String routingKey = exchange.routingKey();
-
-        assertEquals("", routingKey);
-    }
-
 
     @Test
     public void createTest() throws RabbitException {
