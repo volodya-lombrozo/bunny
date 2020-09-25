@@ -18,12 +18,12 @@ import static org.junit.Assert.assertNotNull;
 public class TestChannelTest {
 
 
-    @Test
+    @Test(timeout = 100)
     public void publishAndListenTest_successful() throws RabbitException {
         Channel channel = new TestChannel();
         Queue queue = new Queue.Fake();
         LatchWork work = new LatchWork();
-        channel.publish(queue, new Message.Fake());
+        channel.publish(queue.toDestination(), new Message.Fake());
 
         channel.listenQueue(queue, work);
 

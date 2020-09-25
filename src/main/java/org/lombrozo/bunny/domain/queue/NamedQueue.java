@@ -1,6 +1,8 @@
 package org.lombrozo.bunny.domain.queue;
 
 import org.lombrozo.bunny.connection.Connection;
+import org.lombrozo.bunny.domain.destination.Destination;
+import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.util.RandomString;
 import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.message.Message;
@@ -49,18 +51,13 @@ public class NamedQueue implements Queue {
     }
 
     @Override
-    public String exchangeName() {
-        return "";
-    }
-
-    @Override
-    public String routingKey() {
-        return name();
-    }
-
-    @Override
     public void send(Message message) throws RabbitException {
-        connection.channel().publish(this, message);
+        toDestination().send(message);
+    }
+
+    @Override
+    public Destination toDestination() {
+        return new QueueDestination(this, connection);
     }
 
     @Override

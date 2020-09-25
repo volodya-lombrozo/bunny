@@ -1,6 +1,5 @@
 package org.lombrozo.bunny.connection;
 
-import org.lombrozo.bunny.domain.binding.Binding;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.destination.Destination;
@@ -41,7 +40,7 @@ public class TestChannel implements Channel {
 
     private void submitListenCommand(Queue queue, Work work) {
         try {
-            String key = key(queue);
+            String key = key(queue.toDestination());
             Message message = queueByKey(key).take();
             work.doWork(message);
         } catch (InterruptedException | RabbitException e) {
@@ -56,7 +55,7 @@ public class TestChannel implements Channel {
 
     @Override
     public void create(Queue queue) {
-        initInMemoryQueue(new ReplyToDestination(queue).value());
+        initInMemoryQueue(new ReplyToDestination(queue.toDestination()).value());
     }
 
     @Override

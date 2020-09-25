@@ -3,12 +3,17 @@ package org.lombrozo.bunny.message;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.destination.DotReplyToFormatStrategy;
 import org.lombrozo.bunny.domain.destination.ReplyToFormatStrategy;
+import org.lombrozo.bunny.domain.queue.Queue;
 
 public class ReplyToDestination implements Property {
 
 
     private final Destination destination;
     private final ReplyToFormatStrategy strategy;
+
+    public ReplyToDestination(Queue queue) {
+        this(queue.toDestination());
+    }
 
     public ReplyToDestination(Destination destination) {
         this(destination, new DotReplyToFormatStrategy());
