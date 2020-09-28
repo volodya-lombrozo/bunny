@@ -6,7 +6,7 @@ import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.destination.ReplyToFormatStrategy;
 import org.lombrozo.bunny.domain.queue.Queue;
 
-public class ReplyToDestination implements Property {
+public class ReplyToDestination implements ReplyProperty {
 
 
     private final Destination destination;

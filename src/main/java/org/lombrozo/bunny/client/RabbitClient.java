@@ -36,18 +36,23 @@ public class RabbitClient implements Client {
     }
 
     @Override
-    public FutureMessage send(Message message) throws RabbitException {
+    public FutureMessage send(Message message, ReplyProperty replyToDestination) throws RabbitException {
         try {
             FutureMessage observable = new RabbitFutureMessage();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
             callbackSource.save(correlationId, observable);
             listenQueue.subscribe(callbackSource::runCallback);
-            Message sendingMessage = new RabbitMessage(message, new ReplyToDestination(new QueueDestination(listenQueue)));
+            Message sendingMessage = new RabbitMessage(message, replyToDestination);
             destination.send(sendingMessage);
             return observable;
         } catch (EmptyCorrelationId emptyCorrelationId) {
             throw new RabbitException(emptyCorrelationId);
         }
+    }
+
+    @Override
+    public FutureMessage send(Message message) throws RabbitException {
+        return send(message, new ReplyToDestination(new QueueDestination(listenQueue)));
     }
 
     @Override

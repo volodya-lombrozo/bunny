@@ -1,11 +1,12 @@
 package org.lombrozo.bunny.client;
 
-import org.lombrozo.bunny.message.Message;
+import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.message.FutureMessage;
 
 
 public interface Client {
+
+    FutureMessage send(Message message, ReplyProperty replyToDestination) throws RabbitException;
 
     FutureMessage send(Message message) throws RabbitException;
 
