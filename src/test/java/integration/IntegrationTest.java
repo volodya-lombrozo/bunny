@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.host.RabbitHost;
 import org.lombrozo.bunny.client.RabbitClient;
 import org.lombrozo.bunny.connection.Connection;
@@ -63,11 +64,11 @@ public class IntegrationTest {
         NamedQueue sendQueue = new NamedQueue("send", connection);
         replyQueue.declare();
         sendQueue.declare();
-        RabbitClient client = new RabbitClient(sendQueue, replyQueue);
+        RabbitClient client = new RabbitClient(replyQueue);
         new ResponsibleQueueConsumer(sendQueue, connection).subscribe(new Handler.Echo());
 
         FutureMessage answer = client
-                .send(new RabbitMessage("'Hello' form library", new CorrelationId(), new ReplyToDestination(replyQueue)))
+                .send(new QueueDestination(sendQueue), new RabbitMessage("'Hello' form library", new CorrelationId(), new ReplyToDestination(replyQueue)))
                 .thenAccept(System.out::println)
                 .thenAccept(Assert::assertNotNull);
 

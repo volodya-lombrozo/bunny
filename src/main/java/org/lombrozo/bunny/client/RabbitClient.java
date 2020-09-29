@@ -2,57 +2,51 @@ package org.lombrozo.bunny.client;
 
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.domain.destination.Destination;
-import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
+import org.lombrozo.bunny.util.exceptions.EmptyReplyToProperty;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 
 public class RabbitClient implements Client {
 
-    private final Destination destination;
-    private final Queue listenQueue;
+    private final Queue replyQueue;
     private final ResponseSource callbackSource;
 
-    public RabbitClient(Connection connection, String destinationQueue, String replyQueue) {
-        this(new QueueDestination(new NamedQueue(destinationQueue, connection)), new NamedQueue(replyQueue, connection),
-                new MapResponseSource());
+    public RabbitClient(Connection connection, String replyQueue) {
+        this(new NamedQueue(replyQueue, connection), new MapResponseSource());
     }
 
-    public RabbitClient(Queue destinationQueue, Queue queue) {
-        this(new QueueDestination(destinationQueue), queue);
+    public RabbitClient(Queue replyQueue) {
+        this(replyQueue, new MapResponseSource());
     }
 
-    public RabbitClient(Destination destination, Queue replyQueue) {
-        this(destination, replyQueue, new MapResponseSource());
-    }
-
-    public RabbitClient(Destination destination, Queue replyQueue, ResponseSource source) {
-        this.destination = destination;
-        this.listenQueue = replyQueue;
+    public RabbitClient(Queue replyQueue, ResponseSource source) {
+        this.replyQueue = replyQueue;
         this.callbackSource = source;
     }
 
-
     @Override
-    public FutureMessage send(Message message) throws RabbitException {
+    public FutureMessage send(Destination destination, Message message) throws RabbitException {
         try {
+            checkRequiredProperties(message);
             FutureMessage observable = new RabbitFutureMessage();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
             callbackSource.save(correlationId, observable);
-            listenQueue.subscribe(callbackSource::runCallback);
+            replyQueue.subscribe(callbackSource::runCallback);
             destination.send(message);
             return observable;
-        } catch (EmptyCorrelationId emptyCorrelationId) {
-            throw new RabbitException(emptyCorrelationId);
+        } catch (EmptyCorrelationId | EmptyReplyToProperty e) {
+            throw new RabbitException(e);
         }
     }
 
-    @Override
-    public void publish(Message message) throws RabbitException {
-        destination.send(message);
-    }
 
+    private void checkRequiredProperties(Message message) throws EmptyCorrelationId, EmptyReplyToProperty {
+        Properties properties = message.properties();
+        if (!properties.containsProperty(PropertyKey.CORRELATION_ID)) throw new EmptyCorrelationId();
+        if (!properties.containsProperty(PropertyKey.REPLY_TO)) throw new EmptyReplyToProperty();
+    }
 }
