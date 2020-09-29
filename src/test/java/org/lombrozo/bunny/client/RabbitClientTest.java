@@ -31,7 +31,7 @@ public class RabbitClientTest {
     @Test(timeout = 100)
     public void send_queueNamesOnly_successfulSendAndReceive() throws RabbitException {
         RabbitClient client = new RabbitClient(connection, replyQueueName);
-        Message message = new RPCMessage("hello", new ReplyTo("4." + replyQueueName));
+        Message message = new RPCMessage("hello", new ReplyTo("." + replyQueueName));
         QueueDestination destination = new QueueDestination(new NamedQueue(sendQueueName, connection));
 
         new ResponsibleQueueConsumer(sendQueueName, connection)
