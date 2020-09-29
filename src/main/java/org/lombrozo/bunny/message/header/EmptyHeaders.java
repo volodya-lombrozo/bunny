@@ -11,7 +11,8 @@ public class EmptyHeaders implements Headers {
     }
 
     @Override
-    public void add(Header header) {
+    public Headers add(Header header) {
+        return this;
     }
 
     @Override

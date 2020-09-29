@@ -2,6 +2,7 @@ package org.lombrozo.bunny.domain.binding;
 
 
 import org.lombrozo.bunny.domain.Declarable;
+import org.lombrozo.bunny.message.Message;
 
 public interface Binding extends Declarable {
 
@@ -32,5 +33,6 @@ public interface Binding extends Declarable {
         public String routingKey() {
             return "";
         }
+
     }
 }

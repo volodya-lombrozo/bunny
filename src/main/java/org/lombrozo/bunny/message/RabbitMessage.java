@@ -26,6 +26,10 @@ public class RabbitMessage implements Message {
         this(new StringBody(message), properties, new EmptyHeaders());
     }
 
+    public RabbitMessage(Body body, Headers headers) {
+        this(body, new EmptyProperties(), headers);
+    }
+
     public RabbitMessage(String message) {
         this(new StringBody(message));
     }

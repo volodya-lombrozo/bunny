@@ -22,8 +22,9 @@ public class HeadersMap implements Headers {
     }
 
     @Override
-    public void add(Header header) {
+    public Headers add(Header header) {
         headersMap.put(header.key(), header.value());
+        return this;
     }
 
     @Override

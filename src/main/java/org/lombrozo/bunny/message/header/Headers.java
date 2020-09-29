@@ -6,14 +6,15 @@ import java.util.Map;
 
 public interface Headers {
 
-    void add(Header header);
+    Headers add(Header header);
 
     Map<String, Object> toMap();
 
     class Fake implements Headers {
 
         @Override
-        public void add(Header header) {
+        public Headers add(Header header) {
+            return this;
         }
 
         @Override
