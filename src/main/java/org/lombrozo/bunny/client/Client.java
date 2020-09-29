@@ -6,8 +6,6 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 public interface Client {
 
-    FutureMessage send(Message message, ReplyProperty replyToDestination) throws RabbitException;
-
     FutureMessage send(Message message) throws RabbitException;
 
     void publish(Message message) throws RabbitException;
