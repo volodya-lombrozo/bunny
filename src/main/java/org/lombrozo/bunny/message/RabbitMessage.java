@@ -1,5 +1,8 @@
 package org.lombrozo.bunny.message;
 
+import org.lombrozo.bunny.message.header.EmptyHeaders;
+import org.lombrozo.bunny.message.header.Headers;
+
 public class RabbitMessage implements Message {
 
     private final DeliveryMode deliveryMode;

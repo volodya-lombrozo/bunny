@@ -1,5 +1,7 @@
 package org.lombrozo.bunny.message;
 
+import org.lombrozo.bunny.message.header.Headers;
+
 public interface Message {
 
     DeliveryMode deliveryMode();

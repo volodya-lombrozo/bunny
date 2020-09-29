@@ -37,7 +37,7 @@ public class RabbitChannel implements Channel {
     @Override
     public void publish(Destination rabbitDestination, Message message) throws RabbitException {
         try {
-            OutboxPropertiesAdapter adapter = new OutboxPropertiesAdapter(message.properties());
+            OutboxPropertiesAdapter adapter = new OutboxPropertiesAdapter(message.properties(), message.headers());
             channel.basicPublish(rabbitDestination.exchangeName(), rabbitDestination.routingKey(), adapter.toRabbitProperties(),
                     message.body().toByteArray());
         } catch (IOException e) {
@@ -95,7 +95,8 @@ public class RabbitChannel implements Channel {
         @Override
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
             try {
-                work.doWork(new RabbitMessage(new ByteBody(body), new IncomingPropertiesAdapter(properties).toProperties()));
+                IncomingPropertiesAdapter adapter = new IncomingPropertiesAdapter(properties);
+                work.doWork(new RabbitMessage(new ByteBody(body), adapter.toProperties(), adapter.toHeaders()));
             } catch (RabbitException e) {
                 e.printStackTrace();
             }

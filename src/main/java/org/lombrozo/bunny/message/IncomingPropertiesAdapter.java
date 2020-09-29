@@ -1,6 +1,8 @@
 package org.lombrozo.bunny.message;
 
 import com.rabbitmq.client.AMQP;
+import org.lombrozo.bunny.message.header.Headers;
+import org.lombrozo.bunny.message.header.HeadersMap;
 
 public class IncomingPropertiesAdapter {
 
@@ -22,5 +24,9 @@ public class IncomingPropertiesAdapter {
         if (type != null && !type.isEmpty())
             res.put(new Type(type));
         return res;
+    }
+
+    public Headers toHeaders() {
+        return new HeadersMap(properties.getHeaders());
     }
 }

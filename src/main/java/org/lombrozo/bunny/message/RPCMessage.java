@@ -1,5 +1,7 @@
 package org.lombrozo.bunny.message;
 
+import org.lombrozo.bunny.message.header.Headers;
+
 public class RPCMessage implements Message {
 
     private final Message message;
