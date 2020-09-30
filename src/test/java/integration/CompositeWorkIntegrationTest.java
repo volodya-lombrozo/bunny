@@ -38,7 +38,7 @@ public class CompositeWorkIntegrationTest {
         RabbitMessage secondMessage = new RabbitMessage("second message", new Type(secondType));
         RabbitMessage thirdMessage = new RabbitMessage("third message", new Type(thirdType));
         DirectExchange exchange = new DirectExchange(connection, "TestExch");
-        NamedQueue queue = new NamedQueue("testQueue", connection);
+        NamedQueue queue = new NamedQueue(connection, "testQueue");
         QueueBinding binding = new QueueBinding(exchange, queue, "#", connection);
         new RabbitTopology().register(exchange, queue, binding).createAll();
         CompositeWork compositeWork = new CompositeWork();

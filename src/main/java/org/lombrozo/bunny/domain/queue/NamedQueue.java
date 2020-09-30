@@ -16,18 +16,18 @@ public class NamedQueue implements Queue {
     private final QueueDescription description;
 
     public NamedQueue(Connection connection) {
-        this(new RandomString().toString(), connection);
+        this(connection, new RandomString().toString());
     }
 
-    public NamedQueue(String queueName, Connection connection) {
-        this(queueName, connection, new QueueDescription.Default());
+    public NamedQueue(Connection connection, String queueName) {
+        this(connection, queueName, new QueueDescription.Default());
     }
 
     public NamedQueue(Connection connection, QueueDescription description) {
-        this(new RandomString().toString(), connection, description);
+        this(connection, new RandomString().toString(), description);
     }
 
-    public NamedQueue(String queueName, Connection connection, QueueDescription description) {
+    public NamedQueue(Connection connection, String queueName, QueueDescription description) {
         this.queueName = queueName;
         this.connection = connection;
         this.description = description;

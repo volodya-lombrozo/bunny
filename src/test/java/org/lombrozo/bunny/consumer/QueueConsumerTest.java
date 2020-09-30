@@ -22,7 +22,7 @@ public class QueueConsumerTest {
         CountDownLatch latch = new CountDownLatch(1);
         Connection connection = new TestConnection();
         connection.allocateChannels();
-        NamedQueue namedQueue = new NamedQueue(queueName, connection);
+        NamedQueue namedQueue = new NamedQueue(connection, queueName);
         ResponsibleQueueConsumer consumer = new ResponsibleQueueConsumer(namedQueue, connection);
 
         consumer.subscribe(new ConsumerHandler(message -> latch.countDown()));
@@ -43,7 +43,7 @@ public class QueueConsumerTest {
 
         consumer.subscribe(new ConsumerHandler(message -> latch.countDown()));
 
-        new NamedQueue(queueName, connection).send(new Message.Fake());
+        new NamedQueue(connection, queueName).send(new Message.Fake());
         latch.await();
         assertEquals(0L, latch.getCount());
     }

@@ -18,7 +18,7 @@ public class RabbitClient implements Client {
     private final ResponseSource callbackSource;
 
     public RabbitClient(Connection connection, String replyQueue) {
-        this(new NamedQueue(replyQueue, connection), new MapResponseSource());
+        this(new NamedQueue(connection, replyQueue), new MapResponseSource());
     }
 
     public RabbitClient(Queue replyQueue) {

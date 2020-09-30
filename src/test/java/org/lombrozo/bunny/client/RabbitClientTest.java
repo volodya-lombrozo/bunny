@@ -32,7 +32,7 @@ public class RabbitClientTest {
     public void send_queueNamesOnly_successfulSendAndReceive() throws RabbitException {
         RabbitClient client = new RabbitClient(connection, replyQueueName);
         Message message = new RPCMessage("hello", new ReplyTo("." + replyQueueName));
-        QueueDestination destination = new QueueDestination(new NamedQueue(sendQueueName, connection));
+        QueueDestination destination = new QueueDestination(new NamedQueue(connection, sendQueueName));
 
         new ResponsibleQueueConsumer(sendQueueName, connection)
                 .subscribe(new Handler.Echo());
@@ -46,8 +46,8 @@ public class RabbitClientTest {
 
     @Test(timeout = 100)
     public void send_queuesConstructor_successfulSendAndReceive() throws RabbitException {
-        NamedQueue sendQueue = new NamedQueue(sendQueueName, connection);
-        NamedQueue replyQueue = new NamedQueue(replyQueueName, connection);
+        NamedQueue sendQueue = new NamedQueue(connection, sendQueueName);
+        NamedQueue replyQueue = new NamedQueue(connection, replyQueueName);
         RabbitClient client = new RabbitClient(replyQueue);
         Message message = new RPCMessage("hello", new ReplyToDestination(replyQueue));
         new ResponsibleQueueConsumer(sendQueueName, connection).subscribe(new Handler.Echo());

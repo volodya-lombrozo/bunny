@@ -16,7 +16,7 @@ public class ResponsibleQueueConsumer implements ResponsibleConsumer {
     private final Connection connection;
 
     public ResponsibleQueueConsumer(String queueName, Connection connection) {
-        this(new NamedQueue(queueName, connection), connection);
+        this(new NamedQueue(connection, queueName), connection);
     }
 
     public ResponsibleQueueConsumer(Queue queue, Connection connection) {
