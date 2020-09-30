@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.message;
+package org.lombrozo.bunny.message.properties;
 
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.destination.DotReplyToFormatStrategy;

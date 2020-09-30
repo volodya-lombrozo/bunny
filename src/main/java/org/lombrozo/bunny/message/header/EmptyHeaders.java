@@ -16,6 +16,11 @@ public class EmptyHeaders implements Headers {
     }
 
     @Override
+    public Headers add(Headers headers) {
+        return this;
+    }
+
+    @Override
     public Map<String, Object> toMap() {
         return new HashMap<>();
     }

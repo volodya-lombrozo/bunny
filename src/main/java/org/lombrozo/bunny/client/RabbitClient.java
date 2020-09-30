@@ -5,6 +5,8 @@ import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.*;
+import org.lombrozo.bunny.message.properties.Properties;
+import org.lombrozo.bunny.message.properties.PropertyKey;
 import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 import org.lombrozo.bunny.util.exceptions.EmptyReplyToProperty;
 import org.lombrozo.bunny.util.exceptions.RabbitException;

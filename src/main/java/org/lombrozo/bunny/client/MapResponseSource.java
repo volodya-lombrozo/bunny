@@ -2,7 +2,7 @@ package org.lombrozo.bunny.client;
 
 import org.lombrozo.bunny.message.FutureMessage;
 import org.lombrozo.bunny.message.Message;
-import org.lombrozo.bunny.message.PropertyKey;
+import org.lombrozo.bunny.message.properties.PropertyKey;
 import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 
 import java.util.concurrent.ConcurrentHashMap;

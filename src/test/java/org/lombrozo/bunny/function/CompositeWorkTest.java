@@ -2,7 +2,7 @@ package org.lombrozo.bunny.function;
 
 import org.junit.Test;
 import org.lombrozo.bunny.message.RabbitMessage;
-import org.lombrozo.bunny.message.Type;
+import org.lombrozo.bunny.message.properties.Type;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 

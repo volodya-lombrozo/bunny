@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.message;
+package org.lombrozo.bunny.message.properties;
 
 
 public interface Properties {

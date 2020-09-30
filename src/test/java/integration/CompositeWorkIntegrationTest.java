@@ -14,7 +14,7 @@ import org.lombrozo.bunny.function.LatchWork;
 import org.lombrozo.bunny.function.CompositeWork;
 import org.lombrozo.bunny.host.RabbitHost;
 import org.lombrozo.bunny.message.RabbitMessage;
-import org.lombrozo.bunny.message.Type;
+import org.lombrozo.bunny.message.properties.Type;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 @Ignore("For manual testing only")

@@ -1,7 +1,7 @@
 package org.lombrozo.bunny.function;
 
 import org.lombrozo.bunny.message.Message;
-import org.lombrozo.bunny.message.PropertyKey;
+import org.lombrozo.bunny.message.properties.PropertyKey;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.Arrays;

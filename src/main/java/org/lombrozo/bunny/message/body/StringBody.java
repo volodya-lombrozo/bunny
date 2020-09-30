@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.message;
+package org.lombrozo.bunny.message.body;
 
 import org.lombrozo.bunny.util.RandomString;
 

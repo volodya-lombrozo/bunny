@@ -1,4 +1,4 @@
-package org.lombrozo.bunny.message;
+package org.lombrozo.bunny.message.delivery;
 
 public class NonPersistent implements DeliveryMode{
 

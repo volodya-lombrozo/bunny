@@ -9,9 +9,9 @@ import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.function.Handler;
 import org.lombrozo.bunny.message.*;
+import org.lombrozo.bunny.message.properties.ReplyTo;
+import org.lombrozo.bunny.message.properties.ReplyToDestination;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-
-import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.*;
 

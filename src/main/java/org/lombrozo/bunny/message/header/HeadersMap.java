@@ -28,6 +28,12 @@ public class HeadersMap implements Headers {
     }
 
     @Override
+    public Headers add(Headers headers) {
+        headersMap.putAll(headers.toMap());
+        return this;
+    }
+
+    @Override
     public Map<String, Object> toMap() {
         return new HashMap<>(headersMap);
     }

@@ -3,7 +3,6 @@ package org.lombrozo.bunny.connection;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
-import org.lombrozo.bunny.domain.binding.Binding;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.exchange.Exchange;
@@ -12,6 +11,7 @@ import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
+import org.lombrozo.bunny.message.body.ByteBody;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.io.IOException;

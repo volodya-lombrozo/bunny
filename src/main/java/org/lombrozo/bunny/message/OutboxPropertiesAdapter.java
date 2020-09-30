@@ -3,6 +3,8 @@ package org.lombrozo.bunny.message;
 
 import com.rabbitmq.client.AMQP;
 import org.lombrozo.bunny.message.header.Headers;
+import org.lombrozo.bunny.message.properties.Properties;
+import org.lombrozo.bunny.message.properties.PropertyKey;
 
 
 public class OutboxPropertiesAdapter {

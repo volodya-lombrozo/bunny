@@ -3,6 +3,7 @@ package org.lombrozo.bunny.message;
 import com.rabbitmq.client.AMQP;
 import org.lombrozo.bunny.message.header.Headers;
 import org.lombrozo.bunny.message.header.HeadersMap;
+import org.lombrozo.bunny.message.properties.*;
 
 public class IncomingPropertiesAdapter {
 

@@ -1,6 +1,9 @@
 package org.lombrozo.bunny.message;
 
+import org.lombrozo.bunny.message.body.Body;
 import org.lombrozo.bunny.message.header.Headers;
+import org.lombrozo.bunny.message.delivery.DeliveryMode;
+import org.lombrozo.bunny.message.properties.Properties;
 
 public interface Message {
 

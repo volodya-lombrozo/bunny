@@ -1,6 +1,8 @@
 package org.lombrozo.bunny.message;
 
 import org.junit.Test;
+import org.lombrozo.bunny.message.properties.PropertyKey;
+import org.lombrozo.bunny.message.properties.Type;
 
 import static org.junit.Assert.*;
 

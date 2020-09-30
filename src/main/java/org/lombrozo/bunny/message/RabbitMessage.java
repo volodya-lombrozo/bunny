@@ -1,7 +1,12 @@
 package org.lombrozo.bunny.message;
 
+import org.lombrozo.bunny.message.body.Body;
+import org.lombrozo.bunny.message.body.StringBody;
+import org.lombrozo.bunny.message.delivery.DeliveryMode;
+import org.lombrozo.bunny.message.delivery.Persistent;
 import org.lombrozo.bunny.message.header.EmptyHeaders;
 import org.lombrozo.bunny.message.header.Headers;
+import org.lombrozo.bunny.message.properties.*;
 
 public class RabbitMessage implements Message {
 

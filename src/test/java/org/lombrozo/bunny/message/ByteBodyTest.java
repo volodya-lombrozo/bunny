@@ -1,6 +1,8 @@
 package org.lombrozo.bunny.message;
 
 import org.junit.Test;
+import org.lombrozo.bunny.message.body.Body;
+import org.lombrozo.bunny.message.body.ByteBody;
 
 import static org.junit.Assert.*;
 
