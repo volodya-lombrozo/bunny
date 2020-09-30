@@ -5,6 +5,8 @@ import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.message.properties.Type;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
+import static org.junit.Assert.fail;
+
 
 public class CompositeWorkTest {
 
@@ -34,4 +36,28 @@ public class CompositeWorkTest {
 
         first.awaitSuccess();
     }
+
+
+    @Test(timeout = 100)
+    public void doWorkTest_addWorkByClass() throws RabbitException {
+        LatchWork original = new LatchWork();
+        CompositeWork compositeWork = new CompositeWork();
+        Class<String> type = String.class;
+        compositeWork.addWorkForMessageType(type, original);
+
+        compositeWork.doWork(new RabbitMessage("first message", new Type(type)));
+
+        original.awaitSuccess();
+    }
+
+
+    @Test(timeout = 100, expected = RabbitException.class)
+    public void doWorkTest_emptyCorrelationId() throws RabbitException {
+        CompositeWork compositeWork = new CompositeWork();
+
+        compositeWork.doWork(new RabbitMessage("first message"));
+
+        fail();
+    }
+
 }

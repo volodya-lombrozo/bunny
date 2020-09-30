@@ -6,4 +6,17 @@ public interface Header {
 
     String value();
 
+    class Fake implements Header {
+
+        @Override
+        public String key() {
+            return "";
+        }
+
+        @Override
+        public String value() {
+            return "";
+        }
+    }
+
 }

@@ -4,6 +4,10 @@ public class SpringTypeId implements Header {
 
     private final String value;
 
+    public SpringTypeId() {
+        this("");
+    }
+
     public SpringTypeId(Class<?> type) {
         this(type.getName());
     }

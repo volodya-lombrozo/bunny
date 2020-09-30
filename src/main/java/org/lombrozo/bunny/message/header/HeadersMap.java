@@ -3,6 +3,7 @@ package org.lombrozo.bunny.message.header;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class HeadersMap implements Headers {
@@ -31,6 +32,15 @@ public class HeadersMap implements Headers {
     public Headers add(Headers headers) {
         headersMap.putAll(headers.toMap());
         return this;
+    }
+
+    @Override
+    public Optional<Header> header(String key) {
+        if (!headersMap.containsKey(key))
+            return Optional.empty();
+        Object value = headersMap.get(key);
+        String stringValue = String.valueOf(value);
+        return Optional.of(new StringHeader(key, stringValue));
     }
 
     @Override

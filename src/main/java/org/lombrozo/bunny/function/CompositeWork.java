@@ -1,13 +1,13 @@
 package org.lombrozo.bunny.function;
 
 import org.lombrozo.bunny.message.Message;
+import org.lombrozo.bunny.message.header.Header;
+import org.lombrozo.bunny.message.header.SpringTypeId;
 import org.lombrozo.bunny.message.properties.PropertyKey;
+import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CompositeWork implements Work {
@@ -34,9 +34,32 @@ public class CompositeWork implements Work {
         map.put(messageType, work);
     }
 
+    public void addWorkForMessageType(Class<?> type, Work work) {
+        TypedWork typedWork = new TypedWork(type, work);
+        this.addWorkForMessageType(typedWork.type(), typedWork);
+    }
+
     @Override
     public void doWork(Message message) throws RabbitException {
-        String type = message.properties().property(PropertyKey.TYPE);
-        if (map.containsKey(type)) map.get(type).doWork(message);
+        try {
+            String type = extractType(message).orElseThrow(() -> new EmptyCorrelationId(message));
+            if (map.containsKey(type)) map.get(type).doWork(message);
+        } catch (EmptyCorrelationId e) {
+            throw new RabbitException(e);
+        }
+    }
+
+    private Optional<String> extractType(Message message) {
+        String typeFromProperty = message.properties().property(PropertyKey.TYPE);
+        if (isNotEmpty(typeFromProperty)) {
+            return Optional.of(typeFromProperty);
+        } else return message.headers()
+                .header(new SpringTypeId().key())
+                .map(Header::value)
+                .filter(this::isNotEmpty);
+    }
+
+    private boolean isNotEmpty(String s) {
+        return s != null && !s.isEmpty();
     }
 }

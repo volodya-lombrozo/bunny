@@ -2,6 +2,7 @@ package org.lombrozo.bunny.message.header;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class EmptyHeaders implements Headers {
 
@@ -18,6 +19,11 @@ public class EmptyHeaders implements Headers {
     @Override
     public Headers add(Headers headers) {
         return this;
+    }
+
+    @Override
+    public Optional<Header> header(String key) {
+        return Optional.of(new Header.Fake());
     }
 
     @Override
