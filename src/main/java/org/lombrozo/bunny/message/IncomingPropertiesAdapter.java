@@ -24,6 +24,9 @@ public class IncomingPropertiesAdapter {
         String type = properties.getType();
         if (type != null && !type.isEmpty())
             res.put(new Type(type));
+        String contentType = properties.getContentType();
+        if (contentType != null && !contentType.isEmpty())
+            res.put(new ContentType(contentType));
         return res;
     }
 
