@@ -26,7 +26,7 @@ public class NamedExchangeTest {
 
     @Test
     public void createTest() throws RabbitException {
-        NamedExchange exchange = new NamedExchange("name", ExchangeType.DIRECT, connection);
+        NamedExchange exchange = new NamedExchange(connection, "name", ExchangeType.DIRECT);
 
         exchange.declare();
 
@@ -36,7 +36,7 @@ public class NamedExchangeTest {
 
     @Test
     public void sendTest() throws RabbitException {
-        NamedExchange exchange = new NamedExchange("name", ExchangeType.DIRECT, connection);
+        NamedExchange exchange = new NamedExchange(connection, "name", ExchangeType.DIRECT);
         Message.Fake message = new Message.Fake();
 
         exchange.send(message);

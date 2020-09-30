@@ -10,11 +10,17 @@ public class NamedExchange implements Exchange {
     private final String name;
     private final ExchangeType type;
     private final Connection connection;
+    private final ExchangeDescription description;
 
-    public NamedExchange(String name,  ExchangeType type, Connection connection) {
+    public NamedExchange(Connection connection, String name, ExchangeType type) {
+        this(connection, name, type, new ExchangeDescription.Default());
+    }
+
+    public NamedExchange(Connection connection, String name, ExchangeType type, ExchangeDescription description) {
         this.name = name;
         this.type = type;
         this.connection = connection;
+        this.description = description;
     }
 
     @Override
@@ -40,6 +46,11 @@ public class NamedExchange implements Exchange {
     @Override
     public void send(Message message) throws RabbitException {
         connection.channel().publish(new ExchangeDestination(this), message);
+    }
+
+    @Override
+    public ExchangeDescription description() {
+        return description;
     }
 
 }

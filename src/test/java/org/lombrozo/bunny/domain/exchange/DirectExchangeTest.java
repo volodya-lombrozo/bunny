@@ -16,8 +16,7 @@ public class DirectExchangeTest {
     @Test
     public void allFieldsTest() {
         String expectedName = "name";
-        String expectedKey = "key";
-        Exchange exchange = new DirectExchange(expectedName, new Connection.Fake());
+        Exchange exchange = new DirectExchange(new Connection.Fake(), expectedName);
 
         ExchangeType type = exchange.type();
 

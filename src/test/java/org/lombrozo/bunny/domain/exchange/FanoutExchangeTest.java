@@ -15,7 +15,7 @@ public class FanoutExchangeTest {
     @Test
     public void allFieldsTest() {
         String expectedName = "name";
-        Exchange exchange = new FanoutExchange(expectedName,  new Connection.Fake());
+        Exchange exchange = new FanoutExchange(new Connection.Fake(), expectedName);
 
         ExchangeType type = exchange.type();
 

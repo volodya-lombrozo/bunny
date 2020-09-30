@@ -8,8 +8,12 @@ public class DirectExchange implements Exchange {
 
     private final Exchange exchange;
 
-    public DirectExchange(String name, Connection connection) {
-        this(new NamedExchange(name, ExchangeType.DIRECT, connection));
+    public DirectExchange(Connection connection, String name) {
+        this(new NamedExchange(connection, name, ExchangeType.DIRECT));
+    }
+
+    public DirectExchange(Connection connection, String name, ExchangeDescription description) {
+        this(new NamedExchange(connection, name, ExchangeType.DIRECT, description));
     }
 
     public DirectExchange(Exchange exchange) {
@@ -39,5 +43,10 @@ public class DirectExchange implements Exchange {
     @Override
     public void send(Message message) throws RabbitException {
         exchange.send(message);
+    }
+
+    @Override
+    public ExchangeDescription description() {
+        return exchange.description();
     }
 }

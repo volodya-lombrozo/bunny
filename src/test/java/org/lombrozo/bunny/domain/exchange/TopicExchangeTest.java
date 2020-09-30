@@ -15,8 +15,8 @@ public class TopicExchangeTest {
     @Test
     public void allFieldsTest() {
         String expectedName = "name";
-        Exchange exchange = new TopicExchange(expectedName, new Connection.Fake());
 
+        Exchange exchange = new TopicExchange(new Connection.Fake(), expectedName);
         ExchangeType type = exchange.type();
 
         assertEquals(ExchangeType.TOPIC, type);
