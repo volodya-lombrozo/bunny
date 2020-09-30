@@ -6,6 +6,7 @@ import com.rabbitmq.client.Envelope;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.exchange.Exchange;
+import org.lombrozo.bunny.domain.exchange.ExchangeDescription;
 import org.lombrozo.bunny.domain.queue.QueueDescription;
 import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.function.Work;
@@ -15,6 +16,7 @@ import org.lombrozo.bunny.message.body.ByteBody;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class RabbitChannel implements Channel {
 
@@ -58,7 +60,11 @@ public class RabbitChannel implements Channel {
     @Override
     public void declare(Exchange exchange) throws RabbitException {
         try {
-            channel.exchangeDeclare(exchange.name(), exchange.type().toString());
+            ExchangeDescription description = exchange.description();
+            boolean autoDelete = description.autoDelete();
+            boolean durable = description.durable();
+            boolean internal = description.internal();
+            channel.exchangeDeclare(exchange.name(), exchange.type().toString(), durable, autoDelete, internal, new HashMap<>(0));
         } catch (IOException e) {
             throw new RabbitException(e);
         }
