@@ -52,7 +52,6 @@ public class NamedQueue implements Queue {
     @Override
     public void send(Message message) throws RabbitException {
         connection.channel().publish(new QueueDestination(this), message);
-
     }
 
     @Override

@@ -10,12 +10,14 @@ import org.lombrozo.bunny.message.properties.PropertyKey;
 import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 import org.lombrozo.bunny.util.exceptions.EmptyReplyToProperty;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
+import org.lombrozo.bunny.util.subscription.Subscription;
 
 
 public class RabbitClient implements Client {
 
     private final Queue replyQueue;
     private final ResponseSource callbackSource;
+    private volatile Subscription subscription;
 
     public RabbitClient(Connection connection, String replyQueue) {
         this(new NamedQueue(connection, replyQueue), new MapResponseSource());
@@ -37,7 +39,7 @@ public class RabbitClient implements Client {
             FutureMessage observable = new RabbitFutureMessage();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
             callbackSource.save(correlationId, observable);
-            replyQueue.subscribe(callbackSource::runCallback);
+            subscribeToReplyQueueIfNeeded();
             destination.send(message);
             return observable;
         } catch (EmptyCorrelationId | EmptyReplyToProperty e) {
@@ -45,6 +47,10 @@ public class RabbitClient implements Client {
         }
     }
 
+    private synchronized void subscribeToReplyQueueIfNeeded() throws RabbitException {
+        if (subscription == null)
+            subscription = replyQueue.subscribe(callbackSource::runCallback);
+    }
 
     private void checkRequiredProperties(Message message) throws EmptyCorrelationId, EmptyReplyToProperty {
         Properties properties = message.properties();

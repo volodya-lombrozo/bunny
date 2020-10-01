@@ -12,6 +12,7 @@ public class RandomStringTest {
 
         String randomString = random.toString();
 
+        System.out.println(randomString);
         assertNotNull(randomString);
     }
 }
