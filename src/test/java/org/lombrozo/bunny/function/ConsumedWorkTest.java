@@ -23,7 +23,7 @@ public class ConsumedWorkTest {
     public void checkIsNotFinishedWork() {
         ConsumedWork work = new ConsumedWork();
 
-        assertFalse(work.isNotFinished());
+        assertTrue(work.isNotFinished());
     }
 
 }
