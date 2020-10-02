@@ -1,6 +1,7 @@
 package org.lombrozo.bunny.function;
 
 import org.lombrozo.bunny.message.Message;
+import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +31,11 @@ public class LatchWork implements Work {
         latch.countDown();
     }
 
-    public void awaitSuccess() {
+    public void awaitSuccess() throws RabbitException {
         try {
             latch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RabbitException(e);
         }
     }
 

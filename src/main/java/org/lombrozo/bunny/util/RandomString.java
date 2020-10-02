@@ -6,8 +6,6 @@ import java.util.stream.IntStream;
 
 public class RandomString {
 
-    private final int leftBorder = 48;
-    private final int rightBorder = 122;
     private final String string;
 
     public RandomString() {
@@ -19,6 +17,8 @@ public class RandomString {
     }
 
     private String init(int size) {
+        int leftBorder = 48;
+        int rightBorder = 122;
         return new Random().ints(size, leftBorder, rightBorder)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();

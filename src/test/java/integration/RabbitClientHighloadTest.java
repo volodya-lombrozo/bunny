@@ -21,12 +21,12 @@ import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertArrayEquals;
 
-@Ignore("For manual testing only")
+//@Ignore("For manual testing only")
 public class RabbitClientHighloadTest {
 
     RabbitClient client;
     Destination sendDestination;
-    private final int amountCalls = 40000;
+    private final int amountCalls = 10000;
     private final CountDownLatch latch = new CountDownLatch(amountCalls);
 
     @Before
@@ -44,7 +44,7 @@ public class RabbitClientHighloadTest {
         sendDestination = new QueueDestination(sendQueue);
     }
 
-    @Test
+    @Test(timeout = 10_000)
     public void highload_largeAmountOfCalls() throws RabbitException, InterruptedException {
         long start = System.nanoTime();
         for (int i = 0; i < amountCalls; i++) {
@@ -57,6 +57,7 @@ public class RabbitClientHighloadTest {
     }
 
     private void assertMessages(Message expected, Message actual) {
+//        System.out.println("Received message: " + actual);
         assertArrayEquals(expected.body().toByteArray(), actual.body().toByteArray());
         latch.countDown();
     }
