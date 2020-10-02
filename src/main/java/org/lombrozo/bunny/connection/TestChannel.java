@@ -9,6 +9,8 @@ import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
+import org.lombrozo.bunny.util.subscription.LatchSubscription;
+import org.lombrozo.bunny.util.subscription.Subscription;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +31,9 @@ public class TestChannel implements Channel {
     }
 
     @Override
-    public void listenQueue(Queue queue, Work work) {
+    public Subscription listenQueue(Queue queue, Work work) {
         listenService.submit(() -> submitListenCommand(queue, work));
+        return new LatchSubscription();
     }
 
     @Override

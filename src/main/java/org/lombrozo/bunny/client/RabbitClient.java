@@ -47,6 +47,10 @@ public class RabbitClient implements Client {
         }
     }
 
+    public void cancelSubscription() throws RabbitException {
+        subscription.interrupt();
+    }
+
     private synchronized void subscribeToReplyQueueIfNeeded() throws RabbitException {
         if (subscription == null)
             subscription = replyQueue.subscribe(callbackSource::runCallback);

@@ -1,6 +1,5 @@
 package org.lombrozo.bunny.connection;
 
-import org.lombrozo.bunny.domain.binding.Binding;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.exchange.Exchange;
@@ -9,10 +8,12 @@ import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
+import org.lombrozo.bunny.util.subscription.LatchSubscription;
+import org.lombrozo.bunny.util.subscription.Subscription;
 
 public interface Channel {
 
-    void listenQueue(Queue queue, Work work) throws RabbitException;
+    Subscription listenQueue(Queue queue, Work work) throws RabbitException;
 
     void publish(Destination rabbitDestination, Message message) throws RabbitException;
 
@@ -27,8 +28,8 @@ public interface Channel {
     class Fake implements Channel {
 
         @Override
-        public void listenQueue(Queue ignoreQueue, Work ignore) {
-
+        public Subscription listenQueue(Queue ignoreQueue, Work ignore) {
+            return new LatchSubscription();
         }
 
         @Override

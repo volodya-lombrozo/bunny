@@ -45,8 +45,7 @@ public class NamedQueue implements Queue {
 
     @Override
     public Subscription subscribe(Work work) throws RabbitException {
-        connection.channel().listenQueue(this, work);
-        return new LatchSubscription();
+        return connection.channel().listenQueue(this, work);
     }
 
     @Override

@@ -1,13 +1,18 @@
 package integration;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.lombrozo.bunny.client.RabbitClient;
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.connection.ConnectionFactory;
+import org.lombrozo.bunny.domain.binding.Binding;
+import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.destination.Destination;
+import org.lombrozo.bunny.domain.destination.ExchangeDestination;
 import org.lombrozo.bunny.domain.destination.QueueDestination;
+import org.lombrozo.bunny.domain.exchange.DirectExchange;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.host.RabbitHost;
 import org.lombrozo.bunny.message.Message;
@@ -15,6 +20,7 @@ import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.message.properties.CorrelationId;
 import org.lombrozo.bunny.message.properties.ReplyTo;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
+import org.lombrozo.bunny.util.subscription.Subscription;
 
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
@@ -26,8 +32,9 @@ public class RabbitClientHighloadTest {
 
     RabbitClient client;
     Destination sendDestination;
-    private final int amountCalls = 10000;
+    private final int amountCalls = 100;
     private final CountDownLatch latch = new CountDownLatch(amountCalls);
+    private Subscription subscription;
 
     @Before
     public void setUp() throws Exception {
@@ -40,8 +47,14 @@ public class RabbitClientHighloadTest {
         client = new RabbitClient(replyQueue);
         NamedQueue sendQueue = new NamedQueue(sendConnection, "sendQueue");
         sendQueue.declare();
-        sendQueue.subscribe(replyQueue::send);
-        sendDestination = new QueueDestination(sendQueue);
+        DirectExchange exchange = new DirectExchange(sendConnection, "testExchange");
+        subscription = sendQueue.subscribe(message -> new ExchangeDestination(exchange, "replyKey").send(message));
+        exchange.declare();
+        Binding firstBinding = new QueueBinding(exchange, sendQueue, "sendKey", sendConnection);
+        firstBinding.declare();
+        Binding secondBinding = new QueueBinding(exchange, replyQueue, "replyKey", sendConnection);
+        secondBinding.declare();
+        sendDestination = new ExchangeDestination(exchange, "sendKey");
     }
 
     @Test(timeout = 10_000)
@@ -56,10 +69,14 @@ public class RabbitClientHighloadTest {
         System.out.println("Test duration: " + Duration.ofNanos(end - start).getSeconds() + " sec");
     }
 
+    @After
+    public void tearDown() throws Exception {
+        subscription.interrupt();
+        client.cancelSubscription();
+    }
+
     private void assertMessages(Message expected, Message actual) {
-//        System.out.println("Received message: " + actual);
         assertArrayEquals(expected.body().toByteArray(), actual.body().toByteArray());
         latch.countDown();
     }
-
 }

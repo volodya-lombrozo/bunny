@@ -14,6 +14,8 @@ import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.body.ByteBody;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
+import org.lombrozo.bunny.util.subscription.RabbitSubscription;
+import org.lombrozo.bunny.util.subscription.Subscription;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,13 +30,16 @@ public class RabbitChannel implements Channel {
     }
 
     @Override
-    public void listenQueue(Queue queue, Work work) throws RabbitException {
+    public Subscription listenQueue(Queue queue, Work work) throws RabbitException {
         try {
-            channel.basicConsume(queue.name(), true, new WorkerConsumer(channel, work));
+            WorkerConsumer callback = new WorkerConsumer(channel, work);
+            String consumerTag = channel.basicConsume(queue.name(), true, callback);
+            return new RabbitSubscription(channel, consumerTag);
         } catch (IOException e) {
             throw new RabbitException(e);
         }
     }
+
 
     @Override
     public void publish(Destination rabbitDestination, Message message) throws RabbitException {
