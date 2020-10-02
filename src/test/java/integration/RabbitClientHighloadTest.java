@@ -21,7 +21,7 @@ import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertArrayEquals;
 
-//@Ignore("For manual testing only")
+@Ignore("For manual testing only")
 public class RabbitClientHighloadTest {
 
     RabbitClient client;
