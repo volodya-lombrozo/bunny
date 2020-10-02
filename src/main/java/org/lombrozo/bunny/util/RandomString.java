@@ -9,7 +9,7 @@ public class RandomString {
     private final String string;
 
     public RandomString() {
-        this(15);
+        this(35);
     }
 
     public RandomString(int size) {

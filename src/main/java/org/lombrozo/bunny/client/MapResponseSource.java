@@ -5,17 +5,19 @@ import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.properties.PropertyKey;
 import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MapResponseSource implements ResponseSource {
 
-    private final ConcurrentHashMap<String, FutureMessage> correlationMap;
+    private final Map<String, FutureMessage> correlationMap;
 
     public MapResponseSource() {
         this(new ConcurrentHashMap<>(100));
     }
 
-    public MapResponseSource(ConcurrentHashMap<String, FutureMessage> map) {
+    public MapResponseSource(Map<String, FutureMessage> map) {
         this.correlationMap = map;
     }
 

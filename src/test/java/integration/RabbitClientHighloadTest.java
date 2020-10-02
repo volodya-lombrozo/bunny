@@ -11,7 +11,6 @@ import org.lombrozo.bunny.domain.binding.Binding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.destination.ExchangeDestination;
-import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.exchange.DirectExchange;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.host.RabbitHost;
@@ -27,14 +26,14 @@ import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertArrayEquals;
 
-@Ignore("For manual testing only")
+//@Ignore("For manual testing only")
 public class RabbitClientHighloadTest {
 
     RabbitClient client;
     Destination sendDestination;
-    private final int amountCalls = 100;
+    private final int amountCalls = 15000;
     private final CountDownLatch latch = new CountDownLatch(amountCalls);
-    private Subscription subscription;
+    private Subscription incomingQueueSubscription;
 
     @Before
     public void setUp() throws Exception {
@@ -48,7 +47,7 @@ public class RabbitClientHighloadTest {
         NamedQueue sendQueue = new NamedQueue(sendConnection, "sendQueue");
         sendQueue.declare();
         DirectExchange exchange = new DirectExchange(sendConnection, "testExchange");
-        subscription = sendQueue.subscribe(message -> new ExchangeDestination(exchange, "replyKey").send(message));
+        incomingQueueSubscription = sendQueue.subscribe(message -> new ExchangeDestination(exchange, "replyKey").send(message));
         exchange.declare();
         Binding firstBinding = new QueueBinding(exchange, sendQueue, "sendKey", sendConnection);
         firstBinding.declare();
@@ -57,7 +56,7 @@ public class RabbitClientHighloadTest {
         sendDestination = new ExchangeDestination(exchange, "sendKey");
     }
 
-    @Test(timeout = 10_000)
+    @Test(timeout = 3_000)
     public void highload_largeAmountOfCalls() throws RabbitException, InterruptedException {
         long start = System.nanoTime();
         for (int i = 0; i < amountCalls; i++) {
@@ -71,7 +70,7 @@ public class RabbitClientHighloadTest {
 
     @After
     public void tearDown() throws Exception {
-        subscription.interrupt();
+        incomingQueueSubscription.interrupt();
         client.cancelSubscription();
     }
 
