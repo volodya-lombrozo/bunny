@@ -1,5 +1,6 @@
 package integration;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.lombrozo.bunny.client.MapResponseSource;
 import org.lombrozo.bunny.message.Message;
@@ -13,6 +14,7 @@ import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 
 import java.util.concurrent.*;
 
+@Ignore("For manual testing only")
 public class MapResponseSourceIntegrationTest {
 
     private final MapResponseSource source = new MapResponseSource();
