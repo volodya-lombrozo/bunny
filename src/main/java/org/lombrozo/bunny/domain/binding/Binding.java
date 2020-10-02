@@ -15,9 +15,7 @@ public interface Binding extends Declarable {
     class Fake implements Binding {
 
         @Override
-        public void declare() {
-
-        }
+        public void declare() {}
 
         @Override
         public String destination() {
