@@ -16,7 +16,11 @@ public class PropertiesSet implements Properties {
     }
 
     public PropertiesSet(Collection<Property> properties) {
-        this.properties = properties.stream().collect(Collectors.toMap(Property::key, property -> property));
+        this(properties.stream().collect(Collectors.toMap(Property::key, property -> property)));
+    }
+
+    public PropertiesSet(Map<PropertyKey, Property> properties) {
+        this.properties = properties;
     }
 
     @Override
@@ -35,7 +39,7 @@ public class PropertiesSet implements Properties {
     }
 
     @Override
-    public Properties addAll(Property[] additional) {
+    public Properties addAll(Property... additional) {
         for (Property property : additional) put(property);
         return this;
     }

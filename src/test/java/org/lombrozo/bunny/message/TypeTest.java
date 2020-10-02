@@ -30,4 +30,29 @@ public class TypeTest {
         assertEquals(PropertyKey.TYPE, type.key());
     }
 
+    @Test
+    public void equalsTest() {
+        Type first = new Type(String.class);
+        Type second = new Type(String.class);
+
+        assertEquals(first, second);
+    }
+
+    @Test
+    public void hashTest() {
+        Type first = new Type(String.class);
+        Type second = new Type(String.class);
+
+        assertEquals(first.hashCode(), second.hashCode());
+    }
+
+    @Test
+    public void toStringTest() {
+        Type type = new Type(String.class);
+        String expected = "type=" + String.class.getName();
+
+        String actual = type.toString();
+
+        assertEquals(expected, actual);
+    }
 }

@@ -9,7 +9,7 @@ public interface Properties {
 
     boolean containsProperty(PropertyKey key);
 
-    Properties addAll(Property[] additional);
+    Properties addAll(Property... additional);
 
     class Fake implements Properties {
 
@@ -28,7 +28,7 @@ public interface Properties {
         }
 
         @Override
-        public Properties addAll(Property[] additional) {
+        public Properties addAll(Property... additional) {
             return this;
         }
     }

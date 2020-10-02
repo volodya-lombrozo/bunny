@@ -16,7 +16,7 @@ public class EmptyProperties implements Properties {
     }
 
     @Override
-    public Properties addAll(Property[] additional) {
+    public Properties addAll(Property... additional) {
         return this;
     }
 }
