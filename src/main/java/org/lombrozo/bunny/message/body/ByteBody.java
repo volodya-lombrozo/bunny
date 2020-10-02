@@ -19,8 +19,6 @@ public class ByteBody implements Body {
 
     @Override
     public String toString() {
-        return "ByteBody{" +
-                "bytes as string=" + new String(array) +
-                '}';
+        return "ByteBody{" + new String(array) + "}";
     }
 }

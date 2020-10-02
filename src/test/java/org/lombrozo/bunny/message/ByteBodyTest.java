@@ -28,4 +28,14 @@ public class ByteBodyTest {
         assertNotNull(actual);
         assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void toStringTest() {
+        ByteBody body = new ByteBody();
+        String expectedEmpty = "ByteBody{}";
+
+        String bodyAsString = body.toString();
+
+        assertEquals(expectedEmpty, bodyAsString);
+    }
 }
