@@ -1,5 +1,7 @@
 package org.lombrozo.bunny.connection;
 
+import org.lombrozo.bunny.util.RandomString;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
@@ -16,8 +18,6 @@ public class RandomConnectionName implements ConnectionNameStrategy {
     }
 
     public String connectionName() {
-        byte[] array = new byte[nameLength];
-        new Random().nextBytes(array);
-        return new String(array, StandardCharsets.UTF_8);
+        return "Connection#" + new RandomString(nameLength).toString();
     }
 }

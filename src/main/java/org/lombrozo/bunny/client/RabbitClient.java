@@ -30,6 +30,11 @@ public class RabbitClient implements Client {
     public RabbitClient(Queue replyQueue, ResponseSource source) {
         this.replyQueue = replyQueue;
         this.callbackSource = source;
+        try {
+            subscribeToReplyQueueIfNeeded();
+        } catch (RabbitException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -39,7 +44,7 @@ public class RabbitClient implements Client {
             FutureMessage observable = new RabbitFutureMessage();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
             callbackSource.save(correlationId, observable);
-            subscribeToReplyQueueIfNeeded();
+//            subscribeToReplyQueueIfNeeded();
             destination.send(message);
             return observable;
         } catch (EmptyCorrelationId | EmptyReplyToProperty e) {

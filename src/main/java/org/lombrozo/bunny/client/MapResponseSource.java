@@ -35,7 +35,7 @@ public class MapResponseSource implements ResponseSource {
     @Override
     public void runCallback(Message message) {
         String correlationKey = message.properties().property(PropertyKey.CORRELATION_ID);
-        correlationMap.getOrDefault(correlationKey, new FutureMessage.Fake()).register(message);
+        correlationMap.get(correlationKey).register(message);
         correlationMap.remove(correlationKey);
     }
 
