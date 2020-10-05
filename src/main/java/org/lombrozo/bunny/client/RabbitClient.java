@@ -33,12 +33,12 @@ public class RabbitClient implements Client {
     }
 
     @Override
-    public MessagePipeline sendPipeline(Destination destination, Message message) throws RabbitException {
+    public MessagePipeline pipeline(Destination destination, Message message) throws RabbitException {
         try {
             checkRequiredProperties(message);
             subscribeToReplyQueueIfNeeded();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
-            MessagePipeline observable = new RabbitMessagePipeline(destination);
+            MessagePipeline observable = new RabbitMessagePipeline(destination, message);
             callbackSource.save(correlationId, observable);
             return observable;
         } catch (EmptyCorrelationId | EmptyReplyToProperty e) {

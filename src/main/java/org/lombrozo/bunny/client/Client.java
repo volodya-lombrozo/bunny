@@ -7,6 +7,6 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 public interface Client {
 
-    MessagePipeline sendPipeline(Destination destination, Message message) throws RabbitException;
+    MessagePipeline pipeline(Destination destination, Message message) throws RabbitException;
 
 }

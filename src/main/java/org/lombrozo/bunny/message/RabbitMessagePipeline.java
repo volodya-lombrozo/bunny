@@ -11,32 +11,31 @@ public class RabbitMessagePipeline implements MessagePipeline {
 
     private final List<Consumer<Message>> consumerChain;
     private final Destination destination;
-    private final BlockedMessage result;
+    private final Message sending;
+    private final MessageContainer responseContainer;
 
     public RabbitMessagePipeline() {
         this(new Destination.Fake());
     }
 
     public RabbitMessagePipeline(Destination destination) {
-        this(message -> {
-        }, destination);
+        this(destination, new Message.Fake());
     }
 
-    public RabbitMessagePipeline(Consumer<Message> consumer) {
-        this(consumer, new Destination.Fake());
+    public RabbitMessagePipeline(Destination destination, Message sending) {
+        this(destination, sending, new BlockedMessage());
     }
 
-    public RabbitMessagePipeline(Consumer<Message> consumer, Destination destination) {
+    public RabbitMessagePipeline(Destination destination, Message sending, MessageContainer responseContainer) {
         this.consumerChain = new LinkedList<>();
-        consumerChain.add(consumer);
         this.destination = destination;
-        this.result = new BlockedMessage();
+        this.sending = sending;
+        this.responseContainer = responseContainer;
     }
-
 
     @Override
-    public MessagePipeline send(Message sendingMessage) throws RabbitException {
-        destination.send(sendingMessage);
+    public MessagePipeline send() throws RabbitException {
+        destination.send(sending);
         return this;
     }
 
@@ -49,11 +48,11 @@ public class RabbitMessagePipeline implements MessagePipeline {
     @Override
     public void register(Message responseMessage) {
         consumerChain.forEach(consumer -> consumer.accept(responseMessage));
-        result.register(responseMessage);
+        responseContainer.put(responseMessage);
     }
 
     @Override
     public Message block() throws RabbitException {
-        return result.block();
+        return responseContainer.receive();
     }
 }

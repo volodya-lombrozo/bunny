@@ -15,9 +15,9 @@ public class BlockedMessageTest {
         BlockedMessage blockedMessage = new BlockedMessage();
         Message.Fake sending = new Message.Fake();
 
-        blockedMessage.register(sending);
+        blockedMessage.put(sending);
 
-        Message actual = blockedMessage.block();
+        Message actual = blockedMessage.receive();
         assertEquals(sending, actual);
     }
 
@@ -25,7 +25,7 @@ public class BlockedMessageTest {
     public void block_interruptedBlocking() throws RabbitException {
         BlockedMessage message = new BlockedMessage(new InterruptedQueue());
 
-        message.block();
+        message.receive();
 
         fail();
     }

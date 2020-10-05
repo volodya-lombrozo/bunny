@@ -5,7 +5,7 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-public class BlockedMessage {
+public class BlockedMessage implements MessageContainer{
 
     private final BlockingQueue<Message> message;
 
@@ -17,17 +17,17 @@ public class BlockedMessage {
         this.message = message;
     }
 
-
-    public void register(Message message) {
+    @Override
+    public void put(Message message) {
         this.message.add(message);
     }
 
-    public Message block() throws RabbitException {
+    @Override
+    public Message receive() throws RabbitException {
         try {
             return message.take();
         } catch (InterruptedException e) {
             throw new RabbitException(e);
         }
     }
-
 }

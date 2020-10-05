@@ -8,7 +8,7 @@ public interface MessagePipeline {
 
     MessagePipeline thenAccept(Consumer<Message> consumer);
 
-    MessagePipeline send(Message sendingMessage) throws RabbitException;
+    MessagePipeline send() throws RabbitException;
 
     void register(Message responseMessage);
 
@@ -26,7 +26,7 @@ public interface MessagePipeline {
         }
 
         @Override
-        public MessagePipeline send(Message sendingMessage) {
+        public MessagePipeline send() {
             return this;
         }
 

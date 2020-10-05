@@ -33,11 +33,10 @@ public class RabbitClientTest {
         RabbitClient client = new RabbitClient(connection, replyQueueName);
         Message message = new RPCMessage("hello", new ReplyTo("." + replyQueueName));
         QueueDestination destination = new QueueDestination(new NamedQueue(connection, sendQueueName));
-
         new ResponsibleQueueConsumer(sendQueueName, connection)
                 .subscribe(new Handler.Echo());
 
-        MessagePipeline futureMessage = client.sendPipeline(destination, message).send(message);
+        MessagePipeline futureMessage = client.pipeline(destination, message).send();
 
         Message response = futureMessage.block();
         assertNotNull(response);
@@ -52,7 +51,7 @@ public class RabbitClientTest {
         Message message = new RPCMessage("hello", new ReplyToDestination(replyQueue));
         new ResponsibleQueueConsumer(sendQueueName, connection).subscribe(new Handler.Echo());
 
-        MessagePipeline futureMessage = client.sendPipeline(new QueueDestination(sendQueue), message).send(message);
+        MessagePipeline futureMessage = client.pipeline(new QueueDestination(sendQueue), message).send();
 
         Message response = futureMessage.block();
         assertNotNull(response);
