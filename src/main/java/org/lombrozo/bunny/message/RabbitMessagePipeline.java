@@ -11,7 +11,7 @@ public class RabbitMessagePipeline implements MessagePipeline {
 
     private final List<Consumer<Message>> consumerChain;
     private final Destination destination;
-    private volatile Message result;
+    private final BlockedMessage result;
 
     public RabbitMessagePipeline() {
         this(new Destination.Fake());
@@ -30,12 +30,13 @@ public class RabbitMessagePipeline implements MessagePipeline {
         this.consumerChain = new LinkedList<>();
         consumerChain.add(consumer);
         this.destination = destination;
+        this.result = new BlockedMessage();
     }
 
 
     @Override
-    public MessagePipeline send(Message message) throws RabbitException {
-        destination.send(message);
+    public MessagePipeline send(Message sendingMessage) throws RabbitException {
+        destination.send(sendingMessage);
         return this;
     }
 
@@ -46,14 +47,13 @@ public class RabbitMessagePipeline implements MessagePipeline {
     }
 
     @Override
-    public void register(Message message) {
-        consumerChain.forEach(consumer -> consumer.accept(message));
-        result = message;
+    public void register(Message responseMessage) {
+        consumerChain.forEach(consumer -> consumer.accept(responseMessage));
+        result.register(responseMessage);
     }
 
     @Override
-    public Message block() {
-        while (result == null) Thread.yield();
-        return result;
+    public Message block() throws RabbitException {
+        return result.block();
     }
 }

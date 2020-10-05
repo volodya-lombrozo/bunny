@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.lombrozo.bunny.message.MessagePipeline;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.RabbitMessagePipeline;
+import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.LongAdder;
@@ -29,7 +30,7 @@ public class RabbitPipelineMessageTest {
 
 
     @Test
-    public void block() {
+    public void block() throws RabbitException {
         MessagePipeline futureMessage = new RabbitMessagePipeline();
         Message expectedMessage = new Message.Fake();
         Executors.newFixedThreadPool(1)
@@ -42,7 +43,7 @@ public class RabbitPipelineMessageTest {
     }
 
     @Test(timeout = 50)
-    public void block_changeReference() {
+    public void block_changeReference() throws RabbitException {
         MessagePipeline futureMessage = new RabbitMessagePipeline();
         Message expectedMessage = new Message.Fake();
         futureMessage.register(expectedMessage);

@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.message.properties.CorrelationId;
 import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
+import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,7 +24,7 @@ public class MapResponseSourceTest {
     }
 
     @Test
-    public void runCallback() throws EmptyCorrelationId {
+    public void runCallback() throws EmptyCorrelationId, RabbitException {
         ResponseSource responseSource = new MapResponseSource();
         String correlationId = "corId";
         MessagePipeline message = new RabbitMessagePipeline();
@@ -37,7 +38,7 @@ public class MapResponseSourceTest {
     }
 
     @Test
-    public void runCallback_removeCallbackSuccessful() throws EmptyCorrelationId {
+    public void runCallback_removeCallbackSuccessful() throws EmptyCorrelationId, RabbitException {
         ConcurrentHashMap<String, MessagePipeline> innerMap = new ConcurrentHashMap<>();
         ResponseSource responseSource = new MapResponseSource(innerMap);
         String correlationId = "corId";

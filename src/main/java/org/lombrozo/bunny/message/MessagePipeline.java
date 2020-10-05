@@ -8,11 +8,11 @@ public interface MessagePipeline {
 
     MessagePipeline thenAccept(Consumer<Message> consumer);
 
-    void register(Message message);
+    MessagePipeline send(Message sendingMessage) throws RabbitException;
 
-    MessagePipeline send(Message message) throws RabbitException;
+    void register(Message responseMessage);
 
-    Message block();
+    Message block() throws RabbitException;
 
     class Fake implements MessagePipeline {
 
@@ -26,7 +26,7 @@ public interface MessagePipeline {
         }
 
         @Override
-        public MessagePipeline send(Message message) {
+        public MessagePipeline send(Message sendingMessage) {
             return this;
         }
 
