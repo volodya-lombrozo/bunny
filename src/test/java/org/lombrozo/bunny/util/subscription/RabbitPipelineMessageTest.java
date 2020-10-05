@@ -2,22 +2,21 @@ package org.lombrozo.bunny.util.subscription;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.lombrozo.bunny.message.FutureMessage;
+import org.lombrozo.bunny.message.MessagePipeline;
 import org.lombrozo.bunny.message.Message;
-import org.lombrozo.bunny.message.RabbitFutureMessage;
+import org.lombrozo.bunny.message.RabbitMessagePipeline;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.LongAdder;
 
 import static org.junit.Assert.*;
 
-public class RabbitFutureMessageTest {
+public class RabbitPipelineMessageTest {
 
     @Test
     public void accept() {
         LongAdder adder = new LongAdder();
-        FutureMessage futureMessage = new RabbitFutureMessage()
+        MessagePipeline futureMessage = new RabbitMessagePipeline()
                 .thenAccept((m) -> adder.increment())
                 .thenAccept((m) -> adder.increment())
                 .thenAccept(Assert::assertNotNull);
@@ -31,7 +30,7 @@ public class RabbitFutureMessageTest {
 
     @Test
     public void block() {
-        FutureMessage futureMessage = new RabbitFutureMessage();
+        MessagePipeline futureMessage = new RabbitMessagePipeline();
         Message expectedMessage = new Message.Fake();
         Executors.newFixedThreadPool(1)
                 .submit(() -> futureMessage.register(expectedMessage));
@@ -44,7 +43,7 @@ public class RabbitFutureMessageTest {
 
     @Test(timeout = 50)
     public void block_changeReference() {
-        FutureMessage futureMessage = new RabbitFutureMessage();
+        MessagePipeline futureMessage = new RabbitMessagePipeline();
         Message expectedMessage = new Message.Fake();
         futureMessage.register(expectedMessage);
         futureMessage = futureMessage.thenAccept((ignore) -> {

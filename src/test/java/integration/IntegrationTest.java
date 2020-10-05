@@ -69,8 +69,8 @@ public class IntegrationTest {
         RabbitClient client = new RabbitClient(replyQueue);
         new ResponsibleQueueConsumer(sendQueue, connection).subscribe(new Handler.Echo());
 
-        FutureMessage answer = client
-                .send(new QueueDestination(sendQueue), new RabbitMessage("'Hello' form library", new CorrelationId(), new ReplyToDestination(replyQueue)))
+        MessagePipeline answer = client
+                .sendPipeline(new QueueDestination(sendQueue), new RabbitMessage("'Hello' form library", new CorrelationId(), new ReplyToDestination(replyQueue)))
                 .thenAccept(System.out::println)
                 .thenAccept(Assert::assertNotNull);
 

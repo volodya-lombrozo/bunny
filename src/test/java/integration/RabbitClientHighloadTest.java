@@ -26,12 +26,12 @@ import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertArrayEquals;
 
-//@Ignore("For manual testing only")
+@Ignore("For manual testing only")
 public class RabbitClientHighloadTest {
 
     RabbitClient client;
     Destination sendDestination;
-    private final int amountCalls = 15000;
+    private final int amountCalls = 25000;
     private final CountDownLatch latch = new CountDownLatch(amountCalls);
     private Subscription incomingQueueSubscription;
 
@@ -47,35 +47,36 @@ public class RabbitClientHighloadTest {
         NamedQueue sendQueue = new NamedQueue(sendConnection, "sendQueue");
         sendQueue.declare();
         DirectExchange exchange = new DirectExchange(sendConnection, "testExchange");
-        incomingQueueSubscription = sendQueue.subscribe(message -> new ExchangeDestination(exchange, "replyKey").send(message));
         exchange.declare();
         Binding firstBinding = new QueueBinding(exchange, sendQueue, "sendKey", sendConnection);
         firstBinding.declare();
         Binding secondBinding = new QueueBinding(exchange, replyQueue, "replyKey", sendConnection);
         secondBinding.declare();
         sendDestination = new ExchangeDestination(exchange, "sendKey");
+        incomingQueueSubscription = sendQueue.subscribe(message -> new ExchangeDestination(exchange, "replyKey").send(message));
     }
 
     @Test(timeout = 3_000)
     public void highload_largeAmountOfCalls() throws RabbitException, InterruptedException {
         long start = System.nanoTime();
         for (int i = 0; i < amountCalls; i++) {
-            Message expected = new RabbitMessage("message", new CorrelationId(), new ReplyTo(""));
-            client.send(sendDestination, expected).thenAccept(m -> assertMessages(expected, m));
+            Message expectedMessage = new RabbitMessage("message №" + i, new CorrelationId(), new ReplyTo(""));
+            client.sendPipeline(sendDestination, expectedMessage).thenAccept(m -> registerMessage(expectedMessage, m))
+                    .send(expectedMessage);
         }
         long end = System.nanoTime();
         latch.await();
         System.out.println("Test duration: " + Duration.ofNanos(end - start).getSeconds() + " sec");
     }
 
+    private void registerMessage(Message expected, Message actual) {
+        assertArrayEquals(expected.body().toByteArray(), actual.body().toByteArray());
+        latch.countDown();
+    }
+
     @After
     public void tearDown() throws Exception {
         incomingQueueSubscription.interrupt();
         client.cancelSubscription();
-    }
-
-    private void assertMessages(Message expected, Message actual) {
-        assertArrayEquals(expected.body().toByteArray(), actual.body().toByteArray());
-        latch.countDown();
     }
 }

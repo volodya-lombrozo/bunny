@@ -5,7 +5,6 @@ import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.message.properties.CorrelationId;
 import org.lombrozo.bunny.util.exceptions.EmptyCorrelationId;
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.junit.Assert.*;
@@ -14,11 +13,11 @@ public class MapResponseSourceTest {
 
     @Test
     public void save() throws EmptyCorrelationId {
-        ConcurrentHashMap<String, FutureMessage> internalMap = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, MessagePipeline> internalMap = new ConcurrentHashMap<>();
         ResponseSource responseSource = new MapResponseSource(internalMap);
         String correlationId = "corId";
 
-        responseSource.save(correlationId, new FutureMessage.Fake());
+        responseSource.save(correlationId, new MessagePipeline.Fake());
 
         assertEquals(1, internalMap.size());
     }
@@ -27,7 +26,7 @@ public class MapResponseSourceTest {
     public void runCallback() throws EmptyCorrelationId {
         ResponseSource responseSource = new MapResponseSource();
         String correlationId = "corId";
-        FutureMessage message = new RabbitFutureMessage();
+        MessagePipeline message = new RabbitMessagePipeline();
         responseSource.save(correlationId, message);
         RabbitMessage expectedMessage = new RabbitMessage("Body", new CorrelationId(correlationId));
 
@@ -39,10 +38,10 @@ public class MapResponseSourceTest {
 
     @Test
     public void runCallback_removeCallbackSuccessful() throws EmptyCorrelationId {
-        ConcurrentHashMap<String, FutureMessage> innerMap = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, MessagePipeline> innerMap = new ConcurrentHashMap<>();
         ResponseSource responseSource = new MapResponseSource(innerMap);
         String correlationId = "corId";
-        FutureMessage message = new RabbitFutureMessage();
+        MessagePipeline message = new RabbitMessagePipeline();
         responseSource.save(correlationId, message);
         RabbitMessage expectedMessage = new RabbitMessage("Body", new CorrelationId(correlationId));
         assertFalse(innerMap.isEmpty());
@@ -56,10 +55,10 @@ public class MapResponseSourceTest {
 
     @Test
     public void runCallback_differentMessage() throws EmptyCorrelationId {
-        ConcurrentHashMap<String, FutureMessage> innerMap = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, MessagePipeline> innerMap = new ConcurrentHashMap<>();
         ResponseSource responseSource = new MapResponseSource(innerMap);
         String correlationId = "corId";
-        FutureMessage message = new RabbitFutureMessage();
+        MessagePipeline message = new RabbitMessagePipeline();
         responseSource.save(correlationId, message);
         RabbitMessage differentMessage = new RabbitMessage("Body", new CorrelationId());
 
@@ -73,7 +72,7 @@ public class MapResponseSourceTest {
     public void save_emptyCorrelationId() throws EmptyCorrelationId {
         ResponseSource responseSource = new MapResponseSource();
         String correlationId = "";
-        FutureMessage message = new RabbitFutureMessage();
+        MessagePipeline message = new RabbitMessagePipeline();
 
         responseSource.save(correlationId, message);
 

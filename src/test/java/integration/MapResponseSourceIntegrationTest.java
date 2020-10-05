@@ -4,7 +4,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.lombrozo.bunny.client.MapResponseSource;
 import org.lombrozo.bunny.message.Message;
-import org.lombrozo.bunny.message.RabbitFutureMessage;
+import org.lombrozo.bunny.message.RabbitMessagePipeline;
 import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.message.properties.CorrelationId;
 import org.lombrozo.bunny.message.properties.PropertyKey;
@@ -53,7 +53,7 @@ public class MapResponseSourceIntegrationTest {
         try {
             Message message = createMessage();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
-            source.save(correlationId, new RabbitFutureMessage(this::handleMessage));
+            source.save(correlationId, new RabbitMessagePipeline(this::handleMessage));
             messages.add(message);
         } catch (EmptyCorrelationId emptyCorrelationId) {
             emptyCorrelationId.printStackTrace();

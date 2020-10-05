@@ -11,4 +11,22 @@ public interface Destination {
 
     void send(Message message) throws RabbitException;
 
+
+    class Fake implements Destination{
+
+
+        @Override
+        public String exchangeName() {
+            return "";
+        }
+
+        @Override
+        public String routingKey() {
+            return "";
+        }
+
+        @Override
+        public void send(Message message) {
+        }
+    }
 }
