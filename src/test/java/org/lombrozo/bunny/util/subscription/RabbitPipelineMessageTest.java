@@ -18,9 +18,9 @@ public class RabbitPipelineMessageTest {
     public void accept() {
         LongAdder adder = new LongAdder();
         MessagePipeline futureMessage = new RabbitMessagePipeline()
-                .thenAccept((m) -> adder.increment())
-                .thenAccept((m) -> adder.increment())
-                .thenAccept(Assert::assertNotNull);
+                .addResponseConsumer((m) -> adder.increment())
+                .addResponseConsumer((m) -> adder.increment())
+                .addResponseConsumer(Assert::assertNotNull);
 
         futureMessage.register(new Message.Fake());
 
@@ -47,7 +47,7 @@ public class RabbitPipelineMessageTest {
         MessagePipeline futureMessage = new RabbitMessagePipeline();
         Message expectedMessage = new Message.Fake();
         futureMessage.register(expectedMessage);
-        futureMessage = futureMessage.thenAccept((ignore) -> {
+        futureMessage = futureMessage.addResponseConsumer((ignore) -> {
         });
 
         Message message = futureMessage.block();

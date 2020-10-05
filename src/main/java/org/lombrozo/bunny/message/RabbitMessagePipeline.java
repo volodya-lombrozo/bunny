@@ -40,7 +40,7 @@ public class RabbitMessagePipeline implements MessagePipeline {
     }
 
     @Override
-    public MessagePipeline thenAccept(Consumer<Message> consumer) {
+    public MessagePipeline addResponseConsumer(Consumer<Message> consumer) {
         consumerChain.add(consumer);
         return this;
     }

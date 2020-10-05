@@ -71,8 +71,9 @@ public class IntegrationTest {
 
         MessagePipeline answer = client
                 .pipeline(new QueueDestination(sendQueue), new RabbitMessage("'Hello' form library", new CorrelationId(), new ReplyToDestination(replyQueue)))
-                .thenAccept(System.out::println)
-                .thenAccept(Assert::assertNotNull);
+                .addResponseConsumer(System.out::println)
+                .addResponseConsumer(Assert::assertNotNull)
+                .send();
 
 
         Message returnMessage = answer.block();

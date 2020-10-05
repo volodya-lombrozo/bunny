@@ -53,7 +53,7 @@ public class MapResponseSourceIntegrationTest {
         try {
             Message message = createMessage();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
-            source.save(correlationId, new RabbitMessagePipeline().thenAccept(this::handleMessage));
+            source.save(correlationId, new RabbitMessagePipeline().addResponseConsumer(this::handleMessage));
             messages.add(message);
         } catch (EmptyCorrelationId emptyCorrelationId) {
             emptyCorrelationId.printStackTrace();

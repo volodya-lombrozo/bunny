@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public interface MessagePipeline {
 
-    MessagePipeline thenAccept(Consumer<Message> consumer);
+    MessagePipeline addResponseConsumer(Consumer<Message> consumer);
 
     MessagePipeline send() throws RabbitException;
 
@@ -17,7 +17,7 @@ public interface MessagePipeline {
     class Fake implements MessagePipeline {
 
         @Override
-        public MessagePipeline thenAccept(Consumer<Message> ignore) {
+        public MessagePipeline addResponseConsumer(Consumer<Message> ignore) {
             return this;
         }
 

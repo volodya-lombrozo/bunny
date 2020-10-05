@@ -62,7 +62,7 @@ public class RabbitClientHighloadTest {
         for (int i = 0; i < amountCalls; i++) {
             Message expectedMessage = new RabbitMessage("message №" + i, new CorrelationId(), new ReplyTo(""));
             client.pipeline(sendDestination, expectedMessage)
-                    .thenAccept(m -> registerMessage(expectedMessage, m))
+                    .addResponseConsumer(m -> registerMessage(expectedMessage, m))
                     .send();
         }
         long end = System.nanoTime();
