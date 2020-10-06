@@ -4,6 +4,8 @@ import org.lombrozo.bunny.connection.Channel;
 import org.lombrozo.bunny.connection.ChannelFactory;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,5 +29,10 @@ public class FixedChannelPool implements ChannelPool {
     @Override
     public Channel nextChannel() {
         return channels[integer.incrementAndGet() % amountChannels];
+    }
+
+    @Override
+    public List<Channel> toList() {
+        return Arrays.asList(channels);
     }
 }

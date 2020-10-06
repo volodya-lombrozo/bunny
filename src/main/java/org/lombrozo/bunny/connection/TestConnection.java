@@ -1,5 +1,7 @@
 package org.lombrozo.bunny.connection;
 
+import org.lombrozo.bunny.util.exceptions.RabbitException;
+
 public class TestConnection implements Connection {
 
     private Channel channel;
@@ -20,5 +22,10 @@ public class TestConnection implements Connection {
     @Override
     public Channel channel() {
         return channel;
+    }
+
+    @Override
+    public void forAllChannels(ChannelConsumer consumer) throws RabbitException {
+        consumer.accept(channel);
     }
 }

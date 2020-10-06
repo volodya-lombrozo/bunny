@@ -33,13 +33,9 @@ public class RabbitChannel implements Channel {
     @Override
     public Subscription listenQueue(Queue queue, Work work) throws RabbitException {
         try {
-            RabbitConcurrentSubscription res = new RabbitConcurrentSubscription();
-            for (int i = 0; i < 4; i++) {
-                WorkerConsumer callback = new WorkerConsumer(channel, work);
-                String consumerTag = channel.basicConsume(queue.name(), true, callback);
-                res.addChannel(channel, consumerTag);
-            }
-            return res;
+            WorkerConsumer callback = new WorkerConsumer(channel, work);
+            String consumerTag = channel.basicConsume(queue.name(), true, callback);
+            return new RabbitSubscription(channel, consumerTag);
         } catch (IOException e) {
             throw new RabbitException(e);
         }

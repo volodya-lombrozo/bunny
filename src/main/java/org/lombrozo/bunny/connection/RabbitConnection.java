@@ -5,6 +5,7 @@ import org.lombrozo.bunny.connection.pool.FixedChannelPool;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class RabbitConnection implements Connection, ChannelFactory {
 
@@ -28,6 +29,13 @@ public class RabbitConnection implements Connection, ChannelFactory {
     @Override
     public Channel channel() throws RabbitException {
         return channelPool.nextChannel();
+    }
+
+    @Override
+    public void forAllChannels(ChannelConsumer consume) throws RabbitException {
+        for (Channel channel : channelPool.toList()) {
+            consume.accept(channel);
+        }
     }
 
     @Override

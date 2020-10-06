@@ -5,6 +5,9 @@ import org.lombrozo.bunny.connection.ChannelFactory;
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
+import java.util.Collections;
+import java.util.List;
+
 public class SingleChannelPool implements ChannelPool {
 
     private final Connection connection;
@@ -28,5 +31,10 @@ public class SingleChannelPool implements ChannelPool {
     @Override
     public Channel nextChannel() {
         return channel;
+    }
+
+    @Override
+    public List<Channel> toList() {
+        return Collections.singletonList(channel);
     }
 }
