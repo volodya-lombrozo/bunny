@@ -23,7 +23,6 @@ public class RPCMessage implements Message {
 
     public RPCMessage(Message message) {
         this.message = message;
-        message.properties().put(new CorrelationId());
     }
 
     @Override
