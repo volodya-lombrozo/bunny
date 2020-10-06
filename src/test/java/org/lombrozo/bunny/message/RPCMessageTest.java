@@ -18,7 +18,7 @@ public class RPCMessageTest {
         Body.Fake body = new Body.Fake();
         Type type = new Type("Type");
 
-        Message message = new RPCMessage(body, type);
+        RPCMessage message = new RPCMessage(body, type);
 
         assertEquals(body, message.body());
         assertTrue(message.properties().containsProperty(PropertyKey.TYPE));
