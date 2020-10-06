@@ -26,6 +26,7 @@ public class OutboxPropertiesAdapter {
                 .correlationId(correlationId)
                 .replyTo(replyTo)
                 .contentType(contentType)
+                .deliveryMode(1)
                 .type(type)
                 .headers(headers.toMap())
                 .build();

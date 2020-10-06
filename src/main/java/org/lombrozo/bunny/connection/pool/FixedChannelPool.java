@@ -5,6 +5,7 @@ import org.lombrozo.bunny.connection.ChannelFactory;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class FixedChannelPool implements ChannelPool {
 
@@ -21,8 +22,10 @@ public class FixedChannelPool implements ChannelPool {
         for (int i = 0; i < amountChannels; i++) channels[i] = channelFactory.newChannel();
     }
 
+    private final AtomicInteger integer = new AtomicInteger(0);
+
     @Override
     public Channel nextChannel() {
-        return channels[new Random().nextInt(amountChannels - 1)];
+        return channels[integer.incrementAndGet() % amountChannels];
     }
 }
