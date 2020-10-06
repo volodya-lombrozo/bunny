@@ -1,5 +1,6 @@
 package org.lombrozo.bunny.message.properties;
 
+
 import java.util.Objects;
 
 public class Type implements Property {

@@ -13,6 +13,8 @@ import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.body.ByteBody;
+import org.lombrozo.bunny.message.header.RabbitHeaders;
+import org.lombrozo.bunny.message.properties.RabbitProperties;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.subscription.RabbitConcurrentSubscription;
 import org.lombrozo.bunny.util.subscription.RabbitSubscription;
@@ -107,8 +109,7 @@ public class RabbitChannel implements Channel {
         @Override
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
             try {
-                IncomingPropertiesAdapter adapter = new IncomingPropertiesAdapter(properties);
-                work.doWork(new RabbitMessage(new ByteBody(body), adapter.toProperties(), adapter.toHeaders()));
+                work.doWork(new RabbitMessage(new ByteBody(body), new RabbitProperties(properties), new RabbitHeaders(properties)));
             } catch (RabbitException e) {
                 e.printStackTrace();
             }

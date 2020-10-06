@@ -34,4 +34,9 @@ public class ReplyToDestination implements ReplyProperty {
     public String value() {
         return strategy.format(destination);
     }
+
+    @Override
+    public boolean isNotEmpty() {
+        return destination != null;
+    }
 }
