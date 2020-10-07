@@ -43,4 +43,7 @@ public class RabbitProperties implements Properties {
                 .filter(Property::isNotEmpty).forEach(delegate::put);
     }
 
+    public AMQBasicProperties toAMQPProps(){
+        return null;//todo
+    }
 }

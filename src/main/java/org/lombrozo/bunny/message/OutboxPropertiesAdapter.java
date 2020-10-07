@@ -5,6 +5,7 @@ import com.rabbitmq.client.AMQP;
 import org.lombrozo.bunny.message.header.Headers;
 import org.lombrozo.bunny.message.properties.Properties;
 import org.lombrozo.bunny.message.properties.PropertyKey;
+import org.lombrozo.bunny.message.properties.RabbitProperties;
 
 
 public class OutboxPropertiesAdapter {
@@ -22,6 +23,8 @@ public class OutboxPropertiesAdapter {
         String replyTo = properties.property(PropertyKey.REPLY_TO);
         String type = properties.property(PropertyKey.TYPE);
         String contentType = properties.property(PropertyKey.CONTENT_TYPE);
+        new RabbitProperties(properties).toAMQPProps();
+
         return new AMQP.BasicProperties.Builder()
                 .correlationId(correlationId)
                 .replyTo(replyTo)
