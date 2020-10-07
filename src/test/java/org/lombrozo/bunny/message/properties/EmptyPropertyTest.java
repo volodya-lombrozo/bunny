@@ -14,6 +14,7 @@ public class EmptyPropertyTest {
 
         assertEquals(PropertyKey.UNKNOWN, empty.key());
         assertEquals(expectedEmpty, empty.value());
+        assertFalse(empty.isNotEmpty());
     }
 
 }

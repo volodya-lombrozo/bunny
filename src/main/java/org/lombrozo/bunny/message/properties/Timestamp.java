@@ -5,15 +5,10 @@ import java.util.Date;
 
 public class Timestamp implements Property {
 
-    private final String value;
-
+    private final Date value;
 
     public Timestamp(Date date) {
-        this(String.valueOf(date.toInstant().toEpochMilli()));
-    }
-
-    public Timestamp(String value) {
-        this.value = value;
+        this.value = date;
     }
 
     @Override
@@ -23,7 +18,8 @@ public class Timestamp implements Property {
 
     @Override
     public String value() {
-        return value;
+        if (value == null) return "";
+        return String.valueOf(value.toInstant().toEpochMilli());
     }
 
 }

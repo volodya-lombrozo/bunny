@@ -1,5 +1,6 @@
 package org.lombrozo.bunny.message.properties;
 
+import com.rabbitmq.client.AMQP;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,4 +17,18 @@ public class PropertyKeyTest {
         assertEquals(expected, stringKey);
     }
 
+
+    @Test
+    public void toPropertyTest() {
+        String contentType = "application/json";
+        AMQP.BasicProperties rawProperties = new AMQP.BasicProperties.Builder()
+                .contentType(contentType)
+                .build();
+
+        Property property = PropertyKey.CONTENT_TYPE.toProperty(rawProperties);
+
+        assertTrue(property.isNotEmpty());
+        assertEquals(PropertyKey.CONTENT_TYPE, property.key());
+        assertEquals(contentType, property.value());
+    }
 }
