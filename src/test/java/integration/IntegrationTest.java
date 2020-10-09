@@ -1,5 +1,7 @@
 package integration;
 
+import com.rabbitmq.tools.json.JSONUtil;
+import com.rabbitmq.tools.jsonrpc.JacksonJsonRpcMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -14,7 +16,7 @@ import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.function.Handler;
 import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.message.properties.CorrelationId;
-import org.lombrozo.bunny.message.properties.ReplyToDestination;
+import org.lombrozo.bunny.message.properties.ReplyTo;
 import org.lombrozo.bunny.util.security.UserCredentials;
 import org.lombrozo.bunny.connection.PrefixNameStrategy;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
@@ -70,7 +72,7 @@ public class IntegrationTest {
         new ResponsibleQueueConsumer(sendQueue, connection).subscribe(new Handler.Echo());
 
         MessagePipeline answer = client
-                .pipeline(new QueueDestination(sendQueue), new RabbitMessage("'Hello' form library", new CorrelationId(), new ReplyToDestination(replyQueue)))
+                .pipeline(new QueueDestination(sendQueue), new RabbitMessage("'Hello' form library", new CorrelationId(), new ReplyTo(replyQueue)))
                 .addResponseConsumer(System.out::println)
                 .addResponseConsumer(Assert::assertNotNull)
                 .send();

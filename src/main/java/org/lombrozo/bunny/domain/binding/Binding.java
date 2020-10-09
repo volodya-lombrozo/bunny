@@ -6,9 +6,9 @@ import org.lombrozo.bunny.message.Message;
 
 public interface Binding extends Declarable {
 
-    String destination();
-
     String source();
+
+    String destination();
 
     String routingKey();
 
@@ -18,12 +18,12 @@ public interface Binding extends Declarable {
         public void declare() {}
 
         @Override
-        public String destination() {
+        public String source() {
             return "";
         }
 
         @Override
-        public String source() {
+        public String destination() {
             return "";
         }
 

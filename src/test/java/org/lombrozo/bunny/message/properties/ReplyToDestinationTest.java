@@ -16,7 +16,7 @@ public class ReplyToDestinationTest {
         String postfix = new QueueDestination(queue).routingKey();
         String expected = prefix + "." + postfix;
 
-        Property property = new ReplyToDestination(queue);
+        Property property = new ReplyTo(queue);
 
         assertTrue(property.isNotEmpty());
         assertEquals(PropertyKey.REPLY_TO, property.key());

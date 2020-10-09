@@ -1,34 +1,33 @@
-package org.lombrozo.bunny.domain.destination;
+package org.lombrozo.bunny.domain.destination.reply;
 
 import org.lombrozo.bunny.connection.Connection;
+import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 
 public class ReplyDestination implements Destination {
 
-    private final String rawString;
-    private final ReplyParsingStrategy parsingStrategy;
+    private final ReplyInfo replyInfo;
     private final Connection connection;
 
     public ReplyDestination(String rawString, Connection connection) {
-        this(rawString, new DotParsingStrategy(), connection);
+        this(new DotReplyInfo(rawString), connection);
     }
 
-    public ReplyDestination(String rawString, ReplyParsingStrategy parsingStrategy, Connection connection) {
-        this.rawString = rawString;
-        this.parsingStrategy = parsingStrategy;
+    public ReplyDestination(ReplyInfo replyInfo, Connection connection) {
+        this.replyInfo = replyInfo;
         this.connection = connection;
     }
 
     @Override
     public String exchangeName() {
-        return parsingStrategy.exchange(rawString);
+        return replyInfo.exchange();
     }
 
     @Override
     public String routingKey() {
-        return parsingStrategy.routingKey(rawString);
+        return replyInfo.routingKey();
     }
 
     @Override

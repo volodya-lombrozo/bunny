@@ -38,7 +38,6 @@ public interface Queue extends Declarable {
 
         @Override
         public void send(Message message) {
-
         }
 
     }

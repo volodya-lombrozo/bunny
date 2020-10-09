@@ -1,10 +1,12 @@
 package org.lombrozo.bunny.domain.destination;
 
 import org.junit.Test;
+import org.lombrozo.bunny.domain.destination.reply.DotReplyInfo;
+import org.lombrozo.bunny.domain.destination.reply.ReplyDestination;
 
 import static org.junit.Assert.*;
 
-public class DotParsingStrategyTest {
+public class DotReplyInfoTest {
 
     @Test
     public void exchange() {
@@ -12,7 +14,7 @@ public class DotParsingStrategyTest {
         String routingKey = "routingKey";
         String rawString = exchangeName + "." + routingKey;
 
-        String exchange = new DotParsingStrategy().exchange(rawString);
+        String exchange = new DotReplyInfo(rawString).exchange();
 
         assertEquals(exchangeName, exchange);
     }
@@ -23,7 +25,7 @@ public class DotParsingStrategyTest {
         String expectedRoutingKey = "routingKey";
         String rawString = expectedExchangeName + "." + expectedRoutingKey;
 
-        String routingKey = new DotParsingStrategy().routingKey(rawString);
+        String routingKey = new DotReplyInfo(rawString).routingKey();
 
         assertEquals(expectedRoutingKey, routingKey);
     }
@@ -33,7 +35,7 @@ public class DotParsingStrategyTest {
         String routingKey = "routingKey";
         String rawString = "." + routingKey;
 
-        String exchange = new DotParsingStrategy().exchange(rawString);
+        String exchange = new DotReplyInfo(rawString).exchange();
 
         assertEquals("", exchange);
     }
@@ -43,7 +45,7 @@ public class DotParsingStrategyTest {
     public void exchange_emptyRawString() {
         String rawString = "";
 
-        String exchange = new DotParsingStrategy().exchange(rawString);
+        String exchange = new DotReplyInfo(rawString).exchange();
 
         assertEquals("", exchange);
     }
@@ -53,7 +55,7 @@ public class DotParsingStrategyTest {
     public void routingKey_wrongRawFormat() {
         String rawString = ".";
 
-        String routingKey = new DotParsingStrategy().routingKey(rawString);
+        String routingKey = new DotReplyInfo(rawString).routingKey();
 
         assertEquals("", routingKey);
     }
@@ -63,7 +65,7 @@ public class DotParsingStrategyTest {
     public void routingKey_emptyString() {
         String rawString = "";
 
-        String routingKey = new DotParsingStrategy().routingKey(rawString);
+        String routingKey = new DotReplyInfo(rawString).routingKey();
 
         assertEquals("", routingKey);
     }

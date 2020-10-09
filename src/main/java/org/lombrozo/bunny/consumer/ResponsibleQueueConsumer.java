@@ -2,7 +2,7 @@ package org.lombrozo.bunny.consumer;
 
 import org.lombrozo.bunny.connection.Connection;
 import org.lombrozo.bunny.domain.destination.Destination;
-import org.lombrozo.bunny.domain.destination.ReplyDestination;
+import org.lombrozo.bunny.domain.destination.reply.ReplyDestination;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.function.Handler;

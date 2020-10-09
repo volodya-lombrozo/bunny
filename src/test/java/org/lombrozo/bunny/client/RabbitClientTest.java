@@ -10,7 +10,6 @@ import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.function.Handler;
 import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.message.properties.ReplyTo;
-import org.lombrozo.bunny.message.properties.ReplyToDestination;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import static org.junit.Assert.*;
@@ -48,7 +47,7 @@ public class RabbitClientTest {
         NamedQueue sendQueue = new NamedQueue(connection, sendQueueName);
         NamedQueue replyQueue = new NamedQueue(connection, replyQueueName);
         RabbitClient client = new RabbitClient(replyQueue);
-        Message message = new RPCMessage("hello", new ReplyToDestination(replyQueue));
+        Message message = new RPCMessage("hello", new ReplyTo(replyQueue));
         new ResponsibleQueueConsumer(sendQueueName, connection).subscribe(new Handler.Echo());
 
         MessagePipeline futureMessage = client.pipeline(new QueueDestination(sendQueue), message).send();

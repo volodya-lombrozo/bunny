@@ -11,7 +11,6 @@ public interface Destination {
 
     void send(Message message) throws RabbitException;
 
-
     class Fake implements Destination{
 
 
