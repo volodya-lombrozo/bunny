@@ -51,9 +51,6 @@ public class ExchangeDestination implements Destination {
 
     @Override
     public String toString() {
-        return "ExchangeDestination{" +
-                "exchange=" + exchange +
-                ", routingKey='" + routingKey + '\'' +
-                '}';
+        return "ExchangeDestination(exchange='" + exchange + "', routingKey='" + routingKey + "')";
     }
 }
