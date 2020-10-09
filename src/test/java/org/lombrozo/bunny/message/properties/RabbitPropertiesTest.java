@@ -1,7 +1,13 @@
 package org.lombrozo.bunny.message.properties;
 
 import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.impl.AMQBasicProperties;
 import org.junit.Test;
+import org.lombrozo.bunny.message.delivery.DeliveryMode;
+import org.lombrozo.bunny.message.delivery.Persistent;
+import org.lombrozo.bunny.message.header.Headers;
+
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -49,4 +55,38 @@ public class RabbitPropertiesTest {
         assertTrue(properties.containsProperty(corrId));
         assertTrue(delegate.containsProperty(corrId));
     }
+
+
+    @Test
+    public void toAMQPProps() {
+        String corrId = "corrId";
+        String replyTo = "replyTo";
+        int priority = 1;
+        PropertiesSet delegate = new PropertiesSet(new CorrelationId(corrId), new ReplyTo(replyTo), new Priority(priority));
+        Headers headers = new Headers.Fake();
+        DeliveryMode deliveryMode = new Persistent();
+
+        RabbitProperties rabbitProperties = new RabbitProperties(delegate);
+
+        AMQBasicProperties amqpProps = rabbitProperties.toAMQPProps(headers, deliveryMode);
+        assertEquals(corrId, amqpProps.getCorrelationId());
+        assertEquals(replyTo, amqpProps.getReplyTo());
+        assertEquals(Integer.valueOf(priority), amqpProps.getPriority());
+    }
+
+
+    @Test
+    public void toAMQPProps_timestamp() {
+        Date date = new Date();
+        PropertiesSet delegate = new PropertiesSet(new Timestamp(date));
+        Headers headers = new Headers.Fake();
+        DeliveryMode deliveryMode = new Persistent();
+
+        RabbitProperties rabbitProperties = new RabbitProperties(delegate);
+
+        AMQBasicProperties amqpProps = rabbitProperties.toAMQPProps(headers, deliveryMode);
+        assertEquals(date, amqpProps.getTimestamp());
+    }
+
+
 }

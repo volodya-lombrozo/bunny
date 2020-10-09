@@ -6,4 +6,9 @@ public class Persistent implements DeliveryMode {
     public String toString() {
         return "Persistent{}";
     }
+
+    @Override
+    public int toInt() {
+        return 2;
+    }
 }

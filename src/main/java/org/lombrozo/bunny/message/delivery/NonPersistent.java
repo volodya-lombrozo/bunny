@@ -6,4 +6,9 @@ public class NonPersistent implements DeliveryMode{
     public String toString() {
         return "NonPersistent{}";
     }
+
+    @Override
+    public int toInt() {
+        return 1;
+    }
 }
