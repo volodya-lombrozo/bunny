@@ -19,30 +19,35 @@ public interface Message {
     Body body();
 
     class Fake implements Message {
+        private final RoutingKey routingKey = new RoutingKey.Fake();
+        private final DeliveryMode deliveryMode = new DeliveryMode.Fake();
+        private final Headers headers = new Headers.Fake();
+        private final Properties properties = new Properties.Fake();
+        private final Body body = new Body.Fake();
 
         @Override
         public RoutingKey routingKey() {
-            return new RoutingKey.Fake();
+            return routingKey;
         }
 
         @Override
         public DeliveryMode deliveryMode() {
-            return new DeliveryMode.Fake();
+            return deliveryMode;
         }
 
         @Override
         public Headers headers() {
-            return new Headers.Fake();
+            return headers;
         }
 
         @Override
         public Properties properties() {
-            return new Properties.Fake();
+            return properties;
         }
 
         @Override
         public Body body() {
-            return new Body.Fake();
+            return body;
         }
     }
 }
