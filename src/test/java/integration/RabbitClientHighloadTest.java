@@ -29,8 +29,7 @@ import static org.junit.Assert.assertArrayEquals;
 @Ignore("For manual testing only")
 public class RabbitClientHighloadTest {
 
-    RabbitClient client;
-    Destination sendDestination;
+    private RabbitClient client;
     private final int amountCalls = 25000;
     private final CountDownLatch latch = new CountDownLatch(amountCalls);
     private Subscription incomingQueueSubscription;
@@ -53,7 +52,7 @@ public class RabbitClientHighloadTest {
         firstBinding.declare();
         Binding secondBinding = new QueueBinding(exchange, replyQueue, "replyKey", sendConnection);
         secondBinding.declare();
-        sendDestination = new ExchangeDestination(exchange, "sendKey");
+//        "sendKey"
         incomingQueueSubscription = sendQueue.subscribe(message -> exchange.send(message, "replyKey"));
     }
 

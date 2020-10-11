@@ -12,7 +12,7 @@ public class BlockedMessageTest {
 
     @Test
     public void registerTest() throws RabbitException {
-        BlockedMessage blockedMessage = new BlockedMessage();
+        BlockedMessageContainer blockedMessage = new BlockedMessageContainer();
         Message.Fake sending = new Message.Fake();
 
         blockedMessage.put(sending);
@@ -23,7 +23,7 @@ public class BlockedMessageTest {
 
     @Test(expected = RabbitException.class)
     public void block_interruptedBlocking() throws RabbitException {
-        BlockedMessage message = new BlockedMessage(new InterruptedQueue());
+        BlockedMessageContainer message = new BlockedMessageContainer(new InterruptedQueue());
 
         message.receive();
 

@@ -4,6 +4,7 @@ import org.lombrozo.bunny.message.body.Body;
 import org.lombrozo.bunny.message.delivery.DeliveryMode;
 import org.lombrozo.bunny.message.header.Headers;
 import org.lombrozo.bunny.message.properties.*;
+import org.lombrozo.bunny.message.routing.RoutingKey;
 
 public class RPCMessage implements Message {
 
@@ -21,8 +22,17 @@ public class RPCMessage implements Message {
         this(new RabbitMessage(body, properties, headers, deliveryMode));
     }
 
+    public RPCMessage(Body body, Properties properties, Headers headers, DeliveryMode deliveryMode, RoutingKey routingKey) {
+        this(new RabbitMessage(body, properties, headers, deliveryMode, routingKey));
+    }
+
     public RPCMessage(Message message) {
         this.message = message;
+    }
+
+    @Override
+    public RoutingKey routingKey() {
+        return message.routingKey();
     }
 
     @Override

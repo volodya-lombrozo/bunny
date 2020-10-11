@@ -1,7 +1,6 @@
 package org.lombrozo.bunny.message;
 
 import org.lombrozo.bunny.domain.Sender;
-import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.LinkedList;
@@ -24,7 +23,7 @@ public class RabbitMessagePipeline implements MessagePipeline {
     }
 
     public RabbitMessagePipeline(Sender sender, Message sending) {
-        this(sender, sending, new BlockedMessage());
+        this(sender, sending, new BlockedMessageContainer());
     }
 
     public RabbitMessagePipeline(Sender sender, Message sending, MessageContainer responseContainer) {
