@@ -18,6 +18,7 @@ import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.message.properties.CorrelationId;
 import org.lombrozo.bunny.message.properties.ReplyTo;
+import org.lombrozo.bunny.message.routing.StringRoutingKey;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.subscription.Subscription;
 
@@ -30,7 +31,7 @@ import static org.junit.Assert.assertArrayEquals;
 public class RabbitClientHighloadTest {
 
     private RabbitClient client;
-    private final int amountCalls = 25000;
+    private final int amountCalls = 1;
     private final CountDownLatch latch = new CountDownLatch(amountCalls);
     private Subscription incomingQueueSubscription;
     private DirectExchange exchange;
@@ -52,15 +53,14 @@ public class RabbitClientHighloadTest {
         firstBinding.declare();
         Binding secondBinding = new QueueBinding(exchange, replyQueue, "replyKey", sendConnection);
         secondBinding.declare();
-//        "sendKey"
-        incomingQueueSubscription = sendQueue.subscribe(message -> exchange.send(message, "replyKey"));
+        incomingQueueSubscription = sendQueue.subscribe(message -> exchange.send(new RabbitMessage(message, () -> "replyKey")));
     }
 
     @Test(timeout = 3_000)
     public void highload_largeAmountOfCalls() throws RabbitException, InterruptedException {
         long start = System.nanoTime();
         for (int i = 0; i < amountCalls; i++) {
-            Message expectedMessage = new RabbitMessage("message №" + i, new CorrelationId(), new ReplyTo(""));
+            Message expectedMessage = new RabbitMessage("message №" + i, new StringRoutingKey("sendKey"), new CorrelationId(), new ReplyTo(""));
             client.pipeline(exchange, expectedMessage)
                     .addResponseConsumer(m -> registerMessage(expectedMessage, m))
                     .send();

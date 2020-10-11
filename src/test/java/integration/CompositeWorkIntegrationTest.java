@@ -14,6 +14,8 @@ import org.lombrozo.bunny.function.CompositeWork;
 import org.lombrozo.bunny.host.RabbitHost;
 import org.lombrozo.bunny.message.RabbitMessage;
 import org.lombrozo.bunny.message.properties.Type;
+import org.lombrozo.bunny.message.routing.RoutingKey;
+import org.lombrozo.bunny.message.routing.StringRoutingKey;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 @Ignore("For manual testing only")
@@ -28,14 +30,15 @@ public class CompositeWorkIntegrationTest {
                 .connect();
     }
 
-    @Test(timeout = 250)
+    @Test(timeout = 250000)
     public void sendThreeDifferentTypesOfMessages() throws RabbitException {
         String firstType = "first";
         String secondType = "second";
         String thirdType = "third";
-        RabbitMessage firstMessage = new RabbitMessage("first message", new Type(firstType));
-        RabbitMessage secondMessage = new RabbitMessage("second message", new Type(secondType));
-        RabbitMessage thirdMessage = new RabbitMessage("third message", new Type(thirdType));
+        RoutingKey routingKey = new StringRoutingKey("#");
+        RabbitMessage firstMessage = new RabbitMessage("first message", routingKey, new Type(firstType));
+        RabbitMessage secondMessage = new RabbitMessage("second message", routingKey, new Type(secondType));
+        RabbitMessage thirdMessage = new RabbitMessage("third message", routingKey, new Type(thirdType));
         DirectExchange exchange = new DirectExchange(connection, "TestExch");
         NamedQueue queue = new NamedQueue(connection, "testQueue");
         QueueBinding binding = new QueueBinding(exchange, queue, "#", connection);
@@ -48,9 +51,9 @@ public class CompositeWorkIntegrationTest {
         compositeWork.addWorkForMessageType(secondType, secondWork);
         compositeWork.addWorkForMessageType(thirdType, thirdWork);
         queue.subscribe(compositeWork);
-        exchange.send(firstMessage, "#");
-        exchange.send(secondMessage, "#");
-        exchange.send(thirdMessage, "#");
+        exchange.send(firstMessage);
+        exchange.send(secondMessage);
+        exchange.send(thirdMessage);
         firstWork.awaitSuccess();
         secondWork.awaitSuccess();
         thirdWork.awaitSuccess();

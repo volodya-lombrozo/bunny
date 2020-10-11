@@ -10,8 +10,6 @@ public interface Exchange extends Declarable, Sender {
 
     ExchangeType type();
 
-    void send(Message message, String routingKey) throws RabbitException;
-
     void send(Message message) throws RabbitException;
 
     ExchangeDescription description();
@@ -30,11 +28,6 @@ public interface Exchange extends Declarable, Sender {
         @Override
         public ExchangeType type() {
             return null;
-        }
-
-        @Override
-        public void send(Message message, String routingKey) {
-
         }
 
         @Override

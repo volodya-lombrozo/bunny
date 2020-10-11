@@ -109,8 +109,9 @@ public class RabbitChannel implements Channel {
         @Override
         public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
             try {
-                work.doWork(new RabbitMessage(new ByteBody(body), new RabbitProperties(properties), new RabbitHeaders(properties)));
-            } catch (RabbitException e) {
+                RabbitMessage message = new RabbitMessage(new ByteBody(body), new RabbitProperties(properties), new RabbitHeaders(properties));
+                work.doWork(message);
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }

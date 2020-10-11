@@ -36,11 +36,6 @@ public class DirectExchange implements Exchange {
     }
 
     @Override
-    public void send(Message message, String routingKey) throws RabbitException {
-        exchange.send(message, routingKey);
-    }
-
-    @Override
     public void send(Message message) throws RabbitException {
         exchange.send(message);
     }

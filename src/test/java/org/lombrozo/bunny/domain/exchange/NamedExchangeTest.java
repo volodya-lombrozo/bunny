@@ -41,6 +41,6 @@ public class NamedExchangeTest {
 
         exchange.send(message);
 
-        verify(channel, times(1)).publish(new ExchangeDestination(exchange), message);
+        verify(channel, times(1)).publish(new ExchangeDestination(exchange, message.routingKey()), message);
     }
 }

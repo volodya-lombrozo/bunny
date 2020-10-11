@@ -39,13 +39,8 @@ public class NamedExchange implements Exchange {
     }
 
     @Override
-    public void send(Message message, String routingKey) throws RabbitException {
-        connection.channel().publish(new ExchangeDestination(this, routingKey), message);
-    }
-
-    @Override
     public void send(Message message) throws RabbitException {
-        connection.channel().publish(new ExchangeDestination(this), message);
+        connection.channel().publish(new ExchangeDestination(this, message.routingKey()), message);
     }
 
     @Override

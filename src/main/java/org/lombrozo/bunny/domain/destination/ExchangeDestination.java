@@ -2,6 +2,7 @@ package org.lombrozo.bunny.domain.destination;
 
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.message.Message;
+import org.lombrozo.bunny.message.routing.RoutingKey;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
 import java.util.Objects;
@@ -13,6 +14,10 @@ public class ExchangeDestination implements Destination {
 
     public ExchangeDestination(Exchange exchange) {
         this(exchange, "");
+    }
+
+    public ExchangeDestination(Exchange exchange, RoutingKey routingKey) {
+        this(exchange, routingKey.asString());
     }
 
     public ExchangeDestination(Exchange exchange, String routingKey) {

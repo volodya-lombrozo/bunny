@@ -55,6 +55,10 @@ public class RabbitMessage implements Message {
     }
 
 
+    public RabbitMessage(Message message, RoutingKey routingKey){
+        this(message.body(), message.properties(), message.headers(), message.deliveryMode(), routingKey);
+    }
+
     public RabbitMessage(Body body, Properties properties, RoutingKey routingKey) {
         this(body, properties, new EmptyHeaders(), routingKey);
     }
