@@ -1,16 +1,16 @@
 package org.lombrozo.bunny.domain.exchange;
 
 import org.lombrozo.bunny.domain.Declarable;
-import org.lombrozo.bunny.domain.destination.Destination;
+import org.lombrozo.bunny.domain.Sender;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
-public interface Exchange extends Declarable {
+public interface Exchange extends Declarable, Sender {
     String name();
 
     ExchangeType type();
 
-    void send(String routingKey, Message message) throws RabbitException;
+    void send(Message message, String routingKey) throws RabbitException;
 
     void send(Message message) throws RabbitException;
 
@@ -33,7 +33,7 @@ public interface Exchange extends Declarable {
         }
 
         @Override
-        public void send(String routingKey, Message message) {
+        public void send(Message message, String routingKey) {
 
         }
 

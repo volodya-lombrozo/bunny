@@ -2,7 +2,6 @@ package org.lombrozo.bunny.domain.destination;
 
 import org.junit.Test;
 import org.lombrozo.bunny.domain.destination.reply.DotReplyInfo;
-import org.lombrozo.bunny.domain.destination.reply.ReplyDestination;
 
 import static org.junit.Assert.*;
 

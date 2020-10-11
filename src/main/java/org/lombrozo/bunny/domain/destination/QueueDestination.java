@@ -25,11 +25,6 @@ public class QueueDestination implements Destination {
     }
 
     @Override
-    public void send(Message message) throws RabbitException {
-        queue.send(message);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

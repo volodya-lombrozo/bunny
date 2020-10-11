@@ -39,7 +39,7 @@ public class NamedExchange implements Exchange {
     }
 
     @Override
-    public void send(String routingKey, Message message) throws RabbitException {
+    public void send(Message message, String routingKey) throws RabbitException {
         connection.channel().publish(new ExchangeDestination(this, routingKey), message);
     }
 

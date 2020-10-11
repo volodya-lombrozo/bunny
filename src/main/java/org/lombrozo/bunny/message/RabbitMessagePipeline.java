@@ -1,5 +1,6 @@
 package org.lombrozo.bunny.message;
 
+import org.lombrozo.bunny.domain.Sender;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 
@@ -10,32 +11,32 @@ import java.util.function.Consumer;
 public class RabbitMessagePipeline implements MessagePipeline {
 
     private final List<Consumer<Message>> consumerChain;
-    private final Destination destination;
+    private final Sender sender;
     private final Message sending;
     private final MessageContainer responseContainer;
 
     public RabbitMessagePipeline() {
-        this(new Destination.Fake());
+        this(new Sender.Fake());
     }
 
-    public RabbitMessagePipeline(Destination destination) {
-        this(destination, new Message.Fake());
+    public RabbitMessagePipeline(Sender sender) {
+        this(sender, new Message.Fake());
     }
 
-    public RabbitMessagePipeline(Destination destination, Message sending) {
-        this(destination, sending, new BlockedMessage());
+    public RabbitMessagePipeline(Sender sender, Message sending) {
+        this(sender, sending, new BlockedMessage());
     }
 
-    public RabbitMessagePipeline(Destination destination, Message sending, MessageContainer responseContainer) {
+    public RabbitMessagePipeline(Sender sender, Message sending, MessageContainer responseContainer) {
         this.consumerChain = new LinkedList<>();
-        this.destination = destination;
+        this.sender = sender;
         this.sending = sending;
         this.responseContainer = responseContainer;
     }
 
     @Override
     public MessagePipeline send() throws RabbitException {
-        destination.send(sending);
+        sender.send(sending);
         return this;
     }
 

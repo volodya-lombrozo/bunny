@@ -35,7 +35,7 @@ public class ResponsibleQueueConsumer implements ResponsibleConsumer {
 
     private void sendResponse(Message incoming, Message response) throws RabbitException {
         String replyTo = incoming.properties().property(PropertyKey.REPLY_TO);
-        Destination destination = new ReplyDestination(replyTo, connection);
+        Destination destination = new ReplyDestination(replyTo);
         connection.channel().publish(destination, response);
     }
 }

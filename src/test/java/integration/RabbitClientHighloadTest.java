@@ -34,6 +34,7 @@ public class RabbitClientHighloadTest {
     private final int amountCalls = 25000;
     private final CountDownLatch latch = new CountDownLatch(amountCalls);
     private Subscription incomingQueueSubscription;
+    private DirectExchange exchange;
 
     @Before
     public void setUp() throws Exception {
@@ -46,14 +47,14 @@ public class RabbitClientHighloadTest {
         client = new RabbitClient(replyQueue);
         NamedQueue sendQueue = new NamedQueue(sendConnection, "sendQueue");
         sendQueue.declare();
-        DirectExchange exchange = new DirectExchange(sendConnection, "testExchange");
+        this.exchange = new DirectExchange(sendConnection, "testExchange");
         exchange.declare();
         Binding firstBinding = new QueueBinding(exchange, sendQueue, "sendKey", sendConnection);
         firstBinding.declare();
         Binding secondBinding = new QueueBinding(exchange, replyQueue, "replyKey", sendConnection);
         secondBinding.declare();
         sendDestination = new ExchangeDestination(exchange, "sendKey");
-        incomingQueueSubscription = sendQueue.subscribe(message -> new ExchangeDestination(exchange, "replyKey").send(message));
+        incomingQueueSubscription = sendQueue.subscribe(message -> exchange.send(message, "replyKey"));
     }
 
     @Test(timeout = 3_000)
@@ -61,7 +62,7 @@ public class RabbitClientHighloadTest {
         long start = System.nanoTime();
         for (int i = 0; i < amountCalls; i++) {
             Message expectedMessage = new RabbitMessage("message №" + i, new CorrelationId(), new ReplyTo(""));
-            client.pipeline(sendDestination, expectedMessage)
+            client.pipeline(exchange, expectedMessage)
                     .addResponseConsumer(m -> registerMessage(expectedMessage, m))
                     .send();
         }

@@ -9,15 +9,13 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 public class ReplyDestination implements Destination {
 
     private final ReplyInfo replyInfo;
-    private final Connection connection;
 
-    public ReplyDestination(String rawString, Connection connection) {
-        this(new DotReplyInfo(rawString), connection);
+    public ReplyDestination(String rawString) {
+        this(new DotReplyInfo(rawString));
     }
 
-    public ReplyDestination(ReplyInfo replyInfo, Connection connection) {
+    public ReplyDestination(ReplyInfo replyInfo) {
         this.replyInfo = replyInfo;
-        this.connection = connection;
     }
 
     @Override
@@ -28,11 +26,6 @@ public class ReplyDestination implements Destination {
     @Override
     public String routingKey() {
         return replyInfo.routingKey();
-    }
-
-    @Override
-    public void send(Message message) throws RabbitException {
-        connection.channel().publish(this, message);
     }
 
 }

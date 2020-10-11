@@ -44,15 +44,4 @@ public class ExchangeDestinationTest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    public void sendTest() throws RabbitException {
-        Exchange exchange = Mockito.mock(Exchange.class);
-        Destination destination = new ExchangeDestination(exchange);
-        Message.Fake message = new Message.Fake();
-
-        destination.send(message);
-
-        verify(exchange, times(1)).send(destination.routingKey(), message);
-    }
-
 }

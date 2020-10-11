@@ -1,6 +1,7 @@
 package org.lombrozo.bunny.client;
 
 import org.lombrozo.bunny.connection.Connection;
+import org.lombrozo.bunny.domain.Sender;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.NamedQueue;
 import org.lombrozo.bunny.domain.queue.Queue;
@@ -33,12 +34,12 @@ public class RabbitClient implements Client {
     }
 
     @Override
-    public MessagePipeline pipeline(Destination destination, Message message) throws RabbitException {
+    public MessagePipeline pipeline(Sender sender, Message message) throws RabbitException {
         try {
             checkRequiredProperties(message);
             subscribeToReplyQueueIfNeeded();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
-            MessagePipeline observable = new RabbitMessagePipeline(destination, message);
+            MessagePipeline observable = new RabbitMessagePipeline(sender, message);
             callbackSource.save(correlationId, observable);
             return observable;
         } catch (EmptyCorrelationId | EmptyReplyToProperty e) {
