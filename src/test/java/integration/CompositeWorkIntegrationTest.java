@@ -21,7 +21,7 @@ import org.lombrozo.bunny.util.exceptions.RabbitException;
 @Ignore("For manual testing only")
 public class CompositeWorkIntegrationTest {
 
-    Connection connection;
+    private Connection connection;
 
     @Before
     public void setUp() throws Exception {
@@ -30,7 +30,7 @@ public class CompositeWorkIntegrationTest {
                 .connect();
     }
 
-    @Test(timeout = 250000)
+    @Test(timeout = 250)
     public void sendThreeDifferentTypesOfMessages() throws RabbitException {
         String firstType = "first";
         String secondType = "second";

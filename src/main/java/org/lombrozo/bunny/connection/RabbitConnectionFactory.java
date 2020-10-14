@@ -27,7 +27,8 @@ public class RabbitConnectionFactory implements ConnectionFactory {
         connectionFactory = rabbitConnectionFactory;
         connectionFactory.setUsername(credentials.username());
         connectionFactory.setPassword(credentials.password());
-        connectionFactory.setAutomaticRecoveryEnabled(false);
+        connectionFactory.setAutomaticRecoveryEnabled(true);
+        connectionFactory.setRequestedHeartbeat(12);
         connectionFactory.setVirtualHost(address.virtualHost());
         connectionFactory.setHost(address.host());
         connectionFactory.setPort(address.port());
