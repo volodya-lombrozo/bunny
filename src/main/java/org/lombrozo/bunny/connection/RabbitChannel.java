@@ -1,9 +1,7 @@
 package org.lombrozo.bunny.connection;
 
 import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
-import com.rabbitmq.client.impl.AMQBasicProperties;
+import org.lombrozo.bunny.connection.subscription.consumer.NoAckConsumer;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.exchange.Exchange;
@@ -13,11 +11,8 @@ import org.lombrozo.bunny.message.*;
 import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
-import org.lombrozo.bunny.message.body.ByteBody;
-import org.lombrozo.bunny.message.header.RabbitHeaders;
 import org.lombrozo.bunny.message.properties.RabbitProperties;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
-import org.lombrozo.bunny.util.subscription.RabbitConcurrentSubscription;
 import org.lombrozo.bunny.util.subscription.RabbitSubscription;
 import org.lombrozo.bunny.util.subscription.Subscription;
 
@@ -36,7 +31,7 @@ public class RabbitChannel implements Channel {
     @Override
     public Subscription listenQueue(Queue queue, Work work) throws RabbitException {
         try {
-            WorkerConsumer callback = new WorkerConsumer(channel, work);
+            NoAckConsumer callback = new NoAckConsumer(channel, work);
             String consumerTag = channel.basicConsume(queue.name(), true, callback);
             return new RabbitSubscription(channel, consumerTag);
         } catch (IOException e) {
@@ -93,26 +88,6 @@ public class RabbitChannel implements Channel {
             channel.exchangeBind(binding.destination(), binding.source(), binding.routingKey());
         } catch (IOException e) {
             throw new RabbitException(e);
-        }
-    }
-
-
-    static class WorkerConsumer extends DefaultConsumer {
-
-        private final Work work;
-
-        WorkerConsumer(com.rabbitmq.client.Channel channel, Work work) {
-            super(channel);
-            this.work = work;
-        }
-
-        @Override
-        public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
-            try {
-                work.doWork(new RabbitMessage(new ByteBody(body), new RabbitProperties(properties), new RabbitHeaders(properties)));
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
         }
     }
 }
