@@ -1,6 +1,8 @@
 package org.lombrozo.bunny.domain.queue;
 
 import org.lombrozo.bunny.connection.Connection;
+import org.lombrozo.bunny.connection.subscription.Consumer;
+import org.lombrozo.bunny.connection.subscription.NoAckConsumer;
 import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.util.RandomString;
 import org.lombrozo.bunny.function.Work;
@@ -45,10 +47,16 @@ public class NamedQueue implements Queue {
 
     @Override
     public Subscription subscribe(Work work) throws RabbitException {
-        connection.forAllChannels(channel -> channel.listenQueue(this, work));
+        connection.forAllChannels(channel -> channel.listenQueue(this, new NoAckConsumer(work)));
         return new LatchSubscription();//todo :: needed subscription for all channels and all queues
-//        return connection.channel().listenQueue(this, work);
     }
+
+    @Override
+    public Subscription subscribe(Consumer consumer) throws RabbitException {
+        connection.forAllChannels(channel -> channel.listenQueue(this, consumer));
+        return new LatchSubscription();//todo :: needed subscription for all channels and all queues
+    }
+
 
     @Override
     public void send(Message message) throws RabbitException {

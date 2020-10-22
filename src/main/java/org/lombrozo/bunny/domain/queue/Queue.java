@@ -1,5 +1,6 @@
 package org.lombrozo.bunny.domain.queue;
 
+import org.lombrozo.bunny.connection.subscription.Consumer;
 import org.lombrozo.bunny.domain.Declarable;
 import org.lombrozo.bunny.domain.Sender;
 import org.lombrozo.bunny.function.Work;
@@ -13,6 +14,8 @@ public interface Queue extends Declarable, Sender {
     String name();
 
     Subscription subscribe(Work work) throws RabbitException;
+
+    Subscription subscribe(Consumer consumer) throws RabbitException;
 
     void send(Message message) throws RabbitException;
 
@@ -34,6 +37,11 @@ public interface Queue extends Declarable, Sender {
 
         @Override
         public Subscription subscribe(Work work) {
+            return new LatchSubscription();
+        }
+
+        @Override
+        public Subscription subscribe(Consumer consumer) {
             return new LatchSubscription();
         }
 

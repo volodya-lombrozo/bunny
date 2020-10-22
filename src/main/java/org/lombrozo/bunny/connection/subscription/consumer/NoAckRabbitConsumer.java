@@ -9,11 +9,11 @@ import org.lombrozo.bunny.message.body.ByteBody;
 import org.lombrozo.bunny.message.header.RabbitHeaders;
 import org.lombrozo.bunny.message.properties.RabbitProperties;
 
-public class StandardAckConsumer extends DefaultConsumer {
+public class NoAckRabbitConsumer extends DefaultConsumer {
 
     private final Work work;
 
-    public StandardAckConsumer(com.rabbitmq.client.Channel channel, Work work) {
+    public NoAckRabbitConsumer(com.rabbitmq.client.Channel channel, Work work) {
         super(channel);
         this.work = work;
     }
@@ -22,7 +22,6 @@ public class StandardAckConsumer extends DefaultConsumer {
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
         try {
             work.doWork(new RabbitMessage(new ByteBody(body), new RabbitProperties(properties), new RabbitHeaders(properties)));
-            getChannel().basicAck(envelope.getDeliveryTag(), false);
         } catch (Throwable e) {
             e.printStackTrace();
         }

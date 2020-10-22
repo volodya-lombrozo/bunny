@@ -1,14 +1,13 @@
 package org.lombrozo.bunny.connection;
 
 import com.rabbitmq.client.AMQP;
-import org.lombrozo.bunny.connection.subscription.consumer.NoAckConsumer;
+import org.lombrozo.bunny.connection.subscription.Consumer;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.domain.exchange.ExchangeDescription;
 import org.lombrozo.bunny.domain.queue.QueueDescription;
 import org.lombrozo.bunny.message.*;
-import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.message.properties.RabbitProperties;
@@ -29,10 +28,9 @@ public class RabbitChannel implements Channel {
     }
 
     @Override
-    public Subscription listenQueue(Queue queue, Work work) throws RabbitException {
+    public Subscription listenQueue(Queue queue, Consumer consumer) throws RabbitException {
         try {
-            NoAckConsumer callback = new NoAckConsumer(channel, work);
-            String consumerTag = channel.basicConsume(queue.name(), true, callback);
+            String consumerTag = channel.basicConsume(queue.name(), true, consumer.toRabbitConsumer(channel));
             return new RabbitSubscription(channel, consumerTag);
         } catch (IOException e) {
             throw new RabbitException(e);

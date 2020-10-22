@@ -1,5 +1,7 @@
 package org.lombrozo.bunny.connection;
 
+import org.lombrozo.bunny.connection.subscription.Consumer;
+import org.lombrozo.bunny.connection.subscription.ImmConsumer;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.destination.Destination;
@@ -31,8 +33,8 @@ public class TestChannel implements Channel {
     }
 
     @Override
-    public Subscription listenQueue(Queue queue, Work work) {
-        listenService.submit(() -> submitListenCommand(queue, work));
+    public Subscription listenQueue(Queue queue, Consumer consumer) {
+        listenService.submit(() -> submitListenCommand(queue, consumer));
         return new LatchSubscription();
     }
 
@@ -41,11 +43,11 @@ public class TestChannel implements Channel {
         publishService.submit(() -> submitPublishCommand(rabbitDestination, message));
     }
 
-    private void submitListenCommand(Queue queue, Work work) {
+    private void submitListenCommand(Queue queue, Consumer consumer) {
         try {
             String key = key(new QueueDestination(queue));
             Message message = queueByKey(key).take();
-            work.doWork(message);
+            consumer.doWork(message);
         } catch (InterruptedException | RabbitException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package org.lombrozo.bunny.connection;
 
 import org.junit.Test;
+import org.lombrozo.bunny.connection.subscription.ImmConsumer;
 import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.domain.queue.Queue;
@@ -26,7 +27,7 @@ public class TestChannelTest {
         LatchWork work = new LatchWork();
         channel.publish(new QueueDestination(queue), new Message.Fake());
 
-        channel.listenQueue(queue, work);
+        channel.listenQueue(queue, new ImmConsumer(work));
 
         work.awaitSuccess();
         assertNotNull(work.lastMessage());

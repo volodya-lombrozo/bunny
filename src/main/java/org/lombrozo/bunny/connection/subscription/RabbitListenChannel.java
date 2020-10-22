@@ -2,7 +2,7 @@ package org.lombrozo.bunny.connection.subscription;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;
-import org.lombrozo.bunny.connection.subscription.consumer.NoAckConsumer;
+import org.lombrozo.bunny.connection.subscription.consumer.NoAckRabbitConsumer;
 import org.lombrozo.bunny.domain.queue.Queue;
 import org.lombrozo.bunny.function.IgnoreWork;
 import org.lombrozo.bunny.function.Work;
@@ -18,7 +18,7 @@ public class RabbitListenChannel implements ListenChannel {
     private final DefaultConsumer consumer;
 
     public RabbitListenChannel(Channel channel) {
-        this(channel, new NoAckConsumer(channel, new IgnoreWork()));
+        this(channel, new NoAckRabbitConsumer(channel, new IgnoreWork()));
     }
 
     public RabbitListenChannel(Channel channel, DefaultConsumer consumer) {
