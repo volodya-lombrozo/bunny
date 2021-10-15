@@ -31,13 +31,21 @@ public class RabbitClient implements Client {
     public RabbitClient(Queue replyQueue, ResponseSource source) {
         this.replyQueue = replyQueue;
         this.callbackSource = source;
+        subscribeToReplyQueue();
+    }
+
+    private void subscribeToReplyQueue() {
+        try {
+            subscription = replyQueue.subscribe(callbackSource::runCallback);
+        } catch (RabbitException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @Override
     public MessagePipeline pipeline(Sender sender, Message message) throws RabbitException {
         try {
             checkRequiredProperties(message);
-            subscribeToReplyQueueIfNeeded();
             String correlationId = message.properties().property(PropertyKey.CORRELATION_ID);
             MessagePipeline observable = new RabbitMessagePipeline(sender, message);
             callbackSource.save(correlationId, observable);
@@ -51,10 +59,6 @@ public class RabbitClient implements Client {
         subscription.interrupt();
     }
 
-    private synchronized void subscribeToReplyQueueIfNeeded() throws RabbitException {
-        if (subscription == null)
-            subscription = replyQueue.subscribe(callbackSource::runCallback);
-    }
 
     private void checkRequiredProperties(Message message) throws EmptyCorrelationId, EmptyReplyToProperty {
         Properties properties = message.properties();
