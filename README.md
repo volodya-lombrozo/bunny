@@ -1,4 +1,6 @@
-# Bunny
+# Bunny 
+[![codecov](https://codecov.io/gh/volodya-lombrozo/bunny/branch/master/graph/badge.svg?token=FJTI0QCEX7)](https://codecov.io/gh/volodya-lombrozo/bunny)
+
 Simple object-oriented RabbitMQ client. Client based 
 on the official `amqp-client` open-source [library](https://github.com/rabbitmq/rabbitmq-java-client/).
 #How to use it
