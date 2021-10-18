@@ -1,14 +1,12 @@
 package org.lombrozo.bunny.connection;
 
 import org.lombrozo.bunny.connection.subscription.Consumer;
-import org.lombrozo.bunny.connection.subscription.ImmConsumer;
 import org.lombrozo.bunny.domain.binding.ExchangeBinding;
 import org.lombrozo.bunny.domain.binding.QueueBinding;
 import org.lombrozo.bunny.domain.destination.Destination;
 import org.lombrozo.bunny.domain.destination.QueueDestination;
 import org.lombrozo.bunny.domain.exchange.Exchange;
 import org.lombrozo.bunny.domain.queue.Queue;
-import org.lombrozo.bunny.function.Work;
 import org.lombrozo.bunny.message.Message;
 import org.lombrozo.bunny.util.exceptions.RabbitException;
 import org.lombrozo.bunny.util.subscription.LatchSubscription;
@@ -16,13 +14,16 @@ import org.lombrozo.bunny.util.subscription.Subscription;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class TestChannel implements Channel {
 
     private final Map<String, BlockingDeque<Message>> queuesMap;
-    private final ExecutorService listenService = Executors.newFixedThreadPool(1);
-    private final ExecutorService publishService = Executors.newFixedThreadPool(1);
+    private final ExecutorService listenService = Executors.newFixedThreadPool(2);
+    private final ExecutorService publishService = Executors.newFixedThreadPool(2);
 
     public TestChannel() {
         this(new HashMap<>());
@@ -45,17 +46,22 @@ public class TestChannel implements Channel {
 
     private void submitListenCommand(Queue queue, Consumer consumer) {
         try {
-            String key = key(new QueueDestination(queue));
-            Message message = queueByKey(key).take();
+            QueueDestination destination = new QueueDestination(queue);
+            String key = key(destination);
+            BlockingDeque<Message> deque = queueByKey(key);
+            Message message = deque.take();
             consumer.doWork(message);
         } catch (InterruptedException | RabbitException e) {
+            e.printStackTrace();
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
 
     private void submitPublishCommand(Destination rabbitDestination, Message message) {
         String key = key(rabbitDestination);
-        queueByKey(key).add(message);
+        BlockingDeque<Message> deque = queueByKey(key);
+        deque.add(message);
     }
 
     @Override
