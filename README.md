@@ -7,7 +7,7 @@ You can  install maven dependency to your `pom.xml`:
 <dependency>
   <groupId>com.github.volodya-lombrozo</groupId>
   <artifactId>bunny</artifactId>
-  <version>0.0.2</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 The latest version you could find [here](https://search.maven.org/artifact/com.github.volodya-lombrozo/bunny).
