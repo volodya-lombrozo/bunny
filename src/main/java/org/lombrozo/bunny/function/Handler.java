@@ -7,7 +7,7 @@ public interface Handler {
     Message handle(Message message);
 
 
-    class Echo implements Handler{
+    class Echo implements Handler {
 
         @Override
         public Message handle(Message echo) {

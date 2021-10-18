@@ -17,8 +17,8 @@ import static org.junit.Assert.*;
 public class RabbitClientTest {
 
     private Connection connection;
-    private String sendQueueName = "send";
-    private String replyQueueName = "reply";
+    private final String sendQueueName = "send";
+    private final String replyQueueName = "reply";
 
     @Before
     public void setUp() throws RabbitException {
@@ -31,7 +31,6 @@ public class RabbitClientTest {
         RabbitClient client = new RabbitClient(connection, replyQueueName);
         Message message = new RPCMessage("hello", new ReplyTo("." + replyQueueName));
         NamedQueue queue = new NamedQueue(connection, sendQueueName);
-        QueueDestination destination = new QueueDestination(queue);
         new ResponsibleQueueConsumer(sendQueueName, connection)
                 .subscribe(new Handler.Echo());
 
@@ -42,15 +41,17 @@ public class RabbitClientTest {
     }
 
 
-    @Test(timeout = 100)
+    @Test(timeout = 100_000)
     public void send_queuesConstructor_successfulSendAndReceive() throws RabbitException {
         NamedQueue sendQueue = new NamedQueue(connection, sendQueueName);
         NamedQueue replyQueue = new NamedQueue(connection, replyQueueName);
         RabbitClient client = new RabbitClient(replyQueue);
-        Message message = new RPCMessage("hello", new ReplyTo(replyQueue));
         new ResponsibleQueueConsumer(sendQueueName, connection).subscribe(new Handler.Echo());
+        Message message = new RPCMessage("hello", new ReplyTo(replyQueue));
 
-        MessagePipeline futureMessage = client.pipeline(sendQueue, message).send();
+        MessagePipeline futureMessage = client.pipeline(sendQueue, message)
+                .addResponseConsumer(System.out::println)
+                .send();
 
         Message response = futureMessage.block();
         assertNotNull(response);
