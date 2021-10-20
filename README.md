@@ -3,7 +3,8 @@
 
 Simple object-oriented RabbitMQ client. Client based 
 on the official `amqp-client` open-source [library](https://github.com/rabbitmq/rabbitmq-java-client/).
-#How to use it
+
+# How to use it
 You can  install maven dependency to your `pom.xml`:
 ```xml
 <dependency>
